@@ -1,0 +1,48 @@
+
+.debug_style {
+    border-top: 1px solid #cccccc;
+    padding: 2em;
+    font-family: "Lucida Sans Unicode", sans-serif;
+    
+    h2 {
+        font-size: 2em;
+        margin-bottom: 1em;
+    }
+    
+    table {
+        width: 100%;
+        border-top: 1px solid #666666;
+        border-left: 1px solid #666666;
+        tr:hover td {
+            background-color: #eeeeee;
+        }
+        th {
+            background-color: #D25502;
+            color: #ffffff;
+            text-align: left;
+        }
+        th, td {
+            border-right: 1px solid #666666;
+            border-bottom: 1px solid #666666;
+            padding: 0.4em 0.75em;
+            font-size: 1.35em;
+            line-height: 1.35em;
+        }
+        .total td {
+            background-color: #dddddd;
+        }
+        .number {
+            width: 4em;
+        }
+        .time {
+            width: 6em;
+        }
+    }
+    
+    a {
+        color: #666666;
+        &:hover {
+            color: #000000;
+        }
+    }
+}

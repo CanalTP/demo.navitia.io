@@ -1,0 +1,18 @@
+.footer {
+    padding: 1em;
+    background-color: #ffffff;
+    p {
+        color: #666666;
+        font-size: 1.25em;
+    }
+    a {
+        color: #666666;
+        &:hover {
+            color: #000000;
+        }
+    }
+}
+
+.footer_content {
+    margin: 0 auto;
+}

@@ -1,0 +1,40 @@
+<?php
+
+$action_list = array(
+    'search' => array(
+        'script' => 'search.php',
+        'params' => array()),
+    'stop_execute' => array(
+        'script' => 'stop_execute.php',
+        'params' => array()),
+    'coord_execute' => array(
+        'script' => 'coord_execute.php',
+        'params' => array()),
+    'line_execute' => array(
+        'script' => 'line_execute.php',
+        'params' => array()),
+    'train_execute' => array(
+        'script' => 'train_execute.php',
+        'params' => array()),
+    'select_line' => array(
+        'script' => 'select_line.php',
+        'params' => array()),
+    'select_direction' => array(
+        'script' => 'select_direction.php',
+        'params' => array()),
+    'select_stop' => array(
+        'script' => 'select_stop.php',
+        'params' => array()),
+    'departure_board' => array(
+        'script' => 'departure_board.php',
+        'params' => array()),
+    'proximity_board' => array(
+        'script' => 'proximity_board.php',
+        'params' => array()),
+    'train' => array(
+        'script' => 'train_schedule.php',
+        'params' => array()),
+    'line' => array(
+        'script' => 'route_schedule.php',
+        'params' => array()),
+);

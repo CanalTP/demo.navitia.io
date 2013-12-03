@@ -1,0 +1,288 @@
+
+// ----------------------------------------------------------------------------
+// Recherche
+// ----------------------------------------------------------------------------
+
+.schedule_search {
+    .tabs_menu {
+        width: 174px;
+        float: left;
+        padding-top: 14px;
+        
+        li {
+            @include border-radius(8px 0 0 8px);
+            padding: 0.5em;
+            a {
+                display: block;
+                text-decoration: none;
+                font-size: 1.3em;
+                color: #666666;
+                &:hover {
+                    color: #000000;
+                }
+                strong {
+                    font-size: 1.4em;
+                    font-family: "UbuntuBold";
+                }
+            }
+        }
+        .current {
+            background-color: #ffffff;
+            a {
+                color: #444444;
+            }
+        }
+    }
+    .search_form {
+        background-color: #ffffff;
+        padding: 12px;
+        @include border-radius(8px);
+        
+        .schedule_form_container {
+            float: left;
+            width: 301px;
+            padding-right: 12px;
+        }
+        form {
+            padding-bottom: 2em;
+        }
+        .button_line {
+            padding-top: 0.5em;
+        }
+    }
+    .schedule_map_container {
+        width: 664px;
+        float: left;
+        font-size: 1.2em;
+        p {
+            color: #444444;
+            font-size: 1.2em;
+            line-height: 1.3em;
+            margin-bottom: 0.5em;
+        }
+    }
+    #schedule_search_map {
+        height: 500px;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Précision
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Résultats
+// ----------------------------------------------------------------------------
+
+.schedule_title {
+    font-size: 2em;
+    padding: 0 0.5em 0.5em 0.5em;
+}
+
+.schedule_table_container {
+    width: 700px;
+    overflow: auto;
+    margin-bottom: 3em;
+}
+
+.schedule_page_container {
+    background-color: #ffffff;
+    padding: 16px;
+    @include border-radius(8px);
+    
+    h2 {
+        font-size: 1.7em;
+        font-family: "UbuntuBold";
+        color: #666666;
+        margin-bottom: 0.5em;
+    }
+    
+    .other_info_group {
+        width: 100%;
+    }
+    
+    .other_info_container {
+        float: left;
+        width: 342px;
+        padding-left: 16px;
+        &:first-child {
+            padding-left: 0;
+        }
+    }
+    
+    .other_stop {
+        float: right;
+    }
+    
+    .other_stop_list, .other_line_list {
+        overflow: auto;
+        max-height: 180px;
+        margin-bottom: 3em;
+        
+        ul {
+            border-top: 1px solid #888888;
+            li {
+                font-size: 1.3em;
+                line-height: 1.3em;
+                border-bottom: 1px solid #888888;
+                a {
+                    display: block;
+                    color: #333333;
+                    padding: 0.55em 0.4em;
+                    text-decoration: none;
+                    background-color: #f4f4f4;
+                    &:hover {
+                        background-color: #e0e0e0;
+                        color: #D25502;
+                    }
+                }
+            }
+        }
+    }
+    
+    .other_line_list {
+        .mode {
+            vertical-align: -30%;
+        }
+    }
+    
+    .equipement_list {
+        margin-bottom: 2em;
+    }
+}
+
+.schedule_container {
+    table {
+        width: 100%;
+        border-top: 1px solid #444444;
+        border-left: 1px solid #444444;
+    }
+    th, td {
+        border-right: 1px solid #444444;
+        border-bottom: 1px solid #444444;
+        text-align: center;
+        font-size: 1.3em;
+        padding: 0.35em 0.4em;
+    }
+    th {
+        background-color: $TableHeadBackColor;
+        color: #ffffff;
+    }
+    td {
+        &:hover {
+            background-color: #eeeeee;
+        }
+    }
+    .minute_list {
+        li {
+            line-height: 1.3em;
+        }
+    }
+    .route_schedule {
+        th {
+            text-align: left;
+            width: 150px;
+            background-color: #F4F4F4;
+            padding: 0 0.4em;
+            a {
+                color: #333333;
+                display: block;
+                text-decoration: none;
+                padding: 0.65em 0;
+            }
+            &:hover {
+                a {
+                    color: #D25502;
+                }
+                background-color: #E0E0E0;
+            }
+        }
+    }
+}
+
+.board_result {
+    float: left;
+    width: 700px;
+    padding-right: 16px;
+
+    .board_summary {
+        background-color: #444444;
+        margin-bottom: 2em;
+        color: #ffffff;
+        font-size: 1.2em;
+        width: 684px;
+        padding: 8px;
+        li {
+            float: left;
+        }
+        .stop {
+            font-size: 1.5em;
+            font-family: "UbuntuBold";
+            line-height: 30px;
+            padding-right: 12px;
+        }
+        .mode {
+            padding-right: 12px;
+            height: 30px;
+        }
+        .network, .line, .direction {
+            line-height: 30px;
+            padding-right: 12px;
+        }
+        a {
+            color: #eeeeee;
+            &:hover {
+                color: #ffffff;
+            }
+        }
+    }
+    
+    .board_more {
+        padding-top: 1em;
+        .journey_link {
+            background: transparent url('../img/marker_coord.png') no-repeat left center;
+            line-height: 32px;
+            font-size: 1.4em;
+            padding-left: 32px;
+            a {
+                color: #666666;
+                &:hover {
+                    color: #ff6600;
+                }
+            }
+        }
+    }
+}
+
+.proximity_board {
+    .board_result {
+        width: 700px;
+        p {
+            font-size: 1.4em;
+            margin-bottom: 1em;
+            color: #444444;
+        }
+    }
+    .board_summary {
+        margin-bottom: 1em;
+        .show_timing {
+            margin-right: 0.2em;
+        }
+    }
+}
+
+.board_map {
+    float: left;
+    width: 532px;
+    height: 400px;
+}
+
+.route_schedule {
+    table {
+        width: 100%;
+    }
+    .schedule_table_container {
+        width: auto;
+        overflow: visible;
+    }
+}

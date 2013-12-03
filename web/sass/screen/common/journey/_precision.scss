@@ -1,0 +1,133 @@
+.precision_container {
+    background-color: #ffffff;
+    padding: 16px;
+    @include border-radius(8px);
+    .point_container {
+        padding-left: 16px;
+    }
+    .point_list, .selected_point {
+        border-bottom: 1px solid #cccccc;
+        margin-bottom: 1em;
+        li, p {
+            &:hover {
+                background-color: #f0f0f0;
+            }
+            padding-left: 40px;
+            background-repeat: no-repeat;
+            background-position: center left;
+            
+            input {
+                float: left;
+            }
+            label, .label {
+                padding-left: 0.5em;
+                float: left;
+            }
+        }
+        p {
+            padding: 1em 0.75em 1em 40px;
+            display: block;
+            border-top: 1px solid #cccccc;
+        }
+        .choosen {
+            background-color: #FAEDE0;
+        }
+        .address {
+            background-image: url(../img/firstletter/address.png);
+        }
+        .stop_point, .stop_area {
+            background-image: url(../img/firstletter/stoparea.png);
+        }
+        .site {
+            background-image: url(../img/firstletter/site.png);
+        }
+        .admin {
+            background-image: url(../img/firstletter/admin.png);
+        }
+    }
+    .point_name {
+        display: block;
+        font-size: 1.75em;
+        font-family: "UbuntuBold";
+        color: #444444;
+        padding-bottom: 0.2em;
+    }
+    .point_detail {
+        display: block;
+        font-size: 1.3em;
+        color: #888888;
+        .type {
+            padding-right: 2em;
+        }
+    }
+    form {
+        width: 100%;
+    }
+    legend {
+        font-family: "UbuntuBold";
+        color: #d56a00;
+        margin-bottom: 0.75em;
+        padding-left: 16px;
+    }
+    fieldset {
+        &:first-child {
+            legend {
+                padding-left: 0;
+            }
+            .point_container {
+                padding-left: 0;
+            }
+        }
+    }
+    li {
+        padding: 1em 0.75em;
+        display: block;
+        border-top: 1px solid #cccccc;
+    }
+    .response_type {
+        font-size: 1.3em;
+        margin-bottom: 1em;
+    }
+    .response_error {
+        color: #cc0000;
+        font-family: "UbuntuBold";
+    }
+    .response_selected {
+        color: #008800;
+        font-family: "UbuntuBold";
+    }
+    p.point_name {
+        margin-bottom: 1em;
+        padding: 0.75em 0;
+        border-top: 1px solid #cccccc;
+        border-bottom: 1px solid #cccccc;
+    }
+    .point_modify {
+        font-size: 1.3em;
+        margin-bottom: 1em;
+        a {
+            color: #666666;
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    .button_line {
+        float: none;
+    }
+}
+
+.journey_precision {
+    fieldset {
+        float: left;
+        width: 50%;
+    }
+}
+
+.proximity_precision {
+    fieldset {
+        float: left;
+        width: 33%;
+    }
+}

@@ -1,0 +1,42 @@
+#journey_search_form {
+    width: 400px;
+}
+
+.journey_block {
+    width: 420px;
+}
+
+.journey_map {
+    width: 662px;
+    
+    .journey_change_time {
+        .slider {
+            width: 510px;
+        }
+    }
+}
+
+.journey_map_container {
+    width: 662px;
+    height: 476px;
+    background-color: #eeeeee;
+}
+
+#journey_result_container {
+    width: 602px;
+}
+
+.journey_search {
+    .search_map {
+        width: 844px;
+    }
+    .search_map_container {
+        width: 844px;
+        height: 500px;
+        background-color: #eeeeee;
+    }
+}
+
+.section_content {
+    width: 372px;
+}

@@ -1,0 +1,421 @@
+// Titre
+.journey_title {
+    font-size: 2em;
+    padding: 0 0.5em 0.5em 0.5em;
+    .journey_to_icon {
+        background-image: url(../img/journey_title_to_icon.png);
+        background-repeat: no-repeat;
+        background-position: 0px 5px;
+        width: 15px;
+        height: 15px;
+        span {
+            visibility: hidden;
+        }
+    }
+}
+
+#journey_result_container {
+    z-index: 10;
+}
+
+.journey_date_info {
+    width: 602px;
+    h2 {
+        font-size: 1.4em;
+        color: #555555;
+        margin-bottom: 1em;
+        float: left;
+        line-height: 1.4em;
+    }
+    ul {
+        float: right;
+        li {
+            float: left;
+            padding-left: 6px;
+            a {
+                display: block;
+                @include border-radius(3px);
+                @include box-shadow(0px 0px 4px #888888);
+                background-color: #888888;
+                color: #ffffff;
+                text-decoration: none;
+                font-size: 1.2em;
+                padding: 0.4em 0.75em;
+                &:hover {
+                    background-color: #ee7700;
+                }
+            }
+        }
+    }
+}
+
+// Bloc liste des solutions
+.journey_result_list {
+    float: left;
+    width: 174px;
+    li {
+        a {
+            display: block;
+            @include border-radius(6px 0px 0px 6px);
+            padding: 0.5em;
+            font-size: 1.3em;
+            line-height: 1.4em;
+            text-decoration: none;
+            color: #666666;
+            &:hover {
+                color: #000000;
+            }
+        }
+        strong {
+            font-family: "UbuntuBold";
+        }
+        .hours {
+            font-family: "UbuntuBold";
+            font-size: 1.4em;
+        }
+    }
+    li.current {
+        a {
+            background-color: #ffffff;
+            color: #333333;
+            @include border-radius(6px 0px 0px 6px);
+            @include box-shadow(0px 2px 0px #aaaaaa);
+            &:hover {
+                color: #000000;
+            }
+        }
+    }
+    h2 {
+        font-size: 1.4em;
+        padding: 6px 0 6px 6px;
+        color: #555555;
+    }
+    .next, .previous {
+        padding-right: 8px;
+        a {
+            display: block;
+            background: #ffffff;
+            padding: 0.25em 0.5em;
+            font-size: 1.3em;
+            line-height: 1.3em;
+            @include border-radius(6px);
+            color: #444444;
+            text-decoration: none;
+            @include box-shadow(0px 2px 0px #aaaaaa);
+            &:hover {
+                color: #ffffff;
+                background-color: #ee7700;
+            }
+        }
+    }
+    .previous {
+        padding-bottom: 8px;
+    }
+    .next {
+        padding-top: 8px;
+    }
+}
+
+// Bloc feuille de route
+.journey_detail {
+    background-color: #ffffff;
+    @include border-radius(6px);
+    .show_stops {
+        padding: 1em 0 0.5em 0;
+        float: right;
+        li {
+            float: left;
+            padding-left: 8px;
+            a {
+                display: block;
+                @include border-radius(3px);
+                @include box-shadow(0px 0px 4px #888888);
+                background-color: #888888;
+                color: #ffffff;
+                text-decoration: none;
+                font-size: 1.2em;
+                padding: 0.4em 0.75em;
+                &:hover {
+                    background-color: #ee7700;
+                }
+            }
+        }
+    }
+    .journey_start, .journey_end {
+        .field_text_container {
+            @include background(linear-gradient(top, #cccccc, #dddddd));
+            label {
+                color: #444444;
+            }
+        }
+    }
+    .error {
+        background-color: #cc0000;
+        color: #ffffff;
+        font-size: 1.3em;
+        padding: 1em;
+        line-height: 1.3em;
+        margin-bottom: 0.5em;
+        @include background(linear-gradient(top, #dd6358, #c43d31));
+        @include border-radius(6px); 
+    }
+}
+
+// Résumé de l'itinéraire
+.journey_summary {
+    background-color: #444444;
+    color: #ffffff;
+    font-size: 1.2em;
+    padding: 0.5em;
+    h2 {
+        margin-bottom: 0.25em;
+        font-size: 1.3em;
+        font-family: "UbuntuBold", sans-serif;
+    }
+    li {
+        width: 33%;
+        float: left;
+        line-height: 1.3em;
+        color: #cccccc;
+        strong {
+            color: #ffffff;
+            font-size: 1.3em;
+        }
+    }
+}
+
+// Etapes de l'itinéraire
+.journey_section_list {
+    background-color: #ffffff;
+    li {
+        position: relative;
+        padding: 0.5em;
+        border-top: 1px solid #cccccc;
+        &:first-child {
+            border-top: 0;
+        }
+    }
+    .section_transfer {
+        background-color: #f0f0f0;
+        color: #666666;
+        font-size: 1.2em;
+        line-height: 1.3em;
+        p {
+            padding-left: 38px;
+        }
+        strong {
+            font-family: "UbuntuBold";
+            color: #333333;
+        }
+    }
+}
+
+.journey_stop_list {
+    li {
+        border: 0;
+        padding: 0;
+    }
+}
+
+.journey_sn_list {
+    list-style-type: decimal;
+    padding-left: 32px;
+    li {
+        border: 0;
+        padding: 0;
+        font-size: 1.2em;
+        line-height: 1.4em;
+        color: #777777;
+        span {
+            color: #000000;
+        }
+    }
+}
+
+.section_options {
+    position: absolute;
+    right: 0;
+    z-index: 255;
+    .avoid {
+        width: 200px;
+        position: absolute;
+        background-color: #666666;
+        padding: 1em;
+        @include box-shadow(#666666 0px 0px 5px);
+        li {
+            border: 0;
+            padding: 0;
+            line-height: 1.4em;
+            font-size: 1.2em;
+        }
+        a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        strong {
+            font-family: "UbuntuBold";
+        }
+    }
+}
+
+.section_title {
+    font-size: 1.2em;
+    .headsign {
+        font-family: "UbuntuBold";
+        font-size: 1.25em;
+        display: block;
+        line-height: 1.5em;
+    }
+    .direction {
+        display: block;
+        line-height: 1.3em;
+    }
+    
+    color: #444444;
+}
+
+.section_content {
+    float: left;
+    padding-left: 8px;
+}
+
+.section_mode {
+    font-size: 1.2em;
+    float: left;
+    .headsign, .direction, .duration {
+        padding-left: 8px;
+        line-height: 1.4em;
+    }
+    .direction {
+        line-height: 1.6em;
+        display: block;
+    }
+}
+
+.journey_section_step {
+    font-size: 1.2em;
+    line-height: 1.4em;
+    padding-left: 38px;
+    .time {
+        font-family: "UbuntuBold";
+        background-color: #e0e0e0;
+        color: #d25502;
+        padding: 0 0.25em;
+    }
+    .description {
+        strong {
+            font-family: "UbuntuBold";
+        }
+        a {
+            color: #666666;
+            &:hover {
+                color: #ff8800;
+            }
+        }
+    }
+}
+
+.journey_section_stop {
+    display: none;
+    .time {
+        font-family: "UbuntuRegular";
+        color: #666666;
+    }
+    .description {
+        strong {
+            font-family: "UbuntuRegular";
+        }
+    }
+}
+
+// Bloc carte
+.journey_map {
+    position: relative;
+    background-color: #ffffff;
+    float: left;
+    width: 342px;
+    padding: 8px 8px 8px 8px;
+    z-index: 1;
+    @include border-radius(0px 8px 8px 0px);
+    @include box-shadow(0px 2px 0px #aaaaaa);
+    
+    .journey_change_clockwise {
+        width: 100px;
+        line-height: 32px;
+        padding-bottom: 8px;
+        select {
+            width: 100px;
+            display: block;
+            font-family: "UbuntuRegular";
+            font-size: 1.2em;
+            padding: 4px;
+        }
+        float: left;
+    }
+    
+    .journey_change_time {
+        float: left;
+        position: absolute;
+        left: 114px;
+        height: 32px;
+        li {
+            float: left;
+        }
+        .prev, .next {
+            width: 24px;
+            a {
+                display: block;
+                height: 24px;
+                opacity: 0.5;
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            span {
+                display: none;
+            }
+        }
+        .prev {
+            a {
+                background-image: url(../img/journey_prev.png);
+            }
+        }
+        .next {
+            a {
+                background-image: url(../img/journey_next.png);
+            }
+        }
+        .slider {
+            width: 510px;
+            height: 24px;
+            background: transparent url(../img/journey_slider_back.png) repeat-x left center;
+            position: relative;
+            a {
+                background: transparent url(../img/journey_cursor.png) repeat-x left center;
+                display: block;
+                width: 14px;
+                height: 14px;
+                position: absolute;
+                top: 5px;
+                left: 0px;
+                span {
+                    display: block;
+                    position: absolute;
+                    width: 48px;
+                    height: 40px;
+                    top: -40px;
+                    left: -17px;
+                    background: transparent url(../img/journey_hour_tip.png) repeat-x left center;
+                    text-align: center;
+                    color: #000000;
+                    text-decoration: none;
+                    line-height: 30px;
+                    font-size: 1.1em;
+                }
+            }
+        }
+    }
+    .journey_map_spacer {
+        /*height: 32px;*/
+    }
+}

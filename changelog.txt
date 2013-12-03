@@ -1,0 +1,53 @@
+--------------------------------------------
+Nouveau dans la version "jésuite" (24/05/2013)
+
+- Fusion de la recherche horaire à l'arrêt et recherche horaire de ligne
+- Possibilité d'éviter des lignes spécifiques sur la feuille de route
+- Affichage du temps d'attente des correspondances si disponible
+- Itinéraires suivants et précédents
+- Quelques corrections de bugs d'affichage et fonctionnels
+
+--------------------------------------------
+Nouveau dans la version "halwa" (29/04/2013)
+
+- Possibilité de modifier le point de départ et d'arrivée grâce à l'autocomplétion
+- Possibilité de modifier le clockwise depuis la feuille de route
+- Liste des régions réorganisée
+- Validation de la région instantanée
+
+-------------------------------------------------
+Nouveau dans la version "gulabjamun" (18/04/2013)
+
+- Changement de l'horaire de départ d'un itinéraire en temps réel
+- Possibilité de calculer le trajet retour d'un itinéraire
+
+----------------------------------------------
+Nouveau dans la version "far" (17/04/2013)
+
+- Barre navitia.io
+- Recherche horaire à l'arrêt
+- Recherche horaire à proximité
+- Recherche horaire de ligne
+- Pagination sur la grille horaire de ligne
+- Arrêts cliquables sur la carte d'une grille horaire de ligne
+- Ajout des données de New York
+
+----------------------------------------------
+Nouveau dans la version "éclair" (03/04/2013)
+
+- Autocomplétion cartographique
+- Correction du bug des modes sur les grilles horaires
+
+----------------------------------------------
+Nouveau dans la version "dacquoise" (29/03/2013)
+
+- Page d'accueil avec sélection de la région
+- Autocomplétion améliorée : rapide et fiable dans les réponses
+
+----------------------------------------------
+Nouveau dans la version "crumble" (22/03/2013)
+
+- Configuration de la région (source de données) plus simple via config/webservice.php
+- Correction d'un bug empêchant le retour de solutions dans la précision itinéraire
+- Liens vers les grilles horaire à l'arrêt dans les feuilles de route
+- Grille horaire de ligne

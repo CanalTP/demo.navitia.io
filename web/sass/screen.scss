@@ -1,0 +1,59 @@
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/images";
+
+/*************************************************************************************************
+ * Styles communs à tous les écrans
+ */
+@import "screen/common/base";
+@import "screen/common/font";
+@import "screen/common/common";
+@import "screen/common/header";
+@import "screen/common/footer";
+@import "screen/common/forms";
+@import "screen/common/home";
+@import "screen/common/autocomplete";
+@import "screen/common/journey";
+@import "screen/common/schedule";
+@import "screen/common/proximity";
+
+/*************************************************************************************************
+ * Styles pour smartphones
+ */
+@media (max-width: 767px) {
+
+@import "screen/phone/common";
+@import "screen/phone/header";
+@import "screen/phone/home";
+@import "screen/phone/autocomplete";
+@import "screen/phone/journey";
+@import "screen/phone/schedule";
+
+}
+
+/*************************************************************************************************
+ * Styles pour écrans moyens
+ */
+@media (min-width: 768px) {
+
+@import "screen/tablet/common";
+@import "screen/tablet/header";
+@import "screen/tablet/home";
+@import "screen/tablet/journey";
+@import "screen/tablet/schedule";
+
+}
+
+/*************************************************************************************************
+ * Styles pour grands écrans
+ */
+@media (min-width: 1280px) {
+
+@import "screen/computer/common";
+@import "screen/computer/header";
+@import "screen/computer/home";
+@import "screen/computer/journey";
+@import "screen/computer/schedule";
+@import "screen/computer/proximity";
+
+}

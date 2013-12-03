@@ -1,0 +1,57 @@
+
+.main_nav {
+    background-color: $HeaderBackColor;
+    @include background(linear-gradient(top, #444444, #222222));
+    @include box-shadow(#000000 0px 0px 6px);
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    font-size: 1.4em;
+    line-height: 1.4em;
+    display: block;
+    ul {
+        margin: 0 auto;
+        a {
+            color: $LinkMenuNormalColor;
+            text-decoration: none;
+            display: block;
+            padding: 0.4em 0.5em;
+            &:hover {
+                color: $LinkMenuHoverColor;
+            }
+        }
+        .current {
+            a {
+                color: $LinkMenuHoverColor;
+                @include background(linear-gradient(top, #222222, #444444));
+                &:hover {
+                    @include background(linear-gradient(top, #222222, #444444));
+                }
+            }
+        }
+    }
+    .logo {
+        float: left;
+        width: 78px;
+        height: 30px;
+        background: transparent url(../img/site-logo.png) no-repeat top left;
+        &:hover {
+            @include background(url(../img/site-logo.png), linear-gradient(top, #222222, #444444));
+        }
+        span {
+            display: none;
+        }
+    }
+    .menu-icon {
+        float: right;
+        width: 30px;
+        height: 30px;
+        background-image: url(../img/menu-icon.png);
+        span {
+            display: none;
+        }
+        &:hover {
+            @include background(url(../img/menu-icon.png), linear-gradient(top, #222222, #444444));
+        }
+    }
+}

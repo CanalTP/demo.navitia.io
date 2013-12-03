@@ -1,0 +1,158 @@
+.journey_search {
+    .search_form {
+        background-color: #ffffff;
+        padding: 12px;
+        @include border-radius(8px);
+    }
+}
+
+.field_line_wa {
+    .field_text_container {
+        input, select {
+            width: auto !important;
+            float: left;
+        }
+    }
+}
+
+.field_text_container {
+    background-color: #464646;
+    clear: both;
+    padding: 4px 16px;
+    margin-bottom: 4px;
+    @include background(linear-gradient(top, #666666, #222222));
+    label {
+        float: left;
+        width: 22%;
+        font-size: 1.3em;
+        color: #ffffff;
+        line-height: 2em;
+    }
+    input, select {
+        float: left;
+        display: block;
+        width: 75%;
+        line-height: 1.25em;
+        border: 0;
+        font-family: sans-serif;
+        font-size: 1.25em;
+        padding: 0.45em 0.3em;
+        @include border-radius(2px);
+    }
+    select {
+        padding: 0.375em 0.3em;
+        margin-left: 0;
+        margin-right: 0.5em;
+    }
+}
+
+.field_long_label {
+    label {
+        width: 40%;
+    }
+    input, select {
+        width: 58%;
+    }
+}
+
+.button_line {
+    text-align: right;
+    float: right;
+}
+
+.button_line, .button_more {
+    input {
+        border: 0;
+        background-color: #cccccc;
+        padding: 0.25em 1em;
+        font-size: 1.5em;
+        font-family: "UbuntuBold";
+        color: #333333;
+        line-height: 1.5em;
+        @include border-radius(6px);
+        &:hover {
+            background-color: #f07800;
+            color: #ffffff;
+        }
+    }
+}
+
+.button_more {
+    padding: 8px 0 0 0;
+    float: left;
+    margin-bottom: 1em;
+    a, a.option_link {
+        font-size: 1.3em;
+        color: #666666;
+        text-decoration: none;
+    }
+    a:hover, a.option_link:hover {
+        color: #000000;
+        text-decoration: underline;
+    }
+}
+
+.search_map {
+    width: 524px;
+    p {
+        font-size: 1.2em;
+        margin-bottom: 0.5em;
+        color: #444444;
+        line-height: 1.3em;
+    }
+}
+
+.search_map_container {
+    width: 524px;
+    height: 360px;
+}
+
+.journey_map_container {
+    width: 342px;
+    height: 360px;
+}
+
+#journey_result_container {
+    float: left;
+    width: 602px;
+}
+
+.journey_search fieldset,
+.proximity_search fieldset {
+    margin-bottom: 1em;
+}
+
+.journey_search legend,
+.schedule_search legend,
+.proximity_search legend {
+    font-family: "UbuntuBold";
+    color: #d56a00;
+    margin-bottom: 0.75em;
+}
+
+.journey_search {
+    .mode_list {
+        .mode_element {
+            float: left;
+            width: 50%;
+            font-size: 1.3em;
+        }
+    }
+}
+
+.journey_search {
+    .advanced_options {
+        display: none;
+        label {
+            font-size: 1.3em;
+        }
+        input, select {
+            font-family: "UbuntuRegular";
+            font-size: 1.3em;
+        }
+    }
+}
+
+.olControlAttribution {
+    bottom: 0 !important;
+}

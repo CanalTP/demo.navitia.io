@@ -1,0 +1,8 @@
+
+.proximity_search {
+  .search_form {
+    background-color: #ffffff;
+    padding: 12px;
+    @include border-radius(8px);
+  }
+}

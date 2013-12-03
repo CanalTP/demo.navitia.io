@@ -1,0 +1,94 @@
+.window_title {
+    font-family: 'UbuntuRegular', sans-serif;
+    font-size: 2.2em;
+    color: #d96c00;
+}
+
+.clear {
+    clear: both;
+    visibility: hidden;
+    height: 0;
+    font-size: 0;
+}
+
+.hide {
+    display: none;
+}
+
+.page {
+    background-color: #d6d6d6;
+    font-family: 'UbuntuRegular', sans-serif;
+    padding-top: 42px;
+}
+
+.main_content {
+    margin: 0 auto;
+    padding: 40px 0px 1em 0px;
+    z-index: 1;
+}
+
+.generic_error {
+    padding: 16px;
+    p {
+        background-color: #cc0000;
+        color: #ffffff;
+        font-size: 1.3em;
+        padding: 1em;
+        line-height: 1.3em;
+        margin-bottom: 1.5em;
+        @include background(linear-gradient(top, #dd6358, #c43d31));
+        @include border-radius(6px); 
+    }
+}
+
+.message_buttons {
+    li {
+        float: left;
+        a {
+            display: block;
+            @include border-radius(3px);
+            @include box-shadow(0px 0px 4px #888888);
+            background-color: #888888;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 0.4em 0.75em;
+            &:hover {
+                background-color: #ee7700;
+            }
+        }
+    }
+}
+
+.general_title {
+    font-family: "UbuntuLightRegular";
+    letter-spacing: -0.05em;
+    font-size: 3.5em;
+    color: #333333;
+    strong {
+        font-family: "UbuntuBold";
+    }
+    sup {
+        vertical-align: 45%;
+        font-size: 0.75em;
+        color: #FF8000;
+    }
+}
+
+.olPopup {
+    margin-top: 12px;
+}
+
+.olPopupContent {
+    font-family: "UbuntuRegular";
+    text-align: center;
+    font-size: 1.35em;
+    height: 5px;
+}
+
+.disclaimer {
+    line-height: 1.3em;
+    font-size: 1.15em;
+    color: #888888;
+    padding-top: 2em;
+}

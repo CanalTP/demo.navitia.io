@@ -1,0 +1,53 @@
+.journey_title {
+    padding: 0.5em 0 1em 0;
+}
+
+.journey_block {
+    width: 360px;
+    float: left;
+    padding: 8px 0 6px 8px;
+    background-color: #ffffff;
+    @include border-radius(8px 0px 0px 8px);
+    @include box-shadow(0px 2px 0px #aaaaaa);
+}
+
+#journey_result_container {
+    width: 542px;
+}
+
+.journey_map {
+    width: 402px;
+    
+    .journey_change_time {
+        .slider {
+            width: 248px;
+        }
+    }
+}
+
+.journey_map_container {
+    width: 402px;
+}
+
+.section_mode {
+    .headsign {
+        font-size: 1.25em;
+    }
+}
+
+.section_content {
+    width: 312px;
+}
+
+.journey_search {
+    form {
+        width: 400px;
+        float: left;
+    }
+    .search_map {
+        float: left;
+        padding-left: 12px;
+        font-size: 1.2em;
+        width: 524px;
+    }
+}

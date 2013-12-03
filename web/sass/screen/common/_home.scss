@@ -1,0 +1,43 @@
+
+.home_container {
+    .journey_search {
+        h1 {
+            margin-bottom: 1em;
+        }
+        form {
+            float: none !important;
+            border-top: 1px solid #BBBBBB;
+            padding-top: 0.75em;
+            width: auto;
+            
+            fieldset {
+                legend {
+                    font-family: "UbuntuRegular";
+                    color: #666666;
+                }
+            }
+        }
+        .search_form {
+            padding: 24px;
+        }
+    }
+    .region_list {
+        width: 33%;
+        float: left;
+        padding-right: 2%;
+        
+        label {
+            display: block;
+            font-size: 1.5em;
+            padding: 0.25em;
+            &:hover {
+                background-color: #FAEDE0;
+            }
+        }
+    }
+    .region_map {
+        width: 65%;
+        height: 450px;
+        float: left;
+    }
+}

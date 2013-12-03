@@ -1,0 +1,90 @@
+.fletter_padding {
+    padding: 1em;
+}
+
+.fletter_autocomplete {
+    position: absolute;
+    background-color: #ffffff;
+    z-index: 10;
+    width: 400px;
+    @include box-shadow(#888888 0px 0px 10px);
+    .odd {
+        background-color: #f0f0f0;
+    }
+    .highlighted {
+        background-color: #d56a00;
+    }
+    .type_stop_area, .type_stop_point {
+        .fletter_padding {
+            background: transparent url(../img/firstletter/stoparea.png) no-repeat 8px center;
+        }
+        &:hover {
+            .fletter_padding {
+                background: transparent url(../img/firstletter/stoparea_hover.png) no-repeat 8px center;
+            }
+        }
+    }
+    .type_site {
+        .fletter_padding {
+            background: transparent url(../img/firstletter/site.png) no-repeat 8px center;
+        }
+        &:hover {
+            .fletter_padding {
+                background: transparent url(../img/firstletter/site_hover.png) no-repeat 8px center;
+            }
+        }
+    }
+    .type_admin {
+        .fletter_padding {
+            background: transparent url(../img/firstletter/admin.png) no-repeat 8px center;
+        }
+        &:hover {
+            .fletter_padding {
+                background: transparent url(../img/firstletter/admin_hover.png) no-repeat 8px center;
+            }
+        }
+    }
+    .type_address {
+        .fletter_padding {
+            background: transparent url(../img/firstletter/address.png) no-repeat 8px center;
+        }
+        &:hover {
+            .fletter_padding {
+                background: transparent url(../img/firstletter/address_hover.png) no-repeat 8px center;
+            }
+        }
+    }
+    .fletter_item_link {
+        display: block;
+        text-decoration: none;
+        color: #444444 !important;
+        &:hover {
+            background-color: #d56a00;
+            color: #ffffff !important;
+            .detail {
+                .city {
+                    color: #ffffff !important;
+                }
+            }
+        }
+        .text {
+            padding-left: 40px;
+            background-repeat: no-repeat;
+            background-position: left;
+        }
+        .title {
+            font-family: 'UbuntuBold', sans-serif;
+            font-size: 1.75em;
+            padding-bottom: 0.25em;
+        }
+        .detail {
+            font-size: 1.3em;
+            .type {
+                padding-right: 1em;
+            }
+            .city {
+                color: #888888;
+            }
+        }
+    }
+}
