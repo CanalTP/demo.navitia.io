@@ -23,6 +23,7 @@
                 </form>
                 <div class="disclaimer">
                     <p>Note : ce site est encore en cours de développement, il se peut qu'il contienne quelques bugs. Merci de votre compréhension.</p>
+                    <p><strong>Développeurs :</strong> vous pouvez contribuer au projet en vous rendant sur <a href="https://github.com/CanalTP/demo.navitia.io">l'espace GitHub de ce site</a>
                 </div>
             </div>
             <div id="open_layer_map_container" class="region_map"></div>

@@ -18,7 +18,7 @@
 .page {
     background-color: #d6d6d6;
     font-family: 'UbuntuRegular', sans-serif;
-    padding-top: 42px;
+    padding-top: 51px;
 }
 
 .main_content {
@@ -91,4 +91,10 @@
     font-size: 1.15em;
     color: #888888;
     padding-top: 2em;
+    strong {
+        font-weight: bold;
+    }
+    p {
+        margin-bottom: 1em;
+    }
 }
