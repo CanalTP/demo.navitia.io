@@ -139,9 +139,9 @@ var AutocompleteEngine = Base.extend
 
     responseListener: function(order)
     {
-        if (typeof(this.ResultList[order]) != 'undefined') {
-            if (this.ResultList[order].resultHtml != '') {
-                if (order != this.ResultPreviousOrder) {
+        if (typeof(this.ResultList[order]) !== 'undefined') {
+            if (this.ResultList[order].resultHtml !== '') {
+                if (order !== this.ResultPreviousOrder) {
                     this.pushResult(this.ResultList[order].resultHtml);
                     this.ResultPreviousOrder = order;
                 }
@@ -153,10 +153,10 @@ var AutocompleteEngine = Base.extend
     {
         var nameList = this.ResultContainer.split('%ITEMS%');
         var that = this;
-        if (result != null && typeof(result.places) != 'undefined') {
+        if (result !== null && typeof(result.places) !== 'undefined') {
             for (i in result.places) {
                 var itemHtml = that.ResultItemContainer;
-                if (typeof(result.places[i]) != 'undefined') {
+                if (typeof(result.places[i]) !== 'undefined') {
                     itemHtml = this.parseMetaData(itemHtml, i);
                     itemHtml = this.parseCssClass(itemHtml, i, result.places[i]);
                     itemHtml = this.parseObjectTypeName(itemHtml, result.places[i]);
@@ -167,7 +167,7 @@ var AutocompleteEngine = Base.extend
                     nameList[0] += itemHtml;
                 }
             }
-            if (typeof(this.CallbackFunctions.onResult) == 'function') {
+            if (typeof(this.CallbackFunctions.onResult) === 'function') {
                 var place = result.places[0];
                 place.type = this.getPlaceType(place);
                 this.CallbackFunctions.onResult(place, this.CallbackAttributes);
@@ -192,7 +192,7 @@ var AutocompleteEngine = Base.extend
     {
         html = html.split('%CLASS%');
         var classValue = '';
-        if (index % 2 == 1) {
+        if (index % 2 === 1) {
             classValue += 'odd ';
         } else {
             classValue += 'even ';
@@ -293,7 +293,7 @@ var AutocompleteEngine = Base.extend
                 break;
         }
         
-        if (code != '') {
+        if (code !== '') {
             code = '(' + code + ')';
         }
         html = html[0] + code + html[1];
@@ -304,7 +304,7 @@ var AutocompleteEngine = Base.extend
     parseUri: function(html, place)
     {
         html = html.split('%URI%');
-        if (typeof(place.uri) != 'undefined') {
+        if (typeof(place.uri) !== 'undefined') {
             html = html[0] + place.uri + html[1];
         } else {
             html = html[0] + html[1];
@@ -318,15 +318,15 @@ var AutocompleteEngine = Base.extend
      */
     getPlaceType: function(place)
     {
-        if (typeof(place.address) != 'undefined') {
+        if (typeof(place.address) !== 'undefined') {
             return 'ADDRESS';
-        } else if (typeof(place.stop_area) != 'undefined') {
+        } else if (typeof(place.stop_area) !== 'undefined') {
             return 'STOP_AREA';
-        } else if (typeof(place.stop_point) != 'undefined') {
+        } else if (typeof(place.stop_point) !== 'undefined') {
             return 'STOP_POINT';
-        } else if (typeof(place.poi) != 'undefined') {
+        } else if (typeof(place.poi) !== 'undefined') {
             return 'POI';
-        } else if (typeof(place.administrative_region) != 'undefined') {
+        } else if (typeof(place.administrative_region) !== 'undefined') {
             return 'ADMIN';
         }
         return 'UNKNOWN';
@@ -336,27 +336,27 @@ var AutocompleteEngine = Base.extend
     {
         switch (this.getPlaceType(place)) {
             case 'ADDRESS':
-                if (typeof(place.address.coord) != 'undefined') {
+                if (typeof(place.address.coord) !== 'undefined') {
                     return place.address.coord.lon + ';' + place.address.coord.lat;
                 }
                 break;
             case 'STOP_AREA':
-                if (typeof(place.stop_area.coord) != 'undefined') {
+                if (typeof(place.stop_area.coord) !== 'undefined') {
                     return place.stop_area.coord.lon + ';' + place.stop_area.coord.lat;
                 }
                 break;
             case 'STOP_POINT':
-                if (typeof(place.stop_point.coord) != 'undefined') {
+                if (typeof(place.stop_point.coord) !== 'undefined') {
                     return place.stop_point.coord.lon + ';' + place.stop_point.coord.lat;
                 }
                 break;
             case 'POI':
-                if (typeof(place.poi.coord) != 'undefined') {
+                if (typeof(place.poi.coord) !== 'undefined') {
                     return place.poi.coord.lon + ';' + place.poi.coord.lat;
                 }
                 break;
             case 'ADMIN':
-                if (typeof(place.administrative_region.coord) != 'undefined') {
+                if (typeof(place.administrative_region.coord) !== 'undefined') {
                     return place.administrative_region.coord.lon + ';' + place.administrative_region.coord.lat;
                 }
                 break;
@@ -366,7 +366,7 @@ var AutocompleteEngine = Base.extend
 
     eraseResult: function()
     {
-        if (typeof(this.CallbackFunctions.onErase) == 'function') {
+        if (typeof(this.CallbackFunctions.onErase) === 'function') {
             this.CallbackFunctions.onErase(this.CallbackAttributes);
         }
         $('#' + this.FLContainerId).html('');
@@ -374,7 +374,7 @@ var AutocompleteEngine = Base.extend
 
     pushResult: function(result)
     {
-        if (result != null) {
+        if (result !== null) {
             $('#' + this.FlContainerId).show();
             $('#' + this.FlContainerId).html(result);
             this.bindValidateItem();
@@ -395,7 +395,7 @@ var AutocompleteEngine = Base.extend
             $('#' + that.FlContainerId).hide();
             if (place) {
                 place.type = that.getPlaceType(place);
-                if (typeof(that.CallbackFunctions.onClick) == 'function') {
+                if (typeof(that.CallbackFunctions.onClick) === 'function') {
                     that.CallbackFunctions.onClick(place, that.CallbackAttributes);
                 }
             }
@@ -406,7 +406,7 @@ var AutocompleteEngine = Base.extend
     {
         var code = '';
         for (var i in adminList) {
-            if (adminList[i].zip_code != '') {
+            if (adminList[i].zip_code !== '') {
                 code = adminList[i].zip_code;
             }
         }
@@ -417,10 +417,10 @@ var AutocompleteEngine = Base.extend
     {
         var label = '';
         for (var i in adminList) {
-            if (adminList[i].name != '') {
+            if (adminList[i].name !== '') {
                 label = adminList[i].name;
             }
         }
         return label;
-    },
+    }
 });
