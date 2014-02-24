@@ -12,7 +12,7 @@
         <?php include(TEMPLATE_DIR . '/common/footer.php'); ?>
     </div>
     <?php if ($this->Request->getEnvironment() == 'prod') { ?>
-        <?php include(TEMPLATE_DIR . '/common/navitia_io.php'); ?>
+        <?php //include(TEMPLATE_DIR . '/common/navitia_io.php'); ?>
     <?php } ?>
     <?php if ($this->Request->getDebugStatus() == Debug::STATUS_WEB) { ?>
         <?php include(TEMPLATE_DIR . '/common/debug_console.php'); ?>
