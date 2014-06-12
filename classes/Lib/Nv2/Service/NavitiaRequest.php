@@ -8,9 +8,10 @@ use Nv2\Lib\Nv2\Config\Config;
 class NavitiaRequest extends ServiceRequest
 {
     const OPERATOR_DWITHIN = 'DWITHIN';
-    
+
     protected $regionName;
     protected $apiName;
+    protected $token;
     protected $filterList;
 
     protected function __construct()
@@ -18,6 +19,7 @@ class NavitiaRequest extends ServiceRequest
         parent::__construct();
         $this->regionName = Module::$sRequest->getRegionName() . '/';
         $this->serviceUrl = Config::get('webservice', 'Url', 'Navitia');
+        $this->token = Config::get('webservice', 'Token');
         $this->filterList = null;
     }
 
@@ -54,23 +56,28 @@ class NavitiaRequest extends ServiceRequest
 
         return $this->retrieveFeedContent($url);
     }
-    
+
     public function getUrl()
     {
         $this->addParamsFromFilters();
-        
+
         $url = $this->serviceUrl . $this->regionName . $this->apiName . '.json';
         $c = 0;
-        
+
+        $this->param('token', $this->token);
+
         if (count($this->params) > 0) {
             foreach ($this->params as $param) {
-                if ($c == 0) $sep = '?';
-                else $sep = '&';
+                if ($c == 0) {
+                    $sep = '?';
+                } else {
+                    $sep = '&';
+                }
                 $url .= $sep . $param['name'] . '=' . $param['value'];
                 $c++;
             }
         }
-        
+
         return $url;
     }
 
