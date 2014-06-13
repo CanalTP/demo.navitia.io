@@ -10,19 +10,19 @@ Configuration requise
 Installation
 ------------
 
-Copier les sources sur un serveur Web, aucun virtual host ou configuration spécifique requise.
+Copier les sources sur un serveur Web, aucun virtual host ou configuration spÃ©cifique requise.
 
 
-Lier l'IHM à Navitia
+Lier l'IHM Ã  Navitia
 --------------------
 
-Dans le fichier "config/webservice.php", changer les valeurs de "Navitia" et "CrossDomainNavitia" pour qu'elles correspondent à celles des moteurs. Exemple : "http://api.navitia.io/v0/"
+Dans le fichier "config/webservice.php", changer les valeurs de "Navitia" et "CrossDomainNavitia" pour qu'elles correspondent Ã  celles des moteurs. Exemple : "http://api.navitia.io/v0/"
 
 
-Configurer le listing des régions de l'accueil
+Configurer le listing des rÃ©gions de l'accueil
 ----------------------------------------------
 
-Dans le fichier "data/region_coords", créer autant de sections dont la clé correspond au "region_id" que source de données.
+Dans le fichier "data/region_coords", crÃ©er autant de sections dont la clÃ© correspond au "region_id" que source de donnÃ©es.
 Exemple :
 
     $data = array(
@@ -36,28 +36,28 @@ Exemple :
         ),
     );
 
-Dans l'exemple, "transilien" correspond au region_id de la source de données Navitia.
+Dans l'exemple, "transilien" correspond au region_id de la source de donnÃ©es Navitia.
 
-A l'heure actuelle (version "jésuite"), les region_id doivent être ramenés en minuscule (comme dans l'exemple) pour que la traduction soit effectuée correctement.
+A l'heure actuelle (version 0.12), les region_id doivent Ãªtre ramenÃ©s en minuscule (comme dans l'exemple) pour que la traduction soit effectuÃ©e correctement.
 
 
-Configurer les traductions des régions de l'accueil
+Configurer les traductions des rÃ©gions de l'accueil
 ---------------------------------------------------
 
-Dans le fichier "data/translations/fre-FR/region.name.php", créer des correspondances entre les "region_id" de chaque source de données et un libellé à afficher dans la langue souhaitée :
+Dans le fichier "data/translations/fre-FR/region.name.php", crÃ©er des correspondances entre les "region_id" de chaque source de donnÃ©es et un libellÃ© Ã  afficher dans la langue souhaitÃ©e :
 Exemple :
 
     $translations = array(
         'paris' => 'Paris',
-        'nantes' => 'Nantes Métropole (Tan)',
-        'blois' => 'Communauté d’Agglomération de Blois (TUB)',
-        'lille' => 'Lille Métropole (Transpole)',
-        'rennes' => 'Rennes Métropole (STAR)',
-        'toulouse' => 'Toulouse Métropole (Tisséo)',
+        'nantes' => 'Nantes MÃ©tropole (Tan)',
+        'blois' => 'CommunautÃ© d'AgglomÃ©ration de Blois (TUB)',
+        'lille' => 'Lille MÃ©tropole (Transpole)',
+        'rennes' => 'Rennes MÃ©tropole (STAR)',
+        'toulouse' => 'Toulouse MÃ©tropole (TissÃ©o)',
         'transilien' => 'Transilien',
         'paca' => 'TER PACA',
         'ny' => 'New-York City (MTA, NJTA et PATH)',
         'sf' => 'San Francisco (MUNI et BART)',
     );
 
-A l'heure actuelle (version "kouglof"), les region_id doivent être ramenés en minuscule (comme dans l'exemple) pour que la traduction soit effectuée correctement.
+A l'heure actuelle (version 0.12), les region_id doivent Ãªtre ramenÃ©s en minuscule (comme dans l'exemple) pour que la traduction soit effectuÃ©e correctement.

@@ -11,7 +11,6 @@ class NavitiaRequest extends ServiceRequest
 
     protected $regionName;
     protected $apiName;
-    protected $token;
     protected $filterList;
 
     protected function __construct()
@@ -19,7 +18,7 @@ class NavitiaRequest extends ServiceRequest
         parent::__construct();
         $this->regionName = Module::$sRequest->getRegionName() . '/';
         $this->serviceUrl = Config::get('webservice', 'Url', 'Navitia');
-        $this->token = Config::get('webservice', 'Token');
+        $this->authorizationKey = Config::get('webservice', 'Token');
         $this->filterList = null;
     }
 
@@ -63,8 +62,6 @@ class NavitiaRequest extends ServiceRequest
 
         $url = $this->serviceUrl . $this->regionName . $this->apiName . '.json';
         $c = 0;
-
-        $this->param('token', $this->token);
 
         if (count($this->params) > 0) {
             foreach ($this->params as $param) {
