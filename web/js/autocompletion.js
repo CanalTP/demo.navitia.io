@@ -13,7 +13,7 @@ var AutocompleteEngine = Base.extend
 	ResultPreviousOrder: 0,
 	PlaceList: null,
 	CallbackFunctions: {},
-	CallbackAttributes: {}, 
+	CallbackAttributes: {},
 	ObjectFilter: ['stop_area', 'address', 'poi'],
 
 	constructor: function(crossDomainUrl, containerUrl, itemContainerUrl)
@@ -24,17 +24,17 @@ var AutocompleteEngine = Base.extend
 		this.getResultItemContainerTemplate(itemContainerUrl);
 		this.ResultList = new Array();
 	},
-	
+
 	setCallbackAttributes: function(data)
 	{
 	    this.CallbackAttributes = data;
 	},
-	
+
 	setObjectFilter: function(filterArray)
 	{
 	    this.ObjectFilter = filterArray;
 	},
-	
+
 	setCallbackFunctions: function(callbackJson)
 	{
 	    this.CallbackFunctions = {
@@ -48,7 +48,7 @@ var AutocompleteEngine = Base.extend
 	{
 		this.PlaceTypeLabels = labelListData;
 	},
-	
+
 	setAdminTypeLabels: function(adminListData)
 	{
 	    this.AdminTypeLabels = adminListData;
@@ -83,10 +83,10 @@ var AutocompleteEngine = Base.extend
     bind: function(fieldIdPrefix, flContainerId)
     {
         var that = this;
-    
+
         this.FieldIdPrefix = fieldIdPrefix;
         this.FlContainerId = flContainerId;
-    
+
         $('#' + fieldIdPrefix + '_name').attr('autocomplete', 'off');
         $('html').live('click', function() {
             //console.log('html.click');
@@ -107,7 +107,7 @@ var AutocompleteEngine = Base.extend
                     filterString += '&type[]=' + that.ObjectFilter[i];
                 }
                 // Il y a du texte dans le champ
-                var url = that.CrossDomainUrl + '/places.json?nbmax=5' + filterString + '&q=' + encodeURIComponent(text);
+                var url = that.CrossDomainUrl + encodeURIComponent('/places.json?nbmax=5' + filterString + '&q=' + text);
                 that.ResultCurrentOrder++;
                 $.ajax({
                     'url': url,
@@ -178,12 +178,12 @@ var AutocompleteEngine = Base.extend
             return null;
         }
     },
-    
+
     parseMetaData: function(html, index)
     {
         html = html.split('%ENTRY_TYPE%');
         html = html[0] + this.FieldIdPrefix + '_name' + html[1];
-        
+
         html = html.split('%INDEX%');
         return html[0] + index + html[1];
     },
@@ -206,9 +206,9 @@ var AutocompleteEngine = Base.extend
     {
         var type = this.getPlaceType(place);
         html = html.split('%TYPE_NAME%');
-        
+
         html = html[0] + this.PlaceTypeLabels[type] + html[1];
-        
+
         return html;
     },
 
@@ -216,9 +216,9 @@ var AutocompleteEngine = Base.extend
     {
         var type = this.getPlaceType(place);
         var placeName = place.name;
-        
+
         html = html.split('%NAME%');
-        
+
         switch (type) {
             case 'STOP_AREA':
                 placeName = place.stop_area.name;
@@ -237,7 +237,7 @@ var AutocompleteEngine = Base.extend
                 break;
         }
         html = html[0] + placeName + html[1];
-        
+
         return html;
     },
 
@@ -292,12 +292,12 @@ var AutocompleteEngine = Base.extend
             default:
                 break;
         }
-        
+
         if (code !== '') {
             code = '(' + code + ')';
         }
         html = html[0] + code + html[1];
-        
+
         return html;
     },
 
@@ -331,7 +331,7 @@ var AutocompleteEngine = Base.extend
         }
         return 'UNKNOWN';
     },
-    
+
     getPlaceCoords: function(place)
     {
         switch (this.getPlaceType(place)) {
@@ -401,7 +401,7 @@ var AutocompleteEngine = Base.extend
             }
         });
     },
-    
+
     getAdminZipCode: function(adminList)
     {
         var code = '';
@@ -412,7 +412,7 @@ var AutocompleteEngine = Base.extend
         }
         return code;
     },
-    
+
     getAdminLabel: function(adminList)
     {
         var label = '';

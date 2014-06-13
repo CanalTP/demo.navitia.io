@@ -1,8 +1,4 @@
 .sass-cache
 
-/.buildpath
-/.project
-/.settings
-
 /versions.txt
-/nbproject/private/
+/nbproject

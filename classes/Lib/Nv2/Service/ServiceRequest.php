@@ -9,12 +9,13 @@ class ServiceRequest
     protected $serviceUrl;
     protected $params;
     protected $flags;
+    protected $authorizationKey;
 
     protected function __construct()
     {
         $this->serviceUrl = null;
         $this->params = null;
-    }    
+    }
 
     public static function create()
     {
@@ -27,7 +28,7 @@ class ServiceRequest
             foreach ($value as $v) {
                 $this->params[] = array(
                     'name' => $name.'[]',
-                    'value' => $v,                    
+                    'value' => $v,
                 );
             }
         } else {
@@ -38,11 +39,11 @@ class ServiceRequest
         }
         return $this;
     }
-    
+
     public function flag($name, $value)
     {
         $this->flags[$name] = $value;
-        
+
         return $this;
     }
 
@@ -50,12 +51,12 @@ class ServiceRequest
     {
         return $this;
     }
-    
+
     public function getUrl()
     {
         return '---';
     }
-    
+
     public function getFlags()
     {
         return $this->flags;
@@ -67,13 +68,14 @@ class ServiceRequest
         $errorCode = 0;
 
         if (isset($_GET['debug']) && $_GET['debug'] == 2) {
-            echo '<a href="' . $url . '">' . $url . '</a><br />';            
+            echo '<a href="' . $url . '">' . $url . '</a><br />';
         }
-        
+
         $ch = curl_init($url);
         $options = array(
             CURLOPT_CONNECTTIMEOUT => 2,
-            CURLOPT_TIMEOUT => 10,        
+            CURLOPT_TIMEOUT => 10,
+            CURLOPT_HTTPHEADER, array('Authorization', $this->authorizationKey)
         );
         curl_setopt_array($ch, $options);
         ob_start();
@@ -82,8 +84,8 @@ class ServiceRequest
         curl_close($ch);
         $content = ob_get_contents();
         ob_clean();
-        
-        if (isset($_GET['debug']) && $_GET['debug'] == 1) {            
+
+        if (isset($_GET['debug']) && $_GET['debug'] == 1) {
             Debug::addServiceRequest('', $url, $info['total_time']);
         }
 
@@ -105,7 +107,7 @@ class ServiceRequest
             'errorCode' => $errorCode
         );
     }
-    
+
     private static function microtimeFloat()
     {
         list($usec, $sec) = explode(" ", microtime());
