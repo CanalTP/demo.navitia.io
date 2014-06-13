@@ -36,7 +36,7 @@
         line-height: 1.3em;
         margin-bottom: 1.5em;
         @include background(linear-gradient(top, #dd6358, #c43d31));
-        @include border-radius(6px); 
+        @include border-radius(6px);
     }
 }
 
@@ -68,7 +68,6 @@
         font-family: "UbuntuBold";
     }
     sup {
-        vertical-align: 45%;
         font-size: 0.75em;
         color: #FF8000;
     }
