@@ -7,13 +7,14 @@ $token = $config['Token'];
 $crossDomainUrlData = explode('?url=', $crossDomainUrl);
 
 $authorizedUrl = $crossDomainUrlData[1];
+$requestedUrl = filter_input(INPUT_GET, 'url', FILTER_SANITIZE_URL);
 
-if (strstr($_GET['url'], $authorizedUrl)) {
-    if (isset($_GET['url']) && $_GET['url']) {
+if (strstr($requestedUrl, $authorizedUrl)) {
+    if ($requestedUrl) {
         header('content-type: application/json; charset=UTF-8');
-        $ch = curl_init($_GET['url']);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+        $ch = curl_init($requestedUrl);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: ' . $token));
         curl_exec($ch);
         curl_close($ch);
