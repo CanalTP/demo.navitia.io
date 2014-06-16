@@ -72,12 +72,10 @@ class ServiceRequest
         }
 
         $ch = curl_init($url);
-        $options = array(
-            CURLOPT_CONNECTTIMEOUT => 2,
-            CURLOPT_TIMEOUT => 10,
-            CURLOPT_HTTPHEADER, array('Authorization', $this->authorizationKey)
-        );
-        curl_setopt_array($ch, $options);
+
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: ' . $this->authorizationKey));
         ob_start();
         curl_exec($ch);
         $info = curl_getinfo($ch);
@@ -86,7 +84,7 @@ class ServiceRequest
         ob_clean();
 
         if (isset($_GET['debug']) && $_GET['debug'] == 1) {
-            Debug::addServiceRequest('', $url, $info['total_time']);
+            Debug::addServiceRequest('', $url, $info['total_time'], $info['http_code']);
         }
 
         if ($info['http_code'] >= 400) {

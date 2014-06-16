@@ -7,18 +7,21 @@
             <tr>
                 <th class="number"><?php echo translate('debug', 'table_head_number'); ?></th>
                 <th class="time"><?php echo translate('debug', 'table_head_time'); ?></th>
+                <th class="time">Code</th>
                 <th class="url"><?php echo translate('debug', 'table_head_url'); ?></th>
             </tr>
             <?php foreach ($requests as $index => $r) { ?>
                 <tr>
                     <td><?php echo ($index + 1); ?></td>
                     <td><?php echo $r['time']; ?> <?php echo translate('debug', 'table_millisecond_abbr'); ?></td>
+                    <td><?php echo $r['code']; ?></td>
                     <td><a href="<?php echo $r['request']; ?>" target="_blank"><?php echo $r['request']; ?></a></td>
                 </tr>
             <?php } ?>
             <tr class="total">
                 <td><?php echo translate('debug', 'table_total'); ?></td>
                 <td><?php echo Debug::getServiceRequestsTotalTime(); ?> <?php echo translate('debug', 'table_millisecond_abbr'); ?></td>
+                <td></td>
                 <td></td>
             </tr>
         </table>
