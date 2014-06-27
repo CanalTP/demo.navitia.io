@@ -16,7 +16,10 @@ Copier les sources sur un serveur Web, aucun virtual host ou configuration spéc
 Lier l'IHM à Navitia
 --------------------
 
-Dans le fichier "config/webservice.php", changer les valeurs de "Navitia" et "CrossDomainNavitia" pour qu'elles correspondent à celles des moteurs. Exemple : "http://api.navitia.io/v0/"
+Dans le fichier "config/webservice.php", changer la valeur de :
+
+* "Navitia" pour qu'elle correspondent à celle du moteur. Exemple : "http://api.navitia.io/v0/".
+* "CrossDomainNavitia" et faire précéder l'adresse du moteur par "/crossdomain_service.php?url=" en n'oubliant pas le slash de début pour éviter des comportements inattendus.
 
 
 Configurer le listing des régions de l'accueil
