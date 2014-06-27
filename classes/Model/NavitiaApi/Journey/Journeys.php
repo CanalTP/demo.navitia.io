@@ -14,10 +14,10 @@ class Journeys extends NavitiaApi
     public $Datetime;
     public $Clockwise;
     public $JourneyList;
-    
+
     public $PreviousUriComponents;
     public $NextUriComponents;
-    
+
     private $forbiddenUris;
 
     const ERROR_NULL = 'no_error';
@@ -48,13 +48,13 @@ class Journeys extends NavitiaApi
 
         return $this;
     }
-    
+
     public function setForbiddenUris($uris)
     {
         if ($uris != null) {
             $this->forbiddenUris = $uris;
         }
-        
+
         return $this;
     }
 
@@ -74,7 +74,11 @@ class Journeys extends NavitiaApi
 
     public function fill($journeyListFeed)
     {
-        switch ($journeyListFeed->response_type) {
+        $responseType = null;
+        if (isset($journeyListFeed->reponse_type)) {
+            $responseType = $journeyListFeed->response_type;
+        }
+        switch ($responseType) {
             case 'DATE_OUT_OF_BOUNDS': return self::ERROR_DATE_OUT_OF_BOUNDS; break;
             case 'NO_ORIGIN_POINT': return self::ERROR_NO_ORIGIN_POINT; break;
             case 'NO_DESTINATION_POINT': return self::ERROR_NO_DESTINATION_POINT; break;
@@ -134,7 +138,7 @@ class Journeys extends NavitiaApi
             'data' => $this,
         );
     }
-    
+
     private function getUriStringComponents($str)
     {
         $components = array();
@@ -143,7 +147,7 @@ class Journeys extends NavitiaApi
             $p = explode('=', $param);
             $components[$p[0]] = $p[1];
         }
-        
+
         return $components;
     }
 }
