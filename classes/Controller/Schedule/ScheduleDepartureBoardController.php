@@ -35,9 +35,6 @@ class ScheduleDepartureBoardController extends Controller
         // Création des informations résumées
         $boardSummary = $this->getBoardSummary();
     
-        $otherLineList = array();
-        $otherStopList = array();
-    
         // Récupération des lignes qui passent pas l'arrêt
         $otherLineList = $this->getOtherLineRouteList(
             urldecode($this->request->getParam(2)),
@@ -75,7 +72,11 @@ class ScheduleDepartureBoardController extends Controller
      */
     private function getBoardSummary()
     {
-        $datetime = new \DateTime($this->request->getParam(3));
+        try {
+            $datetime = new \DateTime($this->request->getParam(3));
+        } catch (\Exception $e) {
+            $datetime = new \DateTime();
+        }
 
         return array(
             'line_uri' => urldecode($this->request->getParam(0)),
