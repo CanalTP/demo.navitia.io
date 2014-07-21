@@ -1,10 +1,16 @@
+<?php
+    $lineCode = '';
+    if (isset($route_schedule[0]->Route->Line->Code)) {
+        $lineCode = $route_schedule[0]->Route->Line->Code;
+    }
+?>
 <div class="schedule_container route_schedule">
     <div class="window_title">Horaires</div>
 
     <?php if (is_object($route_schedule[0])) {  ?>
     
         <h1 class="schedule_title">
-            Horaires de la ligne <?php echo $route_schedule[0]->Route->Line->Code; ?>
+            Horaires de la ligne <?php echo $lineCode; ?>
         </h1>
         
         <div class="schedule_page_container clearfix">

@@ -1,6 +1,6 @@
 <?php
 
-$current_stop_point_coords = new Nv2\Model\Entity\Geo\Coord();
+$current_stop_point_coords = Nv2\Model\Entity\Geo\Coord::create();
 if (is_object($departure_board[0])) {
     $current_stop_point_coords = $departure_board[0]->StopPoint->Coord;
 }
