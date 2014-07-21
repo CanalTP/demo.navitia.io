@@ -1,3 +1,14 @@
+<?php
+    $paginationCount = 0;
+    $tableRowList = array();
+    if (is_object($route_schedule[0])) {
+        $tableRowList = $route_schedule[0]->TableRowList;
+        if (is_object(is_object($route_schedule[0]->TableRowList[0]))) {
+            $paginationCount = count($route_schedule[0]->TableRowList[0]->StopTimeList);
+        }
+    }
+?>
+
 <script type="text/javascript" src="<?php js_link('OpenLayers/OpenLayers.js'); ?>"></script>
 <script type="text/javascript">
 <!--
@@ -7,7 +18,7 @@
 
 var resultByPage = 10;
 var paginationCurrentIndex = 0;
-var paginationCount = <?php echo count($route_schedule[0]->TableRowList[0]->StopTimeList); ?>;
+var paginationCount = <?php echo $paginationCount ?>;
 
 function updatePagination()
 {
@@ -104,7 +115,7 @@ var stop_marker_style = {
 };
 
 <?php
-    foreach ($route_schedule[0]->TableRowList as $row) {
+    foreach ($tableRowList as $row) {
         echo "pointPosition = new OpenLayers.LonLat(" . $row->StopPoint->Coord->Lon . ", " . $row->StopPoint->Coord->Lat . ").transform(wgsProjection, smeProjection);\n";
         echo "line_points.push(new OpenLayers.Geometry.Point(pointPosition.lon, pointPosition.lat));\n";
         echo "line_points_data.push({uri: '" . $row->StopPoint->Uri . "', name: '" . addslashes($row->StopPoint->Name) ."'});\n";
