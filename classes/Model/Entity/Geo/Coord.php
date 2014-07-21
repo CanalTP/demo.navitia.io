@@ -12,8 +12,8 @@ class Coord extends Entity
 
     private function __construct()
     {
-        $this->Lat = null;
-        $this->Lon = null;
+        $this->Lat = 0;
+        $this->Lon = 0;
     }
 
     //! Retourne une instance de Coord

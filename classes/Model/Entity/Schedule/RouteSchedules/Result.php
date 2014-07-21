@@ -29,8 +29,10 @@ class Result extends Entity
             $this->addTableRow($rowObject);
         }
 
-        $this->Route = Route::create()
-            ->fill($feed->route);
+        $this->Route = Route::create();
+        if (isset($feed->route)) {
+            $this->Route->fill($feed->route);
+        }
 
         return $this;
     }

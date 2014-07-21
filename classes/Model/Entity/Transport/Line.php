@@ -114,7 +114,9 @@ class Line extends Entity
      */
     public function fill($feed)
     {
-        $this->Code = $feed->code;
+        if (isset($feed->code)) {
+            $this->Code = $feed->code;
+        }
         //$this->Color = $feed->color;
         $this->Name = $feed->name;
         $this->Uri = $feed->uri;
