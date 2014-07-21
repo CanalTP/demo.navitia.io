@@ -83,9 +83,11 @@ class ScheduleRouteScheduleController extends Controller
     {
         $routeList = Route::getList($currentLineUri);
         $finalRouteList = array();
-        foreach ($routeList as $route) {
-            if ($route->Uri != $currentRouteUri) {
-                $finalRouteList[] = $route;
+        if (is_array($routeList)) {
+            foreach ($routeList as $route) {
+                if ($route->Uri != $currentRouteUri) {
+                    $finalRouteList[] = $route;
+                }
             }
         }
         
