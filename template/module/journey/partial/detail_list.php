@@ -11,13 +11,13 @@
                 <div class="field_line">
                     <div class="field_text_container">
                         <div class="field_padding">
-                            <label for="journey_search_origin_name">Départ</label>
-                            <input type="text" value="<?php echo ($journeySummary['origin_name'] != '-') ? $journeySummary['origin_name'] : $roadMapTitle['origin']; ?>" name="origin[name]" id="journey_search_origin_name" autocomplete="off">
-                            <input type="hidden" value="<?php echo $journeySummary['origin_uri']; ?>" name="origin[uri]" id="journey_search_origin_uri">
+                            <label for="journey_search_from_name">Départ</label>
+                            <input type="text" value="<?php echo ($journeySummary['from_name'] != '-') ? $journeySummary['from_name'] : $roadMapTitle['from']; ?>" name="from[name]" id="journey_search_from_name" autocomplete="off">
+                            <input type="hidden" value="<?php echo $journeySummary['from_uri']; ?>" name="from[uri]" id="journey_search_from_uri">
                         </div>
                         <div class="clear"></div>
                     </div>
-                    <div id="FLOriginDivId"></div>
+                    <div id="FLFromDivId"></div>
                 </div>
             </div>
             <ol class="journey_section_list">
@@ -45,7 +45,7 @@
                         </div>
                         <div class="clear"></div>
                     </div>
-                    <div id="FLDestinationDivId"></div>
+                    <div id="FLToDivId"></div>
                 </div>
             </div>
             <?php if ($journey->Type == Journey::TYPE_PUBLIC_TRANSPORT) { ?>
@@ -67,13 +67,13 @@
             <div class="field_line">
                 <div class="field_text_container">
                     <div class="field_padding">
-                        <label for="journey_search_origin_name">Départ</label>
-                        <input type="text" value="<?php echo $roadMapTitle['origin']; ?>" name="origin[name]" id="journey_search_origin_name" autocomplete="off">
-                        <input type="hidden" value="<?php echo $journeySummary['origin_uri']; ?>" name="origin[uri]" id="journey_search_origin_extcode">
+                        <label for="journey_search_from_name">Départ</label>
+                        <input type="text" value="<?php echo $roadMapTitle['from']; ?>" name="from[name]" id="journey_search_from_name" autocomplete="off">
+                        <input type="hidden" value="<?php echo $journeySummary['from_uri']; ?>" name="from[uri]" id="journey_search_from_uri">
                     </div>
                     <div class="clear"></div>
                 </div>
-                <div id="FLOriginDivId"></div>
+                <div id="FLFromDivId"></div>
             </div>
         </div>
         <p class="error">Aucune solution n'a été trouvée entre ces deux points. Veuillez modifier vos critères de recherche.</p>
@@ -87,7 +87,7 @@
                     </div>
                     <div class="clear"></div>
                 </div>
-                <div id="FLDestinationDivId"></div>
+                <div id="FLToDivId"></div>
             </div>
         </div>
     </div>

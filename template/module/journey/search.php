@@ -8,26 +8,26 @@
                     <div class="field_line">
                         <div class="field_text_container">
                             <div class="field_padding">
-                                <label for="journey_search_origin_name"><?php echo translate('transport', 'origin_label'); ?></label>
-                                <input id="journey_search_origin_name" type="text" name="origin[name]" value="" />
-                                <input id="journey_search_origin_uri" type="hidden" name="origin[uri]" value="" />
-                                <input id="journey_search_origin_coords" type="hidden" name="origin[coords]" value="" />
+                                <label for="journey_search_from_name"><?php echo translate('transport', 'from_label'); ?></label>
+                                <input id="journey_search_from_name" type="text" name="from[name]" value="" />
+                                <input id="journey_search_from_uri" type="hidden" name="from[uri]" value="" />
+                                <input id="journey_search_from_coords" type="hidden" name="from[coords]" value="" />
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div id="FLOriginDivId"></div>
+                        <div id="FLFromDivId"></div>
                     </div>
                     <div class="field_line">
                         <div class="field_text_container">
                             <div class="field_padding">
-                                <label for="journey_search_destination_name"><?php echo translate('transport', 'destination_label'); ?></label>
-                                <input id="journey_search_destination_name" type="text" name="destination[name]" value="" />
-                                <input id="journey_search_destination_uri" type="hidden" name="destination[uri]" value="" />
-                                <input id="journey_search_destination_coords" type="hidden" name="destination[coords]" value="" />
+                                <label for="journey_search_to_name"><?php echo translate('transport', 'to_label'); ?></label>
+                                <input id="journey_search_to_name" type="text" name="to[name]" value="" />
+                                <input id="journey_search_to_uri" type="hidden" name="to[uri]" value="" />
+                                <input id="journey_search_to_coords" type="hidden" name="to[coords]" value="" />
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div id="FLDestinationDivId"></div>
+                        <div id="FLToDivId"></div>
                     </div>
                 </fieldset>
             
@@ -55,9 +55,9 @@
                             <div class="field_text_container">
                                 <div class="field_padding">
                                     <label><?php echo translate('journey.search', 'hour_label'); ?></label>
-                                    <select name="option[clockwise]">
-                                        <option value="1"><?php echo translate('journey.search', 'clockwise_departure'); ?></option>
-                                        <option value="0"><?php echo translate('journey.search', 'clockwise_arrival'); ?></option>
+                                    <select name="option[datetime_represents]">
+                                        <option value="departure"><?php echo translate('journey.search', 'datetime_represents_departure'); ?></option>
+                                        <option value="arrival"><?php echo translate('journey.search', 'datetime_represents_arrival'); ?></option>
                                     </select>
                                     <input type="text" size="5" name="option[time]" value="<?php echo $current_time_human; ?>" />
                                     <input type="hidden" name="option[time_type]" value="french" />

@@ -10,7 +10,7 @@
                 </div>
                 <div class="clear"></div>
             </div>
-            <div id="FLOriginDivId"></div>
+            <div id="FLFromDivId"></div>
         </div>
         <div id="ss_destination_container"></div>
         <div class="button_line" id="stops_schedule_search_submit"></div>

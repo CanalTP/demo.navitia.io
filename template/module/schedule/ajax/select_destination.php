@@ -7,7 +7,7 @@
         </div>
         <div class="clear"></div>
     </div>
-    <div id="FLDestinationDivId"></div>
+    <div id="FLToDivId"></div>
 </div>
 <div>
     <div class="field_text_container">

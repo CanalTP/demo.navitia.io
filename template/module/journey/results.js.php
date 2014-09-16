@@ -10,7 +10,7 @@ var origin_uri = '<?php echo addslashes(urldecode($journeySummary['origin_uri'])
 var origin_name = '<?php echo addslashes(urldecode($journeySummary['origin_name'])); ?>';
 var destination_uri = '<?php echo addslashes(urldecode($journeySummary['destination_uri'])); ?>';
 var destination_name = '<?php echo addslashes(urldecode($journeySummary['destination_name'])); ?>';
-var clockwise = '<?php echo $journeySummary['clockwise']; ?>';
+var datetime_represents = '<?php echo $journeySummary['datetime_represents']; ?>';
 
 var avoidUris = new Array();
 
@@ -184,13 +184,13 @@ var fletter_origin = new AutocompleteEngine(
     '<?php url_link('autocomplete/get_ajax_html/container'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/item'); ?>'
 );
-fletter_origin.setPlaceTypeLabels(itemTypeLabels);
-fletter_origin.setCallbackFunctions({
+fletter_from.setPlaceTypeLabels(itemTypeLabels);
+fletter_from.setCallbackFunctions({
     onResult: null,
     onClick: updateFromAutocomplete,
     onErase: null
 });
-fletter_origin.bind('journey_search_origin', 'FLOriginDivId');
+fletter_from.bind('journey_search_from', 'FLFromDivId');
 
 // Firstletter arrivée
 var fletter_destination = new AutocompleteEngine(
@@ -205,7 +205,7 @@ fletter_destination.setCallbackFunctions({
     onClick: updateFromAutocomplete,
     onErase: null
 });
-fletter_destination.bind('journey_search_destination', 'FLDestinationDivId');
+fletter_destination.bind('journey_search_destination', 'FLToDivId');
 
 //----------------------------------------------------------------------------------------------------------------------
 // OpenLayerMap

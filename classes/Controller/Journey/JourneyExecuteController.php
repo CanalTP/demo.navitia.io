@@ -18,63 +18,67 @@ class JourneyExecuteController extends Controller
     }
 
     private function dispatchSearchResult($vars)
-    {
+    {       
         if (isset($vars['option']['date']) && isset($vars['option']['time'])) {
             $datetime = $this->getDateTime($vars['option']['date'], $vars['option']['time'], $vars['option']['time_type']);
         } else {
             $datetime = new \DateTime();
-            $datetime = $datetime->format(Config::get('format', 'Date', 'Iso8861Short'));
+            $formattedDatetime = $datetime->format(Config::get('format', 'Date', 'Iso8861Short'));
         }
 
         // Si selection depuis précision (radio contient URI et Name)
-        if (isset($vars['origin']['data'])) {
-            $data = explode(';', $vars['origin']['data']);
-            $vars['origin']['name'] = $data[0];
-            $vars['origin']['uri'] = $data[1];
+        if (isset($vars['from']['data'])) {
+            $data = explode(';', $vars['from']['data']);
+            $vars['from']['name'] = $data[0];
+            $vars['from']['uri'] = $data[1];
         }
-        if (isset($vars['destination']['data'])) {
-            $data = explode(';', $vars['destination']['data']);
-            $vars['destination']['name'] = $data[0];
-            $vars['destination']['uri'] = $data[1];
+        if (isset($vars['to']['data'])) {
+            $data = explode(';', $vars['to']['data']);
+            $vars['to']['name'] = $data[0];
+            $vars['to']['uri'] = $data[1];
         }
 
-        if (isset($vars['origin']['uri']) && isset($vars['destination']['uri'])
-        && $vars['origin']['uri'] && $vars['destination']['uri']) {
+        if (isset($vars['from']['uri']) && isset($vars['to']['uri'])
+        && $vars['from']['uri'] && $vars['to']['uri']) {
             // Si URI défini : sélection depuis Firstletter ou Precision
             // --> Résultats
             $this->redirect('journey/results/'
-                . urlencode($vars['origin']['name']) . '/'
-                . urlencode($vars['origin']['uri']) . '/'
-                . urlencode($vars['destination']['name']) . '/'
-                . urlencode($vars['destination']['uri']) . '/'
-                . $this->getClockwise($vars['option']['clockwise']) . '/'
-                . urlencode($datetime)
+                . urlencode($vars['from']['name']) . '/'
+                . urlencode($vars['from']['uri']) . '/'
+                . urlencode($vars['to']['name']) . '/'
+                . urlencode($vars['to']['uri']) . '/'
+                . $vars['option']['datetime_represents'] . '/'
+                . urlencode($formattedDatetime)
             );
-        } else if (isset($vars['origin']['coords']) && isset($vars['destination']['coords'])
-        && $vars['origin']['coords'] && $vars['destination']['coords']) {
+        } else if (isset($vars['from']['coords']) && isset($vars['to']['coords'])
+        && $vars['from']['coords'] && $vars['to']['coords']) {
             // Si Coord définies : sélection depuis carte
             // --> Résultats
             $this->redirect('journey/results/'
                 . '-' . '/'
-                . urlencode('coord:' . $vars['origin']['coords']) . '/'
+                . urlencode('coord:' . $vars['from']['coords']) . '/'
                 . '-' . '/'
-                . urlencode('coord:' . $vars['destination']['coords']) . '/'
-                . $this->getClockwise($vars['option']['clockwise']) . '/'
-                . urlencode($datetime)
+                . urlencode('coord:' . $vars['to']['coords']) . '/'
+                . $vars['option']['datetime_represents'] . '/'
+                . urlencode($formattedDatetime)
             );
-        } else if (isset($vars['origin']['name']) || isset($vars['destination']['name'])
-        && $vars['origin']['name'] || $vars['destination']['name']) {
+        } else if (isset($vars['from']['name']) || isset($vars['to']['name'])
+        && $vars['from']['name'] || $vars['to']['name']) {
             // Points saisis par l'utilisateur
             // --> Demande de précision
-            if (!isset($vars['origin']['name'])) $vars['origin']['name'] = '';
-            if (!isset($vars['destination']['name'])) $vars['destination']['name'] = '';
+            if (!isset($vars['from']['name'])) {
+                $vars['from']['name'] = '';
+            }
+            if (!isset($vars['to']['name'])) {
+                $vars['to']['name'] = '';
+            }
 
             $this->redirect(
                 'journey/precision/'
-                . urlencode($vars['origin']['name']) . '/'
-                . urlencode($vars['destination']['name']) . '/'
-                . $this->getClockwise($vars['option']['clockwise']) . '/'
-                . urlencode($datetime)
+                . urlencode($vars['from']['name']) . '/'
+                . urlencode($vars['to']['name']) . '/'
+                . $vars['option']['datetime_represents'] . '/'
+                . urlencode($formattedDatetime)
             );
         } else {
             // Aucun paramètre
@@ -97,14 +101,5 @@ class JourneyExecuteController extends Controller
         }
         
         return $dateTime->format(Config::get('format', 'Date', 'Iso8861Full'));
-    }
-
-    private function getClockwise($clockwise)
-    {
-        if ($clockwise == 0 || $clockwise == 'arrival') {
-            return 'arrival';
-        } else {
-            return 'departure';
-        }
     }
 }

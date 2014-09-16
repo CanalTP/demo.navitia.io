@@ -40,7 +40,7 @@ var fletter_origin = new AutocompleteEngine(
 );
 fletter_origin.setPlaceTypeLabels(itemTypeLabels);
 fletter_origin.setObjectFilter(['stop_area']);
-fletter_origin.bind('schedule_search_origin_name', 'schedule_search_origin_extcode', 'FLOriginDivId');
+fletter_origin.bind('schedule_search_origin_name', 'schedule_search_origin_extcode', 'FLFromDivId');
 
 // Firstletter arrivée
 /*
@@ -52,7 +52,7 @@ var fletter_destination = new AutocompleteEngine(
 );
 fletter_destination.setItemTypeLabels(itemTypeLabels);
 fletter_origin.setObjectFilter(['stop_area']);
-fletter_destination.bind('schedule_search_destination_name', 'schedule_search_destination_extcode', 'FLDestinationDivId');
+fletter_destination.bind('schedule_search_destination_name', 'schedule_search_destination_extcode', 'FLToDivId');
 */
 
 //----------------------------------------------------------------------------------------------------------------------

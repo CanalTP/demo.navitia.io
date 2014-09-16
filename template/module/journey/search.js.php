@@ -25,50 +25,50 @@ $(document).ready(function() {
 
 // Libellé des types de points (pour traduction)
 var itemTypeLabels = {
-    'STOP_AREA': '<?php echo escape(translate('object_identifiers', 'stop_area')); ?>',
-    'STOP_POINT': '<?php echo escape(translate('object_identifiers', 'stop_point')); ?>',
-    'ADMIN': '<?php echo escape(translate('object_identifiers', 'admin')); ?>',
-    'ADDRESS': '<?php echo escape(translate('object_identifiers', 'address')); ?>',
-    'POI': '<?php echo escape(translate('object_identifiers', 'poi')); ?>'
+    'stop_area': '<?php echo escape(translate('object_identifiers', 'stop_area')); ?>',
+    'stop_point': '<?php echo escape(translate('object_identifiers', 'stop_point')); ?>',
+    'admin': '<?php echo escape(translate('object_identifiers', 'admin')); ?>',
+    'address': '<?php echo escape(translate('object_identifiers', 'address')); ?>',
+    'poi': '<?php echo escape(translate('object_identifiers', 'poi')); ?>'
 };
 
 // FirstLetter depart
-var fletter_origin = new AutocompleteEngine(
+var fletter_from = new AutocompleteEngine(
     '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia');
            echo 'coverage/';
            echo request_get('RegionName'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/container'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/item'); ?>'
 );
-fletter_origin.setPlaceTypeLabels(itemTypeLabels);
-fletter_origin.setCallbackFunctions({
+fletter_from.setPlaceTypeLabels(itemTypeLabels);
+fletter_from.setCallbackFunctions({
     onResult: locateAutocompleteItemOnMap,
     onClick: locateAutocompleteItemOnMap,
     onErase: null
 });
-fletter_origin.setCallbackAttributes({
+fletter_from.setCallbackAttributes({
     markerType: 'origin'
 });
-fletter_origin.bind('journey_search_origin', 'FLOriginDivId');
+fletter_from.bind('journey_search_from', 'FLFromDivId');
 
 // Firstletter arrivée
-var fletter_destination = new AutocompleteEngine(
+var fletter_to = new AutocompleteEngine(
     '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia');
            echo 'coverage/';
            echo request_get('RegionName'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/container'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/item'); ?>'
 );
-fletter_destination.setPlaceTypeLabels(itemTypeLabels);
-fletter_destination.setCallbackFunctions({
+fletter_to.setPlaceTypeLabels(itemTypeLabels);
+fletter_to.setCallbackFunctions({
     onResult: locateAutocompleteItemOnMap,
     onClick: locateAutocompleteItemOnMap,
     onErase: null
 });
-fletter_destination.setCallbackAttributes({
+fletter_to.setCallbackAttributes({
     markerType: 'destination'
 });
-fletter_destination.bind('journey_search_destination', 'FLDestinationDivId');
+fletter_to.bind('journey_search_to', 'FLToDivId');
 
 //----------------------------------------------------------------------------------------------------------------------
 // OpenLayerMap
@@ -140,13 +140,13 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
     trigger: function(e) {
         var clickedPosition = map.getLonLatFromViewPortPx(e.xy);
         
-        if (originSelected == false) {
+        if (originSelected === false) {
             var origin_point = new OpenLayers.Geometry.Point(clickedPosition.lon, clickedPosition.lat);
             var origin_marker_feature = new OpenLayers.Feature.Vector(origin_point, null, origin_marker_style);
             origin_marker_layer.removeAllFeatures();
             origin_marker_layer.addFeatures(origin_marker_feature);
             clickedPosition.transform(smeProjection, wgsProjection);
-            $('#journey_search_origin_coords').val(clickedPosition.lon + ':' + clickedPosition.lat);
+            $('#journey_search_from_coords').val(clickedPosition.lon + ':' + clickedPosition.lat);
             originSelected = true;
         } else {
             var destination_point = new OpenLayers.Geometry.Point(clickedPosition.lon, clickedPosition.lat);
@@ -154,7 +154,7 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
             destination_marker_layer.removeAllFeatures();
             destination_marker_layer.addFeatures(destination_marker_feature);
             clickedPosition.transform(smeProjection, wgsProjection);
-            $('#journey_search_destination_coords').val(clickedPosition.lon + ':' + clickedPosition.lat);
+            $('#journey_search_to_coords').val(clickedPosition.lon + ':' + clickedPosition.lat);
             $('#journey_search_form').submit();
         }
     }
@@ -183,16 +183,16 @@ function locateAutocompleteItemOnMap(place, attributes)
             coords = null;
             break;    
     }
-    if (coords != null) {
+    if (coords !== null) {
         var latlon = new OpenLayers.LonLat(coords.lon, coords.lat).transform(wgsProjection, smeProjection);
         var point = new OpenLayers.Geometry.Point(latlon.lon, latlon.lat);
         var marker_style = origin_marker_style;
-        if (attributes.markerType == 'destination') {
+        if (attributes.markerType === 'destination') {
             marker_style = destination_marker_style;
         }
         var feature = new OpenLayers.Feature.Vector(point, null, marker_style);
         
-        if (attributes.markerType == 'destination') {
+        if (attributes.markerType === 'destination') {
             destination_marker_layer.removeAllFeatures();
             destination_marker_layer.addFeatures(feature);
         } else {

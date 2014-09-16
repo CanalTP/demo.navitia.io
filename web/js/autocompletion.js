@@ -76,7 +76,7 @@ var AutocompleteEngine = Base.extend
             'dataType': 'html',
             'success': function(data) {
                 that.ResultItemContainer = data;
-            },
+            }
         });
     },
 
@@ -98,7 +98,7 @@ var AutocompleteEngine = Base.extend
         });
 
         $('#' + fieldIdPrefix + '_name').live('keyup', function(event) {
-            window.setInterval(function() { that.responseListener(that.ResultCurrentOrder) }, 50);
+            window.setInterval(function() { that.responseListener(that.ResultCurrentOrder); }, 50);
             var text = $(this).val();
             var result = null;
             if (text) {
@@ -107,7 +107,7 @@ var AutocompleteEngine = Base.extend
                     filterString += '&type[]=' + that.ObjectFilter[i];
                 }
                 // Il y a du texte dans le champ
-                var url = that.CrossDomainUrl + encodeURIComponent('/places?nbmax=5' + filterString + '&q=' + text);
+                var url = that.CrossDomainUrl + encodeURIComponent('/places?q=' + text + filterString);
                 that.ResultCurrentOrder++;
                 $.ajax({
                     'url': url,
@@ -166,6 +166,9 @@ var AutocompleteEngine = Base.extend
                     itemHtml = this.parseUri(itemHtml, result.places[i]);
                     nameList[0] += itemHtml;
                 }
+                if (i >= 4) {
+                    break;
+                }
             }
             if (typeof(this.CallbackFunctions.onResult) === 'function') {
                 var place = result.places[0];
@@ -214,28 +217,9 @@ var AutocompleteEngine = Base.extend
 
     parseObjectName: function(html, place)
     {
-        var type = this.getPlaceType(place);
         var placeName = place.name;
 
-        html = html.split('%NAME%');
-
-        switch (type) {
-            case 'STOP_AREA':
-                placeName = place.stop_area.name;
-                break;
-            case 'STOP_POINT':
-                placeName = place.stop_point.name;
-                break;
-            case 'POI':
-                placeName = place.poi.name;
-                break;
-            case 'ADDRESS':
-                placeName = place.address.name;
-                break;
-            case 'ADMIN':
-                placeName = place.administrative_region.name;
-                break;
-        }
+        html = html.split('%NAME%');   
         html = html[0] + placeName + html[1];
 
         return html;
@@ -246,19 +230,19 @@ var AutocompleteEngine = Base.extend
         html = html.split('%CITY_NAME%');
 
         switch (this.getPlaceType(place)) {
-            case 'STOP_AREA':
+            case 'stop_area':
                 html = html[0] + this.getAdminLabel(place.stop_area.administrative_regions) + html[1];
                 break;
-            case 'STOP_POINT':
+            case 'stop_point':
                 html = html[0] + this.getAdminLabel(place.stop_point.administrative_regions) + html[1];
                 break;
-            case 'ADDRESS':
+            case 'address':
                 html = html[0] + this.getAdminLabel(place.address.administrative_regions) + html[1];
                 break;
-            case 'POI':
+            case 'poi':
                 html = html[0] + this.getAdminLabel(place.poi.administrative_regions) + html[1];
                 break;
-            case 'ADMIN':
+            case 'admin':
                 html = html[0] + this.getAdminLabel(place.administrative_region) + html[1];
                 break;
             default:
@@ -274,19 +258,19 @@ var AutocompleteEngine = Base.extend
         var code = '';
 
         switch (this.getPlaceType(place)) {
-            case 'STOP_AREA':
+            case 'stop_area':
                 code = this.getAdminZipCode(place.stop_area.administrative_regions);
                 break;
-            case 'STOP_POINT':
+            case 'stop_point':
                 code = this.getAdminZipCode(place.stop_point.administrative_regions);
                 break;
-            case 'ADDRESS':
+            case 'address':
                 code = this.getAdminZipCode(place.address.administrative_regions);
                 break;
-            case 'POI':
+            case 'poi':
                 code = this.getAdminZipCode(place.poi.administrative_regions);
                 break;
-            case 'ADMIN':
+            case 'admin':
                 code = this.getAdminZipCode(place.administrative_region);
                 break;
             default:
@@ -304,8 +288,8 @@ var AutocompleteEngine = Base.extend
     parseUri: function(html, place)
     {
         html = html.split('%URI%');
-        if (typeof(place.uri) !== 'undefined') {
-            html = html[0] + place.uri + html[1];
+        if (typeof(place.id) !== 'undefined') {
+            html = html[0] + place.id + html[1];
         } else {
             html = html[0] + html[1];
         }
@@ -318,44 +302,33 @@ var AutocompleteEngine = Base.extend
      */
     getPlaceType: function(place)
     {
-        if (typeof(place.address) !== 'undefined') {
-            return 'ADDRESS';
-        } else if (typeof(place.stop_area) !== 'undefined') {
-            return 'STOP_AREA';
-        } else if (typeof(place.stop_point) !== 'undefined') {
-            return 'STOP_POINT';
-        } else if (typeof(place.poi) !== 'undefined') {
-            return 'POI';
-        } else if (typeof(place.administrative_region) !== 'undefined') {
-            return 'ADMIN';
-        }
-        return 'UNKNOWN';
+        return place.embedded_type;
     },
 
     getPlaceCoords: function(place)
     {
         switch (this.getPlaceType(place)) {
-            case 'ADDRESS':
+            case 'address':
                 if (typeof(place.address.coord) !== 'undefined') {
                     return place.address.coord.lon + ';' + place.address.coord.lat;
                 }
                 break;
-            case 'STOP_AREA':
+            case 'stop_area':
                 if (typeof(place.stop_area.coord) !== 'undefined') {
                     return place.stop_area.coord.lon + ';' + place.stop_area.coord.lat;
                 }
                 break;
-            case 'STOP_POINT':
+            case 'stop_point':
                 if (typeof(place.stop_point.coord) !== 'undefined') {
                     return place.stop_point.coord.lon + ';' + place.stop_point.coord.lat;
                 }
                 break;
-            case 'POI':
+            case 'poi':
                 if (typeof(place.poi.coord) !== 'undefined') {
                     return place.poi.coord.lon + ';' + place.poi.coord.lat;
                 }
                 break;
-            case 'ADMIN':
+            case 'admin':
                 if (typeof(place.administrative_region.coord) !== 'undefined') {
                     return place.administrative_region.coord.lon + ';' + place.administrative_region.coord.lat;
                 }

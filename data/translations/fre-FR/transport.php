@@ -1,6 +1,6 @@
 <?php 
 
 $translations = array(
-    'origin_label' => 'Départ',
-    'destination_label' => 'Arrivée',
+    'from_label' => 'Départ',
+    'to_label' => 'Arrivée',
 );

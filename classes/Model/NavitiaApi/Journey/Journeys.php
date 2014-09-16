@@ -10,9 +10,8 @@ class Journeys extends NavitiaApi
 {
     public $OriginUri;
     public $DestinationUri;
-    public $WayPointUri;
     public $Datetime;
-    public $Clockwise;
+    public $DatetimeRepresents;
     public $JourneyList;
 
     public $PreviousUriComponents;
@@ -27,12 +26,15 @@ class Journeys extends NavitiaApi
     const ERROR_NO_DESTINATION_POINT = 'error_no_destination_point';
     const ERROR_NO_ORIGIN_NOR_DESTINATION_POINT = 'error_no_origin_nor_destination_point';
     const ERROR_NO_SOLUTION = 'error_no_solution';
+    
+    const DATETIME_REPRESENTS_DEPARTURE = 'departure';
+    const DATETIME_REPRESENTS_ARRIVAL = 'arrival';
 
     private function __construct()
     {
         $datetime = new \DateTime();
         $this->Datetime = $datetime->format('Ymd\THis');
-        $this->Clockwise = 'true';
+        $this->DatetimeRepresents = 'departure';
     }
 
     public static function create()
@@ -45,7 +47,6 @@ class Journeys extends NavitiaApi
         $this->OriginUri = $originUri;
         $this->DestinationUri = $destinationUri;
         $this->WayPointUri = $wayPointUri;
-
         return $this;
     }
 
@@ -54,21 +55,18 @@ class Journeys extends NavitiaApi
         if ($uris != null) {
             $this->forbiddenUris = $uris;
         }
-
         return $this;
     }
 
-    public function setClockwise($clockwise)
+    public function setDatetimeRepresents($datetimeRepresents = self::DATETIME_REPRESENTS_DEPARTURE)
     {
-        $this->Clockwise = $clockwise == 'arrival' ? 'false' : 'true';
-
+        $this->DatetimeRepresents = $datetimeRepresents;
         return $this;
     }
 
     public function setDateTime($datetimestring)
     {
         $this->Datetime = $datetimestring;
-
         return $this;
     }
 
@@ -115,10 +113,10 @@ class Journeys extends NavitiaApi
 
         $feed = NavitiaRequest::create()
             ->api('journeys')
-            ->param('origin', $this->OriginUri)
-            ->param('destination', $this->DestinationUri)
+            ->param('from', $this->OriginUri)
+            ->param('to', $this->DestinationUri)
             ->param('datetime', $this->Datetime)
-            ->param('clockwise', $this->Clockwise)
+            ->param('datetime_represents', $this->DatetimeRepresents)
             ->param('forbidden_uris', $this->forbiddenUris)
             ->execute();
 
