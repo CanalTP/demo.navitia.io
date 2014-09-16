@@ -35,6 +35,7 @@ var itemTypeLabels = {
 // FirstLetter depart
 var fletter_origin = new AutocompleteEngine(
     '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia');
+           echo 'coverage/';
            echo request_get('RegionName'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/container'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/item'); ?>'
@@ -53,6 +54,7 @@ fletter_origin.bind('journey_search_origin', 'FLOriginDivId');
 // Firstletter arrivée
 var fletter_destination = new AutocompleteEngine(
     '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia');
+           echo 'coverage/';
            echo request_get('RegionName'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/container'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/item'); ?>'

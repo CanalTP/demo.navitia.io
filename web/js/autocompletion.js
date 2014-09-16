@@ -1,7 +1,7 @@
 
 var AutocompleteEngine = Base.extend
 ({
-	Text: '',
+    Text: '',
 	FieldIdPrefix: '',
 	FlContainerId: '',
 	ResultContainer: '',
@@ -107,7 +107,7 @@ var AutocompleteEngine = Base.extend
                     filterString += '&type[]=' + that.ObjectFilter[i];
                 }
                 // Il y a du texte dans le champ
-                var url = that.CrossDomainUrl + encodeURIComponent('/places.json?nbmax=5' + filterString + '&q=' + text);
+                var url = that.CrossDomainUrl + encodeURIComponent('/places?nbmax=5' + filterString + '&q=' + text);
                 that.ResultCurrentOrder++;
                 $.ajax({
                     'url': url,
