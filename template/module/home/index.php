@@ -6,11 +6,12 @@
                 <form id="region_form" method="post" action="<?php url_link('home/select_region'); ?>">
                     <fieldset>
                         <legend><?php echo translate('home', 'question'); ?></legend>
+                        <?php var_dump($region_list); ?>
                         <?php foreach ($region_list as $index => $region) { ?>
                             <div>
-                                <label class="region_line" for="rid_<?php echo $region->RegionId; ?>">
-                                    <input class="region_choice" type="radio" name="region" value="<?php echo $region->RegionId; ?>" id="rid_<?php echo $region->RegionId; ?>" />
-                                    <?php echo translate('region.name', strtolower($region->RegionId)); ?>
+                                <label class="region_line" for="rid_<?php echo $region->Id; ?>">
+                                    <input class="region_choice" type="radio" name="region" value="<?php echo $region->Id; ?>" id="rid_<?php echo $region->Id; ?>" />
+                                    <?php echo translate('region.name', strtolower($region->Id)); ?>
                                 </label>
                             </div>
                         <?php } ?>

@@ -11,8 +11,8 @@ class HomeController extends Controller
     public function run()
     {
         $regionList = $this->getRegionList();
-        $regionList = $this->order($regionList);
-        $this->template->setVariable('region_list', $regionList);
+        $sortedRegionList = $this->order($regionList);
+        $this->template->setVariable('region_list', $sortedRegionList);
         $this->template->fetch('module/home/index.php');
     }
 
@@ -27,13 +27,13 @@ class HomeController extends Controller
         $finalList = array();
         if (is_array($regionList)) {
             foreach ($regionList as $region) {
-                if (isset($data[$region->RegionId])) {
+                if (isset($data[$region->Id])) {
                     $hide = false;
-                    if (isset($data[$region->RegionId]['hide']) && $data[$region->RegionId]['hide']) {
+                    if (isset($data[$region->Id]['hide']) && $data[$region->Id]['hide']) {
                         $hide = true;
                     }
                     if (!$hide) {
-                        $finalList[$data[$region->RegionId]['order']] = $region;
+                        $finalList[$data[$region->Id]['order']] = $region;
                     }
                 }
             }

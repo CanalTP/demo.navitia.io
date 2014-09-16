@@ -60,7 +60,7 @@ class NavitiaRequest extends ServiceRequest
     {
         $this->addParamsFromFilters();
 
-        $url = $this->serviceUrl . $this->regionName . $this->apiName . '.json';
+        $url = $this->serviceUrl . $this->apiName;
         $c = 0;
 
         if (count($this->params) > 0) {

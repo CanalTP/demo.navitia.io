@@ -28,8 +28,7 @@ class Region extends Entity
     public static function getList()
     {
         $feed = NavitiaRequest::create()
-            ->disableRegion()
-            ->api('regions')
+            ->api('coverage')
             ->execute();
 
         if (!$feed['hasError']) {
@@ -41,7 +40,6 @@ class Region extends Entity
                     $list[] = self::create()
                         ->fill($region);
                 }
-
                 return $list;
             } else {
                 return null;
@@ -68,7 +66,7 @@ class Region extends Entity
 
         $this->Status = $feed->status;
         $this->Shape = json_decode($feed->shape);
-        $this->RegionId = $feed->region_id;
+        $this->Id = $feed->id;
 
         return $this;
     }
