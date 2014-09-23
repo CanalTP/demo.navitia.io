@@ -1,9 +1,9 @@
 <?php
 
 $config = array(
-    'Token' => '<TokenHere>',
+    'Token' => 'cd228d65-bdab-4d87-925f-f0feacb84842',
     'Url' => array(
-        'Navitia' => '<NavitiaUriHere>',
-        'CrossDomainNavitia' => '/crossdomain_service.php?url=<NavitiaUriHere>',
+        'Navitia' => 'http://api.navitia.io/v1/',
+        'CrossDomainNavitia' => '/crossdomain_service.php?url=http://api.navitia.io/v1/',
     ),
 );

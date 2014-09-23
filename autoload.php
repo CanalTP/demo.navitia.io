@@ -73,8 +73,8 @@ $classList = array(
     'Nv2\\Model\\Entity\\Journey\\SectionTransfer'                   => CLASS_DIR . '/Model/Entity/Journey/SectionTransfer.php',
     'Nv2\\Model\\Entity\\Journey\\SectionWaiting'                    => CLASS_DIR . '/Model/Entity/Journey/SectionWaiting.php',
     'Nv2\\Model\\Entity\\Journey\\SectionPublicTransport'            => CLASS_DIR . '/Model/Entity/Journey/SectionPublicTransport.php',
-    'Nv2\\Model\\Entity\\Journey\\StreetNetwork'                     => CLASS_DIR . '/Model/Entity/Journey/StreetNetwork.php',
     'Nv2\\Model\\Entity\\Journey\\StreetNetworkPathItem'             => CLASS_DIR . '/Model/Entity/Journey/StreetNetworkPathItem.php',
+    'Nv2\\Model\\Entity\\Journey\\GeoJson'                           => CLASS_DIR . '/Model/Entity/Journey/GeoJson.php',
     'Nv2\\Model\\Entity\\Proximity\\ProximityListItem'               => CLASS_DIR . '/Model/Entity/Proximity/ProximityListItem.php',
     'Nv2\\Model\\Entity\\Schedule\\DepartureBoards\\Board'           => CLASS_DIR . '/Model/Entity/Schedule/DepartureBoards/Board.php',
     'Nv2\\Model\\Entity\\Schedule\\DepartureBoards\\BoardItem'       => CLASS_DIR . '/Model/Entity/Schedule/DepartureBoards/BoardItem.php',
@@ -82,6 +82,7 @@ $classList = array(
     'Nv2\\Model\\Entity\\Schedule\\RouteSchedules\\TableRow'         => CLASS_DIR . '/Model/Entity/Schedule/RouteSchedules/TableRow.php',
     
     'Nv2\\Model\\Entity\\Data\\Uri'                                  => CLASS_DIR . '/Model/Entity/Data/Uri.php',
+    'Nv2\\Model\\Entity\\Data\\Link'                                 => CLASS_DIR . '/Model/Entity/Data/Link.php',
     
     // Entités TC (possibilité d'utiliser getList() {static})
     'Nv2\\Model\\Entity\\Transport\\EntryPoint'                      => CLASS_DIR . '/Model/Entity/Transport/EntryPoint.php',
@@ -99,6 +100,8 @@ $classList = array(
     'Nv2\\Model\\Entity\\Transport\\Route'                           => CLASS_DIR . '/Model/Entity/Transport/Route.php',
     'Nv2\\Model\\Entity\\Transport\\VehicleJourney'                  => CLASS_DIR . '/Model/Entity/Transport/VehicleJourney.php',
     'Nv2\\Model\\Entity\\Transport\\Admin'                           => CLASS_DIR . '/Model/Entity/Transport/Admin.php',
+    'Nv2\\Model\\Entity\\Transport\\Fare'                            => CLASS_DIR . '/Model/Entity/Transport/Fare.php',
+    'Nv2\\Model\\Entity\\Transport\\FareTotal'                       => CLASS_DIR . '/Model/Entity/Transport/FareTotal.php',
     
     // Entités géographiques (possibilité d'utiliser getList() {static})
     'Nv2\\Model\\Entity\\Geo\\Coord'                                 => CLASS_DIR . '/Model/Entity/Geo/Coord.php',

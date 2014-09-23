@@ -27,28 +27,28 @@ class MeetingExecuteController extends Controller
         }
 
         // Si selection depuis précision (radio contient URI et Name)
-        if (isset($vars['first_origin']['data'])) {
-            $data = explode(';', $vars['first_origin']['data']);
-            $vars['first_origin']['name'] = $data[0];
-            $vars['first_origin']['uri'] = $data[1];
+        if (isset($vars['first_from']['data'])) {
+            $data = explode(';', $vars['first_from']['data']);
+            $vars['first_from']['name'] = $data[0];
+            $vars['first_from']['uri'] = $data[1];
         }
-        if (isset($vars['second_origin']['data'])) {
-            $data = explode(';', $vars['second_origin']['data']);
-            $vars['second_origin']['name'] = $data[0];
-            $vars['second_origin']['uri'] = $data[1];
+        if (isset($vars['second_from']['data'])) {
+            $data = explode(';', $vars['second_from']['data']);
+            $vars['second_from']['name'] = $data[0];
+            $vars['second_from']['uri'] = $data[1];
         }
-        if (isset($vars['third_origin']['data'])) {
-            $data = explode(';', $vars['third_origin']['data']);
-            $vars['third_origin']['name'] = $data[0];
-            $vars['third_origin']['uri'] = $data[1];
+        if (isset($vars['third_from']['data'])) {
+            $data = explode(';', $vars['third_from']['data']);
+            $vars['third_from']['name'] = $data[0];
+            $vars['third_from']['uri'] = $data[1];
         }
 
-        if (isset($vars['first_origin']['uri']) && isset($vars['second_origin']['uri'])
-        && $vars['first_origin']['uri'] && $vars['second_origin']['uri']) {
+        if (isset($vars['first_from']['uri']) && isset($vars['second_from']['uri'])
+        && $vars['first_from']['uri'] && $vars['second_from']['uri']) {
             // Si URI défini : sélection depuis Firstletter ou Precision
             // --> Résultats
             $this->redirect('meeting/results/'
-                . urlencode($vars['first_origin']['person']) . '/'
+                . urlencode($vars['first_from']['person']) . '/'
                 . urlencode($vars['first_origin']['name']) . '/'
                 . urlencode($vars['first_origin']['uri']) . '/'
                 . urlencode($vars['second_origin']['person']) . '/'
@@ -60,7 +60,7 @@ class MeetingExecuteController extends Controller
                 . $this->getClockwise($vars['option']['clockwise']) . '/'
                 . urlencode($datetime)
             );
-        } else if (isset($vars['first_origin']['coords']) && isset($vars['second_origin']['coords'])
+        } else if (isset($vars['first_from']['coords']) && isset($vars['second_from']['coords'])
         && $vars['first_origin']['coords'] && $vars['second_origin']['coords']) {
             // Si Coord définies : sélection depuis carte
             // --> Résultats

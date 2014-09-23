@@ -10,7 +10,7 @@
                             <div class="field_padding">
                                 <label for="proximity_search_point_name">Addresse, arrêt, lieu...</label>
                                 <input id="proximity_search_point_name" type="text" name="point[name]" value="" />
-                                <input id="proximity_search_point_uri" type="hidden" name="point[uri]" value="" />
+                                <input id="proximity_search_point_id" type="hidden" name="point[id]" value="" />
                                 <input id="proximity_search_point_coords" type="hidden" name="point[coords]" value="" />
                             </div>
                             <div class="clear"></div>

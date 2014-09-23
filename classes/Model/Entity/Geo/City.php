@@ -6,17 +6,17 @@ use Nv2\Model\Entity\Base\Entity;
 
 class City extends Entity
 {
-    public $Name;
-    public $Uri;
-    public $ZipCode;
-    public $Coord;
+    public $name;
+    public $id;
+    public $zipCode;
+    public $coord;
 
     private function __construct()
     {
-        $this->Name = null;
-        $this->Uri = null;
-        $this->ZipCode = null;
-        $this->Coord = null;
+        $this->name = null;
+        $this->id = null;
+        $this->zipCode = null;
+        $this->coord = null;
     }
 
     public static function create()
@@ -26,11 +26,11 @@ class City extends Entity
 
     public function fill($feed)
     {
-        $this->Name = $feed->name;
-        $this->Uri = $feed->uri;
+        $this->name = $feed->name;
+        $this->id = $feed->uri;
         //$this->ZipCode = $feed->zip_code;
 
-        $this->Coord = CCoord::create()
+        $this->coord = CCoord::create()
             ->fill($feed->coord);
 
         return $this;

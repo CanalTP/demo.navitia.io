@@ -2,13 +2,18 @@
 
 namespace Nv2\Model\Entity\Journey;
 
+use Nv2\Model\Entity\Journey\StreetNetworkPathItem;
+use Nv2\Model\Entity\Journey\GeoJson;
+
 class SectionStreetNetwork extends Section
 {
-    public $StreetNetwork;
+    public $path;
+    public $geojson;
+    public $mode;
 
     private function __construct()
     {
-        $this->StreetNetwork = null;
+        $this->path = array();
     }
 
     public static function create()
@@ -19,8 +24,14 @@ class SectionStreetNetwork extends Section
     public function fill($sectionFeed)
     {
         parent::fill($sectionFeed);
-
-        $this->StreetNetwork = StreetNetwork::create()
-            ->fill($sectionFeed->street_network);
+        
+        $this->mode = $sectionFeed->mode;
+        
+        foreach ($sectionFeed->path as $path) {
+            $this->path[] = StreetNetworkPathItem::create()
+                ->fill($path);
+        }
+        $this->geojson = GeoJson::create()
+            ->fill($sectionFeed->geojson);
     }
 }

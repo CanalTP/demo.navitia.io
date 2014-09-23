@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 'on');
+
 define('ROOT_DIR', getcwd());
 define('CLASS_DIR', ROOT_DIR . '/classes');
 define('TEMPLATE_DIR', ROOT_DIR . '/template');

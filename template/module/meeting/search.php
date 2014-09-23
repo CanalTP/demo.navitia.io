@@ -14,7 +14,7 @@
                             <div class="field_padding">
                                 <label for="meeting_first_origin_name">Adresse</label>
                                 <input id="meeting_first_origin_name" type="text" name="first_origin[name]" value="" />
-                                <input id="meeting_first_origin_uri" type="hidden" name="first_origin[uri]" value="" />
+                                <input id="meeting_first_origin_id" type="hidden" name="first_origin[id]" value="" />
                                 <input id="meeting_first_origin_coords" type="hidden" name="first_origin[coords]" value="" />
                             </div>
                             <div class="clear"></div>

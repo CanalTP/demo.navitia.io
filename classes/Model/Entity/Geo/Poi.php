@@ -7,15 +7,15 @@ use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class Poi extends Entity
 {
-    public $Name;
-    public $Uri;
-    public $Coord;
+    public $name;
+    public $id;
+    public $coord;
 
     private function __construct()
     {
-        $this->Name = null;
-        $this->Uri = null;
-        $this->Coord = null;
+        $this->name = null;
+        $this->id = null;
+        $this->coord = null;
     }
 
     public static function create()
@@ -32,7 +32,7 @@ class Poi extends Entity
     {
         $feed = NavitiaRequest::create()
             ->api('pois')
-            ->filter('stop_point', 'coord', NavitiaRequest::OPERATOR_DWITHIN, $coords->Lon . ',' . $coords->Lat, $distance)
+            ->filter('stop_point', 'coord', NavitiaRequest::OPERATOR_DWITHIN, $coords->lon . ',' . $coords->lat, $distance)
             ->execute();
         
         if (!$feed['hasError']) {
@@ -56,10 +56,10 @@ class Poi extends Entity
 
     public function fill($feed)
     {
-        $this->Name = $feed->name;
-        $this->Uri = $feed->uri;
+        $this->name = $feed->name;
+        $this->id = $feed->uri;
 
-        $this->Coord = Coord::create()
+        $this->coord = Coord::create()
             ->fill($feed->coord);
 
         return $this;

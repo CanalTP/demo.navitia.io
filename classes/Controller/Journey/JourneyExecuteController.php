@@ -18,9 +18,10 @@ class JourneyExecuteController extends Controller
     }
 
     private function dispatchSearchResult($vars)
-    {       
+    {
         if (isset($vars['option']['date']) && isset($vars['option']['time'])) {
             $datetime = $this->getDateTime($vars['option']['date'], $vars['option']['time'], $vars['option']['time_type']);
+            $formattedDatetime = $datetime;
         } else {
             $datetime = new \DateTime();
             $formattedDatetime = $datetime->format(Config::get('format', 'Date', 'Iso8861Short'));
@@ -30,23 +31,23 @@ class JourneyExecuteController extends Controller
         if (isset($vars['from']['data'])) {
             $data = explode(';', $vars['from']['data']);
             $vars['from']['name'] = $data[0];
-            $vars['from']['uri'] = $data[1];
+            $vars['from']['id'] = $data[1];
         }
         if (isset($vars['to']['data'])) {
             $data = explode(';', $vars['to']['data']);
             $vars['to']['name'] = $data[0];
-            $vars['to']['uri'] = $data[1];
+            $vars['to']['id'] = $data[1];
         }
 
-        if (isset($vars['from']['uri']) && isset($vars['to']['uri'])
-        && $vars['from']['uri'] && $vars['to']['uri']) {
+        if (isset($vars['from']['id']) && isset($vars['to']['id'])
+        && $vars['from']['id'] && $vars['to']['id']) {
             // Si URI défini : sélection depuis Firstletter ou Precision
             // --> Résultats
             $this->redirect('journey/results/'
                 . urlencode($vars['from']['name']) . '/'
-                . urlencode($vars['from']['uri']) . '/'
+                . urlencode($vars['from']['id']) . '/'
                 . urlencode($vars['to']['name']) . '/'
-                . urlencode($vars['to']['uri']) . '/'
+                . urlencode($vars['to']['id']) . '/'
                 . $vars['option']['datetime_represents'] . '/'
                 . urlencode($formattedDatetime)
             );

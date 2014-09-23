@@ -8,17 +8,19 @@ use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class StopArea extends Entity
 {
-    public $Name;
-    public $Uri;
-    public $Coords;
-    public $AdminName;
-    public $AdminZipCode;
+    public $id;
+    public $name;
+    public $coord;
+    public $administrativeRegions;
+    public $comment;
 
     private function __construct()
     {
-        $this->Name = null;
-        $this->Uri = null;
-        $this->Coords = null;
+        $this->id = null;
+        $this->name = null;
+        $this->coord = null;
+        $this->administrativeRegions = null;
+        $this->comment = null;
     }
 
     public static function create()
@@ -26,31 +28,13 @@ class StopArea extends Entity
         return new self();
     }
 
-    public static function getList($lineUri=null)
+    public static function getListFromLine($lineId)
     {
-        $query = NavitiaRequest::create()->api('stop_areas');
-        if ($lineUri) {
-            $query->filter('line', 'uri', '=', $lineUri);
-        }
-        $feed = $query->execute();
-
-        if (!$feed['hasError']) {
-            $feed = json_decode($feed['content']);
-            $list = array();
-
-            if ($feed != null) {
-                foreach ($feed->stop_areas as $stopArea) {
-                    $list[] = self::create()
-                        ->fill($stopArea);
-                }
-
-                return $list;
-            } else {
-                return NULL;
-            }
-        } else {
-            return NULL;
-        }
+        return self::getList(NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('stop_areas')
+            ->with('line', $lineId)
+        );
     }
     
     public static function getProximityList(Coord $coords, $distance)
@@ -59,32 +43,41 @@ class StopArea extends Entity
             ->api('stop_areas')
             ->filter('stop_point', 'coord', NavitiaRequest::OPERATOR_DWITHIN, $coords->Lon . ',' . $coords->Lat, $distance)
             ->execute();
-    
+        $list = array(); 
         if (!$feed['hasError']) {
             $feed = json_decode($feed['content']);
-            $list = array();
     
             if ($feed != null && isset($feed->stop_areas)) {
                 foreach ($feed->stop_areas as $stopArea) {
                     $list[] = self::create()
                         ->fill($stopArea);
                 }
-    
-                return $list;
-            } else {
-                return null;
             }
-        } else {
-            return null;
         }
+        return $list;
+    }
+    
+    private static function getList(NavitiaRequest $request)
+    {
+        $feed = $request->execute();
+        $result = array();
+        if (!$feed['hasError']) {
+            $feed = json_decode($feed['content']);
+            if ($feed != null && isset($feed->stop_areas)) {
+                foreach ($feed->stop_area as $stopArea) {
+                    $result[] = StopArea::create()
+                        ->fill($stopArea);
+                }
+            }
+        }
+        return $result;
     }
 
     public function fill($stopAreaFeed)
     {
-        $this->Name = $stopAreaFeed->name;
-        $this->Uri = $stopAreaFeed->uri;
-
-        $this->Coords = Coord::create()
+        $this->id = $stopAreaFeed->id;
+        $this->name = $stopAreaFeed->name;
+        $this->coord = Coord::create()
             ->fill($stopAreaFeed->coord);
         
         return $this;

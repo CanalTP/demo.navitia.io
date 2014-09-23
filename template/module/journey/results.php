@@ -3,12 +3,12 @@
     <div class="window_title">Itinéraires</div>
   
     <!-- Sous-Titre -->
-    <?php if ($roadMapTitle['origin'] && $roadMapTitle['destination']) { ?>
+    <?php if ($roadMapTitle['from'] && $roadMapTitle['to']) { ?>
         <h1 class="journey_title">
             <span class="hidden">De </span>
-            <span id="journey_title_origin_label"><?php echo $roadMapTitle['origin']; ?></span>
+            <span id="journey_title_origin_label"><?php echo $roadMapTitle['from']; ?></span>
             <span class="journey_to_icon"><span>&Agrave;</span></span>
-            <span id="journey_title_destination_label"><?php echo $roadMapTitle['destination']; ?></span>
+            <span id="journey_title_destination_label"><?php echo $roadMapTitle['to']; ?></span>
         </h1>
     <?php } ?>
   

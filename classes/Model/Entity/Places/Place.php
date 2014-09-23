@@ -18,25 +18,25 @@ class Place extends Entity
     const OBJECT_TYPE_POI = 'poi';
     const OBJECT_TYPE_UNKNOWN = 'unknown';
     
-    public $Name;
-    public $FullName;
-    public $Quality;
-    public $Uri;
-    public $Object;
-    public $ObjectType;
-    public $AdminName;
-    public $AdminZipCode;
+    public $name;
+    public $fullName;
+    public $quality;
+    public $id;
+    public $object;
+    public $objectType;
+    public $adminName;
+    public $adminZipCode;
 
     private function __construct()
     {
-        $this->Name = null;
-        $this->FullName = null;
-        $this->Quality = null;
-        $this->Uri = null;
-        $this->Object = null;
-        $this->ObjectType = null;
-        $this->AdminName = null;
-        $this->AdminZipCode = null;
+        $this->name = null;
+        $this->fullName = null;
+        $this->quality = null;
+        $this->id = null;
+        $this->object = null;
+        $this->objectType = null;
+        $this->adminName = null;
+        $this->adminZipCode = null;
     }
 
     public static function create()
@@ -73,16 +73,16 @@ class Place extends Entity
     public function fill($feed)
     {
         if (isset($feed->quality)) {
-            $this->Quality = $feed->quality;
+            $this->quality = $feed->quality;
         }
         if (isset($feed->uri)) {
-            $this->Uri = $feed->uri;
+            $this->id = $feed->id;
         }
         if (isset($feed->name)) {
-            $this->FullName = $feed->name;
+            $this->fullName = $feed->name;
         }
         
-        $this->ObjectType = $this->getObjectType($feed);
+        $this->objectType = $this->getObjectType($feed);
 
         $this->fillObject($feed);
         $this->fillName($feed);
@@ -94,38 +94,38 @@ class Place extends Entity
     
     private function fillName($feed)
     {        
-        switch ($this->ObjectType) {
+        switch ($this->objectType) {
             case self::OBJECT_TYPE_ADDRESS:
             case self::OBJECT_TYPE_ADMIN:
             case self::OBJECT_TYPE_POI:
             case self::OBJECT_TYPE_STOP_AREA:
             case self::OBJECT_TYPE_STOP_POINT:
-                $this->Name = $this->Object->Name;
+                $this->name = $this->object->Name;
                 break;
             default:
-                $this->Name = $feed->name;
+                $this->name = $feed->name;
                 break;           
         }  
     }
     
     private function fillObject($feed)
     {
-        switch ($this->ObjectType) {
+        switch ($this->objectType) {
             case self::OBJECT_TYPE_STOP_AREA:
-                $this->Object = StopArea::create()
+                $this->object = StopArea::create()
                 ->fill($feed->stop_area);
                 break;
             case self::OBJECT_TYPE_STOP_POINT:
-                $this->Object = StopPoint::create()
+                $this->object = StopPoint::create()
                 ->fill($feed->stop_point);
                 break;
             case self::OBJECT_TYPE_ADDRESS:
-                $this->Object = Address::create()
+                $this->object = Address::create()
                 ->fill($feed->address);
                 break;
             case self::OBJECT_TYPE_ADMIN:
                 if (isset($feed->admins[0])) {
-                    $this->Object = Admin::create()
+                    $this->object = Admin::create()
                     ->fill($feed->admins[0]);
                 }
                 break;

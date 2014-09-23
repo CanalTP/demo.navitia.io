@@ -20,7 +20,7 @@ use Nv2\Model\Entity\Places\Place;
                         <ul class="point_list">
                             <?php foreach ($origin_point_response['pointList'] as $pointIndex => $point) { ?>
                                 <li class="<?php echo strtolower($point->ObjectType); ?>">
-                                    <input id="origin_<?php echo $pointIndex; ?>" type="radio" name="origin[data]" value="<?php echo $point->Name . ';' . $point->Uri; ?>" />
+                                    <input id="origin_<?php echo $pointIndex; ?>" type="radio" name="origin[data]" value="<?php echo $point->name . ';' . $point->id; ?>" />
                                     <label for="origin_<?php echo $pointIndex; ?>">
                                         <span class="point_name"><?php echo $point->Name; ?></span>
                                         <span class="point_detail">
@@ -61,7 +61,7 @@ use Nv2\Model\Entity\Places\Place;
                                 </span>
                                 <span class="clear"></span>
                             </p>
-                            <input type="hidden" name="origin[data]" value="<?php echo $point->Name . ';' . $point->Uri; ?>" />
+                            <input type="hidden" name="origin[data]" value="<?php echo $point->name . ';' . $point->id; ?>" />
                             <div class="clear"></div>
                         </div>
                         <p class="point_modify"><a href="<?php url_link('journey/search'); ?>">Modifier</a></p>
@@ -81,7 +81,7 @@ use Nv2\Model\Entity\Places\Place;
                         <ul class="point_list">
                             <?php foreach ($destination_point_response['pointList'] as $pointIndex => $point) { ?>
                                 <li class="<?php echo strtolower($point->ObjectType); ?>">
-                                    <input id="destination_<?php echo $pointIndex; ?>" type="radio" name="destination[data]" value="<?php echo $point->Name; ?>;<?php echo $point->Uri; ?>" />
+                                    <input id="destination_<?php echo $pointIndex; ?>" type="radio" name="destination[data]" value="<?php echo $point->Name; ?>;<?php echo $point->id; ?>" />
                                     <label for="destination_<?php echo $pointIndex; ?>">
                                         <span class="point_name"><?php echo $point->Name; ?></span>
                                         <span class="point_detail">
@@ -119,7 +119,7 @@ use Nv2\Model\Entity\Places\Place;
                                     </span>
                                 </span>
                             </p>
-                            <input type="hidden" name="destination[data]" value="<?php echo $point->Name . ';' . $point->Uri; ?>" />
+                            <input type="hidden" name="destination[data]" value="<?php echo $point->Name . ';' . $point->id; ?>" />
                             <div class="clear"></div>
                         </div>
                         <p class="point_modify"><a href="<?php url_link('journey/search'); ?>">Modifier</a></p>

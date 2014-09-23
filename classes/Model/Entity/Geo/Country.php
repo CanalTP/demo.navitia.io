@@ -6,15 +6,15 @@ use Nv2\Model\Entity\Base\Entity;
 
 class Country extends Entity
 {
-    public $Name;
-    public $Uri;
-    public $Coord;
+    public $name;
+    public $id;
+    public $coord;
 
     private function __construct()
     {
-        $this->Name = null;
-        $this->Uri = null;
-        $this->Coord = null;
+        $this->name = null;
+        $this->id = null;
+        $this->coord = null;
     }
 
     public static function create()
@@ -24,10 +24,10 @@ class Country extends Entity
 
     public function fill($feed)
     {
-        $this->Name = $feed->name;
-        $this->Uri = $feed->uri;
+        $this->name = $feed->name;
+        $this->id = $feed->id;
 
-        $this->Coord = Coord::create()
+        $this->coord = Coord::create()
             ->fill($feed->coord);
 
         return $this;

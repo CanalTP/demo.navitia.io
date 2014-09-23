@@ -6,7 +6,6 @@
                 <form id="region_form" method="post" action="<?php url_link('home/select_region'); ?>">
                     <fieldset>
                         <legend><?php echo translate('home', 'question'); ?></legend>
-                        <?php var_dump($region_list); ?>
                         <?php foreach ($region_list as $index => $region) { ?>
                             <div>
                                 <label class="region_line" for="rid_<?php echo $region->Id; ?>">

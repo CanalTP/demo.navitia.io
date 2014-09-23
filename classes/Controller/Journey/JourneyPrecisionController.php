@@ -11,8 +11,8 @@ use Nv2\Model\Entity\Places\Place;
  */
 class JourneyPrecisionController extends Controller
 {
-    const ENTRY_POINT_ORIGIN = 1;
-    const ENTRY_POINT_DESTINATION = 2;
+    const ENTRY_POINT_FROM = 1;
+    const ENTRY_POINT_TO = 2;
 
     const RESPONSE_UNKNOWN_POINT = 1;
     const RESPONSE_ONE_SOLUTION = 2;
@@ -31,11 +31,11 @@ class JourneyPrecisionController extends Controller
      */
     public function run()
     {
-        $originPointResponse = $this->getEntryPointResponse(self::ENTRY_POINT_ORIGIN, $this->request->getParam(0));        
-        $destinationPointResponse = $this->getEntryPointResponse(self::ENTRY_POINT_DESTINATION, $this->request->getParam(1));
+        $fromPointResponse = $this->getEntryPointResponse(self::ENTRY_POINT_FROM, $this->request->getParam(0));        
+        $toPointResponse = $this->getEntryPointResponse(self::ENTRY_POINT_TO, $this->request->getParam(1));
 
-        $this->template->setVariable('origin_point_response', $originPointResponse);
-        $this->template->setVariable('destination_point_response', $destinationPointResponse);
+        $this->template->setVariable('from_point_response', $fromPointResponse);
+        $this->template->setVariable('to_point_response', $toPointResponse);
         $this->template->setVariable('clockwise', $this->request->getParam(2));
         $this->template->setVariable('datetime', $this->request->getParam(3));
 

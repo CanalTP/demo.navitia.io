@@ -28,7 +28,7 @@ class JourneySearchController extends Controller
         $finalList = array();
         $requestedModes = $this->request->getParam('modes');
         
-        foreach ($list as $modeName => $modeUriList) {
+        foreach ($list as $modeName => $modeIdList) {
             if ($requestedModes == null || in_array($modeName, $requestedModes)) {
                 $checked = true;
             } else {

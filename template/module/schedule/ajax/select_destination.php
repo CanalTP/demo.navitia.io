@@ -3,7 +3,7 @@
         <div class="field_padding">
             <label>Arrivée</label>
             <input id="schedule_search_destination_name" type="text" name="destination[name]" value="" disabled="disabled" />
-            <input id="schedule_search_destination_extcode" type="hidden" name="destination[uri]" value="" />
+            <input id="schedule_search_destination_id" type="hidden" name="destination[id]" value="" />
         </div>
         <div class="clear"></div>
     </div>

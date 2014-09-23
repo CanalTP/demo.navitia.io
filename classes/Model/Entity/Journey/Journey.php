@@ -4,35 +4,42 @@ namespace Nv2\Model\Entity\Journey;
 
 use Nv2\Model\Entity\Base\Entity;
 use Nv2\Model\Entity\Journey\Section;
+use Nv2\Model\Entity\Transport\Fare;
 
 class Journey extends Entity
 {
-    const TYPE_UNKNOWN = 0;
-    const TYPE_PUBLIC_TRANSPORT = 1;
-    const TYPE_WALK = 2;
-    const TYPE_BIKE = 3;
-    const TYPE_CAR = 4;
-    const TYPE_ON_DEMAND_VIRTUAL = 101;
-    const TYPE_ON_DEMAND_FULL = 102;
-    const TYPE_ON_DEMAND_PARTIAL = 103;
-
-    public $Duration;
-    public $NbTransfers;
-    public $RequestedTimestamp;
-    public $SectionList;
-    public $DepartureTimestamp;
-    public $ArrivalTimestamp;
-    public $Type;
+    const DESCR_UNKNOWN = 0;
+    const DESCR_PUBLIC_TRANSPORT = 1;
+    const DESCR_WALK = 2;
+    const DESCR_BIKE = 3;
+    const DESCR_CAR = 4;
+    const DESCR_ON_DEMAND_VIRTUAL = 101;
+    const DESCR_ON_DEMAND_FULL = 102;
+    const DESCR_ON_DEMAND_PARTIAL = 103;
+    
+    public $description;
+    public $fare;
+    public $sections;
+    public $tags;
+    public $departureDateTime;
+    public $requestedDateTime;
+    public $duration;
+    public $nbTransfers;
+    public $arrivalDateTime;
+    public $type;
 
     private function __construct()
     {
-        $this->Duration = null;
-        $this->NbTransfers = null;
-        $this->RequestedTimestamp = null;
-        $this->SectionList = null;
-        $this->DepartureTimestamp = null;
-        $this->ArrivalTimestamp = null;
-        $this->Type = self::TYPE_UNKNOWN;
+        $this->description = self::DESCR_UNKNOWN;
+        $this->fare = null;
+        $this->sections = null;
+        $this->tags = null;
+        $this->departureDateTime = null;
+        $this->requestedDateTime = null;
+        $this->duration = null;
+        $this->nbTransfers = null;
+        $this->arrivalDateTime = null;
+        $this->type = null;
     }
 
     public static function create()
@@ -42,25 +49,27 @@ class Journey extends Entity
 
     public function addSection(Section $section)
     {
-        $this->SectionList[] = $section;
+        $this->sections[] = $section;
     }
 
     public function fill($journeyFeed)
     {
-        $this->Type = $this->getType($journeyFeed);
+        $this->description = $this->getDescription($journeyFeed);
 
-        if ($this->Type == self::TYPE_PUBLIC_TRANSPORT) {
-            $departureDateTime = new \DateTime($journeyFeed->departure_date_time);
-            $arrivalDateTime = new \DateTime($journeyFeed->arrival_date_time);
-            $this->DepartureTimestamp = $departureDateTime->getTimestamp();
-            $this->ArrivalTimestamp = $arrivalDateTime->getTimestamp();
-            $requestedDateTime = new \DateTime($journeyFeed->requested_date_time);
-            $this->RequestedTimestamp = $requestedDateTime->getTimestamp();
+        if ($this->description == self::DESCR_PUBLIC_TRANSPORT) {
+            $this->departureDateTime = new \DateTime($journeyFeed->departure_date_time);
+            $this->arrivalDateTime = new \DateTime($journeyFeed->arrival_date_time);
+            $this->requestedDateTime = new \DateTime($journeyFeed->requested_date_time);
         }
+        
+        $this->fare = Fare::create()
+            ->fill($journeyFeed->fare);
 
-        $this->Duration = $journeyFeed->duration;
+        $this->duration = $journeyFeed->duration;
+        $this->type = $journeyFeed->type;
+        
         if (isset($journeyFeed->nb_transfers)) {
-            $this->NbTransfers = $journeyFeed->nb_transfers;
+            $this->nbTransfers = $journeyFeed->nb_transfers;
         }
 
         foreach ($journeyFeed->sections as $sectionFeed) {
@@ -90,19 +99,21 @@ class Journey extends Entity
         return $this;
     }
 
-    private function getType($feed)
+    private function getDescription($feed)
     {
+        $type = self::DESCR_UNKNOWN;
         if (count($feed->sections) == 1 && $feed->sections[0]->type == 'STREET_NETWORK') {
             // Une seule section "STREET_NETWORK" -> itinéraire marche à pied
-            return self::TYPE_WALK;
+            $type = self::DESCR_WALK;
         } else {
             // Au moins une section "PUBLIC_TRANSPORT" => itinéraire TC
             foreach ($feed->sections as $section) {
-                if ($section->type == 'PUBLIC_TRANSPORT') {
-                    return self::TYPE_PUBLIC_TRANSPORT;
+                if ($section->type == 'public_transport') {
+                    $type = self::DESCR_PUBLIC_TRANSPORT;
                     break;
                 }
             }
         }
+        return $type;
     }
 }

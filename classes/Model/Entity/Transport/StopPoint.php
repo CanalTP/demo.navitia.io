@@ -8,23 +8,23 @@ use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class StopPoint extends Entity
 {
-    public $Uri;
-    public $Name;
-    public $Coord;
-    public $StopArea;
-    public $Distance;
-    public $AdminName;
-    public $AdminZipCode;
+    public $id;
+    public $name;
+    public $coord;
+    public $stopArea;
+    public $address;
+    public $administrativeRegions;
+    public $comment;
 
     private function __construct()
     {
-        $this->Uri = null;
-        $this->Name = null;
-        $this->Coord = null;
-        $this->StopArea = null;
-        $this->Distance = null;
-        $this->AdminName = null;
-        $this->AdminZipCode = null;
+        $this->id = null;
+        $this->name = null;
+        $this->coord = null;
+        $this->stopArea = null;
+        $this->address = null;
+        $this->administrativeRegions = null;
+        $this->comment = null;
     }
 
     public static function create()
@@ -32,106 +32,81 @@ class StopPoint extends Entity
         return new self();
     }
 
-    public static function getList($lineUri=null, $routeUri=null, $stopAreaUri=null)
+    public static function getFromLine($lineId)
     {
-        $query = NavitiaRequest::create()->api('stop_points');
-        if ($lineUri) {
-            $query->filter('line', 'uri', '=', $lineUri);
-        }
-        if ($routeUri) {
-            $query->filter('route', 'uri', '=', $routeUri);
-        }
-        if ($stopAreaUri) {
-            $query->filter('stop_area', 'uri', '=', $stopAreaUri);
-        }
-        $query->param('depth', 2);
-        $feed = $query->execute();
-
-        if (!$feed['hasError']) {
-            $feed = json_decode($feed['content']);
-            $list = array();
-
-            if ($feed != null && isset($feed->stop_points)) {
-                foreach ($feed->stop_points as $stopPoint) {
-                    $list[] = StopPoint::create()
-                        ->fill($stopPoint);
-                }
-
-                return $list;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return $this->getList(
+            NavitiaRequest::create()
+                ->api('coverage')
+                ->resource('stop_points')
+                ->with('line', $lineId)
+        );
+    }
+    
+    public static function getFromRoute($routeId)
+    {
+        return $this->getList(
+            NavitiaRequest::create()
+                ->api('coverage')
+                ->resource('stop_points')
+                ->with('route', $routeId)
+        );
+    }
+    
+    public static function getFromStopArea($stopAreaId)
+    {
+        return $this->getList(
+            NavitiaRequest::create()
+                ->api('coverage')
+                ->resource('stop_points')
+                ->with('stop_area', $stopAreaId)
+        ); 
     }
     
     public static function getProximityList(Coord $coords, $distance)
     {
-        $feed = NavitiaRequest::create()
-            ->api('stop_points')
-            ->filter('stop_point', 'coord', NavitiaRequest::OPERATOR_DWITHIN, $coords->Lon . ',' . $coords->Lat, $distance)
-            ->execute();
+        return $this->getList(NavitiaRequest::create()
+            ->api('coords')
+            ->resource('places_nearby')
+            ->with('coords', $coords->getLonLat())
+            ->filter('distance', $distance)
+            ->filter('type[]', 'stop_point')
+        );
+    }
     
+    private static function getList(NavitiaRequest $request)
+    {
+        $feed = $request->execute();
+        $result = array();
         if (!$feed['hasError']) {
             $feed = json_decode($feed['content']);
-            $list = array();
-    
             if ($feed != null && isset($feed->stop_points)) {
                 foreach ($feed->stop_points as $stopPoint) {
-                    $list[] = self::create()
+                    $result[] = StopPoint::create()
                         ->fill($stopPoint);
                 }
-    
-                return $list;
-            } else {
-                return null;
             }
-        } else {
-            return null;
         }
+        return $result;
     }
-
+    
     public function fill($stopPointFeed)
     {
-        $this->Uri = $stopPointFeed->uri;
-        $this->Name = $stopPointFeed->name;
+        $this->id = $stopPointFeed->id;
+        $this->name = $stopPointFeed->name;
 
         if (isset($stopPointFeed->coord)) {
-            $this->Coord = Coord::create()
+            $this->coord = Coord::create()
                 ->fill($stopPointFeed->coord);
         }
         
         if (isset($stopPointFeed->stop_area)) {
-            $this->StopArea = StopArea::create()
+            $this->stopArea = StopArea::create()
                 ->fill($stopPointFeed->stop_area);
         }
         
-        $this->fillAdminName($stopPointFeed);
-        $this->fillAdminZipCode($stopPointFeed);
+        //$this->fillAdminName($stopPointFeed);
+        //$this->fillAdminZipCode($stopPointFeed);
 
         return $this;
-    }
-    
-    private function fillAdminName($feed)
-    {        
-        if (isset($feed->admins) && is_array($feed->admins)) {
-            foreach ($feed->admins as $admin) {
-                if (isset($admin->name) && $admin->name != '') {
-                    $this->AdminName = $admin->name;
-                }
-            }
-        }
-    }
-    
-    private function fillAdminZipCode($feed)
-    {
-        if (isset($feed->admins) && is_array($feed->admins)) {
-            foreach ($feed->admins as $admin) {
-                if (isset($admin->zip_code) && $admin->zip_code != '') {
-                    $this->AdminZipCode = $admin->zip_code;
-                }
-            }
-        }
     }
 }

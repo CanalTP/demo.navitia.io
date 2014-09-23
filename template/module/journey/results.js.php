@@ -6,10 +6,10 @@ var sliderWidth = 0;
 var sliderCursorWidth = 0;
 var sliderSliding = false;
 
-var origin_uri = '<?php echo addslashes(urldecode($journeySummary['origin_uri'])); ?>';
-var origin_name = '<?php echo addslashes(urldecode($journeySummary['origin_name'])); ?>';
-var destination_uri = '<?php echo addslashes(urldecode($journeySummary['destination_uri'])); ?>';
-var destination_name = '<?php echo addslashes(urldecode($journeySummary['destination_name'])); ?>';
+var from_id = '<?php echo addslashes(urldecode($journeySummary['from_id'])); ?>';
+var from_name = '<?php echo addslashes(urldecode($journeySummary['from_name'])); ?>';
+var to_id = '<?php echo addslashes(urldecode($journeySummary['to_id'])); ?>';
+var to_name = '<?php echo addslashes(urldecode($journeySummary['to_name'])); ?>';
 var datetime_represents = '<?php echo $journeySummary['datetime_represents']; ?>';
 
 var avoidUris = new Array();
@@ -121,15 +121,15 @@ $(document).ready(function() {
         $(this).parent().find('.avoid').toggleClass('hide');
     });
     $('.section_options .avoid a').live('click', function() {
-        var uri = $(this).attr('class').split(';');
-        uri = uri[1];
-        addAvoidParameter(uri);
+        var id = $(this).attr('class').split(';');
+        id = id[1];
+        addAvoidParameter(id);
     });
 });
 
-function addAvoidParameter(uri)
+function addAvoidParameter(id)
 {
-    this.avoidUris.push(uri);
+    this.avoidUris.push(id);
     resetCenter();
     current_journey_index = 0;
     drawJourneyLinePoints(current_journey_index);
@@ -170,15 +170,15 @@ function getIsoTimeFromValue(value)
 
 // Libellé des types de points (pour traduction)
 var itemTypeLabels = {
-    'STOP_AREA': '<?php echo escape(translate('object_identifiers', 'stop_area')); ?>',
-    'STOP_POINT': '<?php echo escape(translate('object_identifiers', 'stop_point')); ?>',
-    'ADMIN': '<?php echo escape(translate('object_identifiers', 'admin')); ?>',
-    'ADDRESS': '<?php echo escape(translate('object_identifiers', 'address')); ?>',
-    'POI': '<?php echo escape(translate('object_identifiers', 'poi')); ?>'
+    'stop_area': '<?php echo escape(translate('object_identifiers', 'stop_area')); ?>',
+    'stop_point': '<?php echo escape(translate('object_identifiers', 'stop_point')); ?>',
+    'admin': '<?php echo escape(translate('object_identifiers', 'admin')); ?>',
+    'address': '<?php echo escape(translate('object_identifiers', 'address')); ?>',
+    'poi': '<?php echo escape(translate('object_identifiers', 'poi')); ?>'
 };
 
 // FirstLetter depart
-var fletter_origin = new AutocompleteEngine(
+var fletter_from = new AutocompleteEngine(
     '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia');
            echo request_get('RegionName'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/container'); ?>',
@@ -193,19 +193,19 @@ fletter_from.setCallbackFunctions({
 fletter_from.bind('journey_search_from', 'FLFromDivId');
 
 // Firstletter arrivée
-var fletter_destination = new AutocompleteEngine(
+var fletter_to = new AutocompleteEngine(
     '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia');
            echo request_get('RegionName'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/container'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/item'); ?>'
 );
-fletter_destination.setPlaceTypeLabels(itemTypeLabels);
-fletter_destination.setCallbackFunctions({
+fletter_to.setPlaceTypeLabels(itemTypeLabels);
+fletter_to.setCallbackFunctions({
     onResult: null,
     onClick: updateFromAutocomplete,
     onErase: null
 });
-fletter_destination.bind('journey_search_destination', 'FLToDivId');
+fletter_to.bind('journey_search_to', 'FLToDivId');
 
 //----------------------------------------------------------------------------------------------------------------------
 // OpenLayerMap
@@ -251,20 +251,20 @@ var marker_layer = new OpenLayers.Layer.Vector("Marker Layer");
 
 // Styles lignes et marqueurs
 var line_styles = {
-    'PUBLIC_TRANSPORT': { strokeColor: '#ff5500', strokeOpacity: 1, strokeWidth: 4 },
-    'STREET_NETWORK': { strokeColor: '#7476c4', strokeOpacity: 1, strokeWidth: 4 },
-    'TRANSFER': { strokeColor: '#5cb23b', strokeOpacity: 1, strokeWidth: 4 }
+    'public_transport': { strokeColor: '#ff5500', strokeOpacity: 1, strokeWidth: 4 },
+    'street_network': { strokeColor: '#7476c4', strokeOpacity: 1, strokeWidth: 4 },
+    'transfer': { strokeColor: '#5cb23b', strokeOpacity: 1, strokeWidth: 4 }
 };
 var outer_line_style = { strokeColor: '#ffffff', strokeOpacity: 1, strokeWidth: 9 };
 
-var origin_marker_style = {
+var from_marker_style = {
     externalGraphic: "<?php img_src('/img/marker_origin.png'); ?>",
     graphicWidth: 28,
     graphicHeight: 32,
     graphicXOffset: -12,
     graphicYOffset: -32
 };
-var destination_marker_style = {
+var to_marker_style = {
     externalGraphic: "<?php img_src('/img/marker_destination.png'); ?>",
     graphicWidth: 28,
     graphicHeight: 32,
@@ -273,61 +273,61 @@ var destination_marker_style = {
 };
 
 <?php
-if (is_array($journeyResult['data']->JourneyList)) {
-    foreach ($journeyResult['data']->JourneyList as $journeyIndex => $journey) {
+if (is_array($journeyResult['data']->journeys)) {
+    foreach ($journeyResult['data']->journeys as $journeyIndex => $journey) {
         // Création des itinéraires
         echo "journey_points.push(new Array());\n";
 
-        foreach ($journey->SectionList as $sectionIndex => $section) {
+        foreach ($journey->sections as $sectionIndex => $section) {
             // Création des sections
             echo "journey_points[" . $journeyIndex . "].push({
-                type: '". $section->Type ."',
+                type: '". $section->type ."',
                 points: new Array()
             });";
 
-            if ($section->Type == 'PUBLIC_TRANSPORT') {
+            if ($section->type == 'public_transport') {
                 // Création du point de départ TC
-                echo "var pointPosition = new OpenLayers.LonLat(" . $section->Origin->Coord->Lon . ", " . $section->Origin->Coord->Lat . ").transform(wgsProjection, smeProjection);\n";
+                echo "var pointPosition = new OpenLayers.LonLat(" . $section->from->coord->lon . ", " . $section->from->coord->lat . ").transform(wgsProjection, smeProjection);\n";
                 echo "journey_points[" . $journeyIndex . "][" . $sectionIndex . "].points.push(new OpenLayers.Geometry.Point(pointPosition.lon, pointPosition.lat));\n";
                 echo "map_bounds.extend(pointPosition);";
 
                 // Création des points intermédiaires TC
-                if (is_array($section->IntermediateStopList)) {
-                    foreach ($section->IntermediateStopList as $stopTime) {
-                        echo "var pointPosition = new OpenLayers.LonLat(" . $stopTime->StopPoint->Coord->Lon . ", " . $stopTime->StopPoint->Coord->Lat . ").transform(wgsProjection, smeProjection);\n";
+                if (is_array($section->stopDateTimes)) {
+                    foreach ($section->stopDateTimes as $stopDateTime) {
+                        echo "var pointPosition = new OpenLayers.LonLat(" . $stopDateTime->stopPoint->coord->lon . ", " . $stopDateTime->stopPoint->coord->lat . ").transform(wgsProjection, smeProjection);\n";
                         echo "journey_points[" . $journeyIndex . "][" . $sectionIndex . "].points.push(new OpenLayers.Geometry.Point(pointPosition.lon, pointPosition.lat));\n";
                         echo "map_bounds.extend(pointPosition);";
                     }
                 }
 
                 // Création du point d'arrivée TC
-                echo "var pointPosition = new OpenLayers.LonLat(" . $section->Destination->Coord->Lon . ", " . $section->Destination->Coord->Lat . ").transform(wgsProjection, smeProjection);\n";
+                echo "var pointPosition = new OpenLayers.LonLat(" . $section->to->coord->lon . ", " . $section->to->coord->lat . ").transform(wgsProjection, smeProjection);\n";
                 echo "journey_points[" . $journeyIndex . "][" . $sectionIndex . "].points.push(new OpenLayers.Geometry.Point(pointPosition.lon, pointPosition.lat));\n";
                 echo "map_bounds.extend(pointPosition);";
 
-            } else if ($section->Type == 'STREET_NETWORK') {
+            } else if ($section->type == 'street_network') {
                 // Création des points marche à pied
-                foreach ($section->StreetNetwork->CoordinateList as $coordItem) {
-                    echo "var pointPosition = new OpenLayers.LonLat(" . $coordItem->Lon . ", " . $coordItem->Lat . ").transform(wgsProjection, smeProjection);\n";
+                foreach ($section->geojson->coordinates as $coordItem) {
+                    echo "var pointPosition = new OpenLayers.LonLat(" . $coordItem->lon . ", " . $coordItem->lat . ").transform(wgsProjection, smeProjection);\n";
                     echo "journey_points[" . $journeyIndex . "][" . $sectionIndex . "].points.push(new OpenLayers.Geometry.Point(pointPosition.lon, pointPosition.lat));\n";
                     echo "map_bounds.extend(pointPosition);";
                 }
-            } else if ($section->Type == 'TRANSFER') {
+            } else if ($section->type == 'transfer') {
                 // Création du point de départ de la correspondance
-                echo "var pointPosition = new OpenLayers.LonLat(" . $section->Origin->Coord->Lon . ", " . $section->Origin->Coord->Lat . ").transform(wgsProjection, smeProjection);\n";
+                echo "var pointPosition = new OpenLayers.LonLat(" . $section->from->coord->lon . ", " . $section->from->coord->lat . ").transform(wgsProjection, smeProjection);\n";
                 echo "journey_points[" . $journeyIndex . "][" . $sectionIndex . "].points.push(new OpenLayers.Geometry.Point(pointPosition.lon, pointPosition.lat));\n";
                 echo "map_bounds.extend(pointPosition);";
 
                 // Création du point d'arrivée de la correspondance
-                echo "var pointPosition = new OpenLayers.LonLat(" . $section->Destination->Coord->Lon . ", " . $section->Destination->Coord->Lat . ").transform(wgsProjection, smeProjection);\n";
+                echo "var pointPosition = new OpenLayers.LonLat(" . $section->to->coord->lon . ", " . $section->to->coord->lat . ").transform(wgsProjection, smeProjection);\n";
                 echo "journey_points[" . $journeyIndex . "][" . $sectionIndex . "].points.push(new OpenLayers.Geometry.Point(pointPosition.lon, pointPosition.lat));\n";
                 echo "map_bounds.extend(pointPosition);";
             }
         }
     }
 } else {
-    echo "var origin_uri_data = origin_uri.split(':');\n";
-    echo "var destination_uri_data = destination_uri.split(':');\n";
+    echo "var from_id_data = from_id.split(':');\n";
+    echo "var to_id_data = to_id.split(':');\n";
 }
 ?>
 
@@ -344,29 +344,29 @@ for (section_index in journey_points[current_journey_index]) {
 
 // Création des marqueurs départ et arrivée
 if (typeof(journey_points[current_journey_index]) != 'undefined') {
-    var origin_point = journey_points[current_journey_index][0].points[0];
+    var from_point = journey_points[current_journey_index][0].points[0];
     var last_section = journey_points[current_journey_index].length - 1;
     var last_point = journey_points[current_journey_index][last_section].points.length - 1;
-    var destination_point = journey_points[current_journey_index][last_section].points[last_point];
+    var to_point = journey_points[current_journey_index][last_section].points[last_point];
 } else {
-    if (origin_uri_data[0] == 'coord') {
-        var origin_position = new OpenLayers.LonLat(parseFloat(origin_uri_data[1], 10), parseFloat(origin_uri_data[2], 10)).transform(wgsProjection, smeProjection);
-        map_bounds.extend(origin_position);
-        var origin_point = new OpenLayers.Geometry.Point(origin_position.lon, origin_position.lat);
+    if (from_id_data[0] == 'coord') {
+        var from_position = new OpenLayers.LonLat(parseFloat(from_id_data[1], 10), parseFloat(from_id_data[2], 10)).transform(wgsProjection, smeProjection);
+        map_bounds.extend(from_position);
+        var from_point = new OpenLayers.Geometry.Point(from_position.lon, from_position.lat);
     }
-    if (destination_uri_data[0] == 'coord') {
-        var destination_position = new OpenLayers.LonLat(parseFloat(destination_uri_data[1], 10), parseFloat(destination_uri_data[2], 10)).transform(wgsProjection, smeProjection);
-        map_bounds.extend(destination_position);
-        var destination_point = new OpenLayers.Geometry.Point(destination_position.lon, destination_position.lat);
+    if (to_id_data[0] == 'coord') {
+        var to_position = new OpenLayers.LonLat(parseFloat(to_id_data[1], 10), parseFloat(to_id_data[2], 10)).transform(wgsProjection, smeProjection);
+        map_bounds.extend(to_position);
+        var to_point = new OpenLayers.Geometry.Point(to_position.lon, to_position.lat);
     }
 }
-if (origin_point) {
-    var origin_marker_feature = new OpenLayers.Feature.Vector(origin_point, {type: 'origin'}, origin_marker_style);
-    marker_layer.addFeatures(origin_marker_feature);
+if (from_point) {
+    var from_marker_feature = new OpenLayers.Feature.Vector(from_point, {type: 'from'}, from_marker_style);
+    marker_layer.addFeatures(from_marker_feature);
 }
-if (destination_point) {
-    var destination_marker_feature = new OpenLayers.Feature.Vector(destination_point, {type: 'destination'}, destination_marker_style);
-    marker_layer.addFeatures(destination_marker_feature);
+if (to_point) {
+    var to_marker_feature = new OpenLayers.Feature.Vector(to_point, {type: 'to'}, to_marker_style);
+    marker_layer.addFeatures(to_marker_feature);
 }
 
 // Zoom adapté aux points
@@ -387,10 +387,10 @@ var drag_control = new OpenLayers.Control.DragFeature(marker_layer, {
         // Mise à jour des coordonnées des points
         var feature_position = new OpenLayers.LonLat(feature.geometry.x, feature.geometry.y);
         feature_position.transform(smeProjection, wgsProjection);
-        if (feature.attributes.type == 'origin') {
-            origin_uri = 'coord:' + feature_position.lon + ':' + feature_position.lat;
-        } else if (feature.attributes.type == 'destination') {
-            destination_uri = 'coord:' + feature_position.lon + ':' + feature_position.lat;
+        if (feature.attributes.type == 'from') {
+            from_id = 'coord:' + feature_position.lon + ':' + feature_position.lat;
+        } else if (feature.attributes.type == 'to') {
+            to_id = 'coord:' + feature_position.lon + ':' + feature_position.lat;
         }
 
         // Recalcul de la feuille de route
@@ -416,31 +416,27 @@ function drawJourneyLinePoints(journey_index)
         var feature_position = new OpenLayers.LonLat(draggedFeature.geometry.x, draggedFeature.geometry.y);
         feature_position.transform(smeProjection, wgsProjection);
 
-        if (draggedFeature.attributes.type == 'origin') {
-            navitia_url += '/journeys.json?origin=coord:' + feature_position.lon + ':' + feature_position.lat;
-            navitia_url += '&destination=' + destination_uri;
-        } else if (draggedFeature.attributes.type == 'destination') {
-            navitia_url += '/journeys.json?origin=' + origin_uri;
-            navitia_url += '&destination=coord:' + feature_position.lon + ':' + feature_position.lat;
+        if (draggedFeature.attributes.type == 'from') {
+            navitia_url += '/journeys?from=coord:' + feature_position.lon + ':' + feature_position.lat;
+            navitia_url += '&to=' + to_id;
+        } else if (draggedFeature.attributes.type == 'to') {
+            navitia_url += '/journeys?from=' + from_id;
+            navitia_url += '&to=coord:' + feature_position.lon + ':' + feature_position.lat;
         }
         navitia_url += '&datetime=<?php echo urldecode($journeySummary['datetime']); ?>';
     } else {
-        navitia_url += '/journeys.json?origin=' + origin_uri + '&destination=' + destination_uri;
+        navitia_url += '/journeys?from=' + from_id + '&to=' + to_id;
         navitia_url += '&datetime=' + currentJourneySearchTime;
     }
 
-    if (clockwise == 'arrival') {
-        navitia_url += '&clockwise=false';
-    } else {
-        navitia_url += '&clockwise=true';
-    }
+    navitia_url += '&datetime_represents=' + datetime_represents;
 
-    for (var uri_index in this.avoidUris) {
-        navitia_url += '&forbidden_uris[]=' + this.avoidUris[uri_index];
+    for (var id_index in this.avoidUris) {
+        navitia_url += '&forbidden_uris[]=' + this.avoidUris[id_index];
     }
 
     $.ajax({
-        url: '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia'); ?><?php echo request_get('RegionName'); ?>' + encodeURIComponent(navitia_url),
+        url: '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia'); ?>' + encodeURIComponent(navitia_url),
         dataType: 'json',
         success: fillJourneyLinePoints
     });
@@ -462,13 +458,13 @@ function fillJourneyLinePoints(data)
                     type: section.type,
                     points: new Array()
                 });
-                if (section.type == 'STREET_NETWORK') {
-                    for (coord_index in section.street_network.coordinates) {
-                        var coord = section.street_network.coordinates[coord_index];
+                if (section.type == 'street_network') {
+                    for (coord_index in section.geojson.coordinates) {
+                        var coord = section.geojson.coordinates[coord_index];
                         var point_lonlat = new OpenLayers.LonLat(coord.lon, coord.lat).transform(wgsProjection, smeProjection);
                         journey_points[journey_index][section_index].points.push(new OpenLayers.Geometry.Point(point_lonlat.lon, point_lonlat.lat));
                     }
-                } else if (section.type == 'PUBLIC_TRANSPORT') {
+                } else if (section.type == 'public_transport') {
                     for (stop_time_index in section.stop_date_times) {
                         var stop_time = section.stop_date_times[stop_time_index];
                         var point_lonlat = new OpenLayers.LonLat(stop_time.stop_point.coord.lon, stop_time.stop_point.coord.lat).transform(wgsProjection, smeProjection);
@@ -498,7 +494,7 @@ function drawLine()
         var inner_line_feature = new OpenLayers.Feature.Vector(inner_journey_line, null, line_styles[journey_points[current_journey_index][section_index].type]);
         line_layer.addFeatures(inner_line_feature);
         // TODO : extend on each point
-        //map_bounds.extend(new OpenLayers.LonLat(origin_point.x, origin_point.y));
+        //map_bounds.extend(new OpenLayers.LonLat(from_point.x, from_point.y));
     }
     //map.zoomToExtent(map_bounds);
 }
@@ -510,16 +506,16 @@ function drawMarkers()
 {
     if (typeof(journey_points[current_journey_index]) != 'undefined') {
         marker_layer.removeAllFeatures();
-        var origin_point = journey_points[current_journey_index][0].points[0];
+        var from_point = journey_points[current_journey_index][0].points[0];
         var last_section = journey_points[current_journey_index].length - 1;
         var last_point = journey_points[current_journey_index][last_section].points.length - 1;
-        var destination_point = journey_points[current_journey_index][last_section].points[last_point];
-        var origin_marker_feature = new OpenLayers.Feature.Vector(origin_point, {type: 'origin'}, origin_marker_style);
-        var destination_marker_feature = new OpenLayers.Feature.Vector(destination_point, {type: 'destination'}, destination_marker_style);
-        marker_layer.addFeatures(origin_marker_feature);
-        marker_layer.addFeatures(destination_marker_feature);
-        map_bounds.extend(new OpenLayers.LonLat(origin_point.x, origin_point.y));
-        map_bounds.extend(new OpenLayers.LonLat(destination_point.x, destination_point.y));
+        var to_point = journey_points[current_journey_index][last_section].points[last_point];
+        var from_marker_feature = new OpenLayers.Feature.Vector(from_point, {type: 'from'}, from_marker_style);
+        var to_marker_feature = new OpenLayers.Feature.Vector(to_point, {type: 'to'}, to_marker_style);
+        marker_layer.addFeatures(from_marker_feature);
+        marker_layer.addFeatures(to_marker_feature);
+        map_bounds.extend(new OpenLayers.LonLat(from_point.x, from_point.y));
+        map_bounds.extend(new OpenLayers.LonLat(to_point.x, to_point.y));
         map.zoomToExtent(map_bounds);
     }
 }
@@ -555,10 +551,10 @@ function dragListener()
  */
 function updateJourneyDetail()
 {
-    var url = '<?php echo url_link('journey/results'); ?>/' + origin_name + '/' + origin_uri + '/' + destination_name + '/' + destination_uri + '/' + clockwise + '/' + currentJourneySearchTime + '/?outputType=ajaxResult';
+    var url = '<?php echo url_link('journey/results'); ?>/' + from_name + '/' + from_id + '/' + to_name + '/' + to_id + '/' + datetime_represents + '/' + currentJourneySearchTime + '/?outputType=ajaxResult';
 
-    for (var uri_index in this.avoidUris) {
-        url += '&avoidUri[]=' + escape(this.avoidUris[uri_index]);
+    for (var id_index in this.avoidUris) {
+        url += '&avoidUri[]=' + escape(this.avoidUris[id_index]);
     }
 
     $.ajax({
@@ -574,8 +570,8 @@ function updateJourneyDetail()
 
 function updateJourneyTitle()
 {
-    $('#journey_title_origin_label').html(origin_name);
-    $('#journey_title_destination_label').html(destination_name);
+    $('#journey_title_from_label').html(from_name);
+    $('#journey_title_to_label').html(to_name);
 }
 
 /**
@@ -586,10 +582,10 @@ function updateFromAutocomplete()
 {
     resetCenter();
     current_journey_index = 0;
-    origin_uri = $('#journey_search_origin_uri').val();
-    origin_name = $('#journey_search_origin_name').val();
-    destination_uri = $('#journey_search_destination_uri').val();
-    destination_name = $('#journey_search_destination_name').val();
+    from_id = $('#journey_search_from_id').val();
+    from_name = $('#journey_search_from_name').val();
+    to_id = $('#journey_search_to_id').val();
+    to_name = $('#journey_search_to_name').val();
     drawJourneyLinePoints(current_journey_index);
     updateJourneyDetail();
     showJourneyLine();

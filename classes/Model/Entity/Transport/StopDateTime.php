@@ -6,15 +6,15 @@ use Nv2\Model\Entity\Base\Entity;
 
 class StopDateTime extends Entity
 {
-    public $ArrivalTime;
-    public $DepartureTime;
-    public $StopPoint;
+    public $arrivalDateTime;
+    public $departureDateTime;
+    public $stopPoint;
 
     private function __construct()
     {
-        $this->ArrivalTimestamp = null;
-        $this->DepartureTimestamp = null;
-        $this->StopPoint = null;
+        $this->arrivalDateTime = null;
+        $this->departureDateTime = null;
+        $this->stopPoint = null;
     }
 
     public static function create()
@@ -24,12 +24,12 @@ class StopDateTime extends Entity
 
     public function fill($feed)
     {
-        $this->DepartureTime = new \DateTime($feed->departure_date_time);
-        $this->ArrivalTime = new \DateTime($feed->arrival_date_time);
+        $this->departureDateTime = new \DateTime($feed->departure_date_time);
+        $this->arrivalDateTime = new \DateTime($feed->arrival_date_time);
 
         $stopPointObject = StopPoint::create()
             ->fill($feed->stop_point);
-        $this->StopPoint = $stopPointObject;
+        $this->stopPoint = $stopPointObject;
 
         return $this;
     }

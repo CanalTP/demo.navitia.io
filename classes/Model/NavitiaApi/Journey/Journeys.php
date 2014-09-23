@@ -8,14 +8,14 @@ use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class Journeys extends NavitiaApi
 {
-    public $OriginUri;
-    public $DestinationUri;
-    public $Datetime;
-    public $DatetimeRepresents;
-    public $JourneyList;
+    public $fromId;
+    public $toId;
+    public $datetime;
+    public $datetimeRepresents;
+    public $journeys;
 
-    public $PreviousUriComponents;
-    public $NextUriComponents;
+    public $previousUriComponents;
+    public $nextUriComponents;
 
     private $forbiddenUris;
 
@@ -33,8 +33,8 @@ class Journeys extends NavitiaApi
     private function __construct()
     {
         $datetime = new \DateTime();
-        $this->Datetime = $datetime->format('Ymd\THis');
-        $this->DatetimeRepresents = 'departure';
+        $this->datetime = $datetime->format('Ymd\THis');
+        $this->datetimeRepresents = 'departure';
     }
 
     public static function create()
@@ -42,11 +42,10 @@ class Journeys extends NavitiaApi
         return new self();
     }
 
-    public function setPointsUri($originUri, $destinationUri, $wayPointUri='')
+    public function setPointsIds($fromId, $toId)
     {
-        $this->OriginUri = $originUri;
-        $this->DestinationUri = $destinationUri;
-        $this->WayPointUri = $wayPointUri;
+        $this->fromId = $fromId;
+        $this->toId = $toId;
         return $this;
     }
 
@@ -60,34 +59,35 @@ class Journeys extends NavitiaApi
 
     public function setDatetimeRepresents($datetimeRepresents = self::DATETIME_REPRESENTS_DEPARTURE)
     {
-        $this->DatetimeRepresents = $datetimeRepresents;
+        $this->datetimeRepresents = $datetimeRepresents;
         return $this;
     }
 
     public function setDateTime($datetimestring)
     {
-        $this->Datetime = $datetimestring;
+        $this->datetime = $datetimestring;
         return $this;
     }
 
     public function fill($journeyListFeed)
     {
         $responseType = null;
-        if (isset($journeyListFeed->reponse_type)) {
-            $responseType = $journeyListFeed->response_type;
+        if (isset($journeyListFeed->error)) {
+            $responseType = $journeyListFeed->error->id;
         }
+        
         switch ($responseType) {
-            case 'DATE_OUT_OF_BOUNDS': return self::ERROR_DATE_OUT_OF_BOUNDS; break;
-            case 'NO_ORIGIN_POINT': return self::ERROR_NO_ORIGIN_POINT; break;
-            case 'NO_DESTINATION_POINT': return self::ERROR_NO_DESTINATION_POINT; break;
-            case 'NO_ORIGIN_NOR_DESTINATION_POINT': return self::ERROR_NO_ORIGIN_NOR_DESTINATION_POINT; break;
-            case 'NO_SOLUTION': return self::ERROR_NO_SOLUTION; break;
+            case 'date_out_of_bounds': $response = self::ERROR_DATE_OUT_OF_BOUNDS; break;
+            case 'no_origin_point': $response = self::ERROR_NO_ORIGIN_POINT; break;
+            case 'no_destination_point': $response = self::ERROR_NO_DESTINATION_POINT; break;
+            case 'no_origin_nor_destination_point': $response = self::ERROR_NO_ORIGIN_NOR_DESTINATION_POINT; break;
+            case 'no_solution': $response = self::ERROR_NO_SOLUTION; break;
             default:
                 if (isset($journeyListFeed->prev)) {
-                    $this->PreviousUriComponents = $this->getUriStringComponents($journeyListFeed->prev);
+                    $this->previousUriComponents = $this->getUriStringComponents($journeyListFeed->prev);
                 }
                 if (isset($journeyListFeed->next)) {
-                    $this->NextUriComponents = $this->getUriStringComponents($journeyListFeed->next);
+                    $this->nextUriComponents = $this->getUriStringComponents($journeyListFeed->next);
                 }
                 if (isset($journeyListFeed->journeys)) {
                     foreach ($journeyListFeed->journeys as $journeyFeed) {
@@ -95,15 +95,17 @@ class Journeys extends NavitiaApi
                             ->fill($journeyFeed);
                         $this->addJourney($journeyObject);
                     }
-                    return Journeys::ERROR_NULL;
+                    $response = Journeys::ERROR_NULL;
                 }
                 break;
         }
+        
+        return $response;
     }
 
     public function addJourney(Journey $journey)
     {
-        $this->JourneyList[] = $journey;
+        $this->journeys[] = $journey;
     }
 
     public function getResult()
@@ -113,10 +115,10 @@ class Journeys extends NavitiaApi
 
         $feed = NavitiaRequest::create()
             ->api('journeys')
-            ->param('from', $this->OriginUri)
-            ->param('to', $this->DestinationUri)
-            ->param('datetime', $this->Datetime)
-            ->param('datetime_represents', $this->DatetimeRepresents)
+            ->param('from', $this->fromId)
+            ->param('to', $this->toId)
+            ->param('datetime', $this->datetime)
+            ->param('datetime_represents', $this->datetimeRepresents)
             ->param('forbidden_uris', $this->forbiddenUris)
             ->execute();
 

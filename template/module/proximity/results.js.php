@@ -69,13 +69,13 @@ var pointPosition = null;
 
 // Définition des points et lignes à tracer sur la carte 
 <?php
-    foreach ($line_point_list as $lineUri => $line) {
-        echo "line_points['" . $lineUri . "'] = new Array();\n";
-        echo "line_points_data['" . $lineUri . "'] = new Array();\n";
+    foreach ($line_point_list as $lineId => $line) {
+        echo "line_points['" . $lineId . "'] = new Array();\n";
+        echo "line_points_data['" . $lineId . "'] = new Array();\n";
         foreach ($line as $stop) {
-            echo "pointPosition = new OpenLayers.LonLat(" . $stop->StopPoint->Coord->Lon . ", " . $stop->StopPoint->Coord->Lat . ").transform(wgsProjection, smeProjection);\n";
-            echo "line_points['" . $lineUri . "'].push(new OpenLayers.Geometry.Point(pointPosition.lon, pointPosition.lat));\n";
-            echo "line_points_data['" . $lineUri . "'].push({uri: '" . addslashes($stop->StopPoint->Uri) . "', name: '" . addslashes($stop->StopPoint->Name) ."'});\n";
+            echo "pointPosition = new OpenLayers.LonLat(" . $stop->stopPoint->coord->lon . ", " . $stop->stopPoint->coord->lat . ").transform(wgsProjection, smeProjection);\n";
+            echo "line_points['" . $lineId . "'].push(new OpenLayers.Geometry.Point(pointPosition.lon, pointPosition.lat));\n";
+            echo "line_points_data['" . $lineId . "'].push({id: '" . addslashes($stop->stopPoint->id) . "', name: '" . addslashes($stop->stopPoint->name) ."'});\n";
         }
     }
 ?>

@@ -10,7 +10,7 @@
                             <div class="field_padding">
                                 <label for="journey_search_from_name"><?php echo translate('transport', 'from_label'); ?></label>
                                 <input id="journey_search_from_name" type="text" name="from[name]" value="" />
-                                <input id="journey_search_from_uri" type="hidden" name="from[uri]" value="" />
+                                <input id="journey_search_from_id" type="hidden" name="from[id]" value="" />
                                 <input id="journey_search_from_coords" type="hidden" name="from[coords]" value="" />
                             </div>
                             <div class="clear"></div>
@@ -22,7 +22,7 @@
                             <div class="field_padding">
                                 <label for="journey_search_to_name"><?php echo translate('transport', 'to_label'); ?></label>
                                 <input id="journey_search_to_name" type="text" name="to[name]" value="" />
-                                <input id="journey_search_to_uri" type="hidden" name="to[uri]" value="" />
+                                <input id="journey_search_to_id" type="hidden" name="to[id]" value="" />
                                 <input id="journey_search_to_coords" type="hidden" name="to[coords]" value="" />
                             </div>
                             <div class="clear"></div>

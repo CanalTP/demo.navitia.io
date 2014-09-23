@@ -31,22 +31,20 @@ class Region extends Entity
             ->api('coverage')
             ->execute();
 
+        $list = array();
+        
         if (!$feed['hasError']) {
             $feed = json_decode($feed['content']);
-            $list = array();
 
             if ($feed != null) {
                 foreach ($feed->regions as $region) {
                     $list[] = self::create()
                         ->fill($region);
                 }
-                return $list;
-            } else {
-                return null;
+                
             }
-        } else {
-            return null;
         }
+        return $list;
     }
 
     public function fill($feed)

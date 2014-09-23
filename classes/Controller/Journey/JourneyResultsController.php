@@ -59,10 +59,10 @@ class JourneyResultsController extends Controller
     private function getJourneyResult()
     {
         return Journeys::create()
-            ->setPointsUri(
+            ->setPointsIds(
                 urldecode($this->request->getParam(1)),
                 urldecode($this->request->getParam(3)))
-            ->setClockwise($this->request->getParam(4))
+            ->setDatetimeRepresents($this->request->getParam(4))
             ->setDateTime($this->request->getParam(5))
             ->setForbiddenUris($this->request->getParam('avoidUri'))
             ->getResult();
@@ -78,14 +78,14 @@ class JourneyResultsController extends Controller
         $datetime = new \DateTime($this->request->getParam(5));
 
         return array(
-            'origin_name' => urldecode($this->request->getParam(0)),
-            'origin_uri' => $this->request->getParam(1),
-            'origin_coords' => null,
-            'destination_name' => urldecode($this->request->getParam(2)),
-            'destination_uri' => $this->request->getParam(3),
-            'destination_coords' => null,
+            'from_name' => urldecode($this->request->getParam(0)),
+            'from_id' => $this->request->getParam(1),
+            'from_coords' => null,
+            'to_name' => urldecode($this->request->getParam(2)),
+            'to_id' => $this->request->getParam(3),
+            'to_coords' => null,
             'timestamp' => $datetime->getTimestamp(),
-            'clockwise' => $this->request->getParam(4),
+            'datetime_represents' => $this->request->getParam(4),
             'datetime' => $this->request->getParam(5),
             'nbchanges' => 0,
             'duration' => 0,
@@ -94,66 +94,65 @@ class JourneyResultsController extends Controller
         );
     }
     
-    private function getCoordFromUri($uri)
+    private function getCoordFromId($id)
     {
-        $type = Uri::create(urldecode($uri))
+        $type = Uri::create(urldecode($id))
             ->getType();
         switch ($type) {
             case Place::OBJECT_TYPE_ADDRESS:
-                return Address::getOne($uri)
+                return Address::getOne($id)
                     ->getCoords();
-                break;
+                    break;
         }   
     }
     
     private function getRoadMapTitle($journeyResults, $journeySummary)
     {
-        $journeyOrigin = '';
-        $journeyDestination = '';
+        $journeyFrom = '';
+        $journeyTo = '';
         
-        if ($journeySummary['origin_name'] != '-') {
-            $journeyOrigin = $journeySummary['origin_name'];
-            $journeyDestination = $journeySummary['destination_name'];
+        if ($journeySummary['from_name'] != '-') {
+            $journeyFrom = $journeySummary['from_name'];
+            $journeyTo = $journeySummary['to_name'];
         } else {
             if (!$journeyResults['hasError']) {
-                if (isset($journeyResults['data']->JourneyList[0]->SectionList[0]->Origin->Name)) {
-                    $journeyOrigin = $journeyResults['data']
-                        ->JourneyList[0]
-                        ->SectionList[0]
-                        ->Origin
-                        ->Name;
-                } else if (isset($journeyResults['data']->JourneyList[0]->SectionList[0]->StreetNetwork->PathItemList[0]->Name)) {
-                    $journeyOrigin = $journeyResults['data']
-                        ->JourneyList[0]
-                        ->SectionList[0]
-                        ->StreetNetwork
-                        ->PathItemList[0]
-                        ->Name;
+                if (isset($journeyResults['data']->journeys[0]->sections[0]->from->name)) {
+                    $journeyFrom = $journeyResults['data']
+                        ->journeys[0]
+                        ->sections[0]
+                        ->from
+                        ->name;
+                } else if (isset($journeyResults['data']->journeys[0]->sections[0]->streetNetwork->pathItems[0]->name)) {
+                    $journeyFrom = $journeyResults['data']
+                        ->journeys[0]
+                        ->sections[0]
+                        ->streetNetwork
+                        ->pathItems[0]
+                        ->name;
                 }
-                $lastSectionIndex = count($journeyResults['data']->JourneyList[0]->SectionList) - 1;
-                if (isset($journeyResults['data']->JourneyList[0]->SectionList[$lastSectionIndex]->Destination->Name)) {
-                    $journeyDestination = $journeyResults['data']
-                        ->JourneyList[0]
-                        ->SectionList[$lastSectionIndex]
-                        ->Destination
-                        ->Name;
+                $lastSectionIndex = count($journeyResults['data']->journeys[0]->sections) - 1;
+                if (isset($journeyResults['data']->journeys[0]->sections[$lastSectionIndex]->to->name)) {
+                    $journeyTo = $journeyResults['data']
+                        ->journeys[0]
+                        ->sections[$lastSectionIndex]
+                        ->to
+                        ->name;
                 } else {
-                    $lastPathItemIndex = count($journeyResults['data']->JourneyList[0]->SectionList[$lastSectionIndex]->StreetNetwork->PathItemList) - 1;
-                    if ($journeyResults['data']->JourneyList[0]->SectionList[$lastSectionIndex]->StreetNetwork->PathItemList[$lastPathItemIndex]->Name) {
-                        $journeyDestination = $journeyResults['data']
-                            ->JourneyList[0]
-                            ->SectionList[$lastSectionIndex]
-                            ->StreetNetwork
-                            ->PathItemList[$lastPathItemIndex]
-                            ->Name;
+                    $lastPathItemIndex = count($journeyResults['data']->journeys[0]->sections[$lastSectionIndex]->path) - 1;
+                    if ($journeyResults['data']->journeys[0]->sections[$lastSectionIndex]->path[$lastPathItemIndex]->name) {
+                        $journeyTo = $journeyResults['data']
+                            ->journeys[0]
+                            ->sections[$lastSectionIndex]
+                            ->path[$lastPathItemIndex]
+                            ->name;
                     }
                 }
             }
         }
         
         return array(
-            'origin' => $journeyOrigin,
-            'destination' => $journeyDestination,
+            'from' => $journeyFrom,
+            'to' => $journeyTo,
         );
     }
 
@@ -185,7 +184,7 @@ class JourneyResultsController extends Controller
     
     private function getSoonerLink($journeyResult)
     {
-        $datetime = new \DateTime($journeyResult['data']->PreviousUriComponents['datetime']);
+        $datetime = new \DateTime($journeyResult['data']->previousUriComponents['datetime']);
         
         $url = 'journey/results/'
             . $this->request->getParam('0') . '/'
@@ -200,7 +199,7 @@ class JourneyResultsController extends Controller
     
     private function getLaterLink($journeyResult)
     {
-        $datetime = new \DateTime($journeyResult['data']->NextUriComponents['datetime']);
+        $datetime = new \DateTime($journeyResult['data']->nextUriComponents['datetime']);
         
         $url = 'journey/results/'
             . $this->request->getParam('0') . '/'

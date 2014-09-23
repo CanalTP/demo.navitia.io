@@ -11,6 +11,7 @@ class NavitiaRequest extends ServiceRequest
 
     protected $regionName;
     protected $apiName;
+    protected $resource;
     protected $filterList;
 
     protected function __construct()

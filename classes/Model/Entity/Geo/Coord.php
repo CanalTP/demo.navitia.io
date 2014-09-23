@@ -7,13 +7,13 @@ use Nv2\Model\Entity\Base\Entity;
 //! Classe représentant un point sur le globe
 class Coord extends Entity
 {
-    public $Lat;
-    public $Lon;
+    public $lat;
+    public $lon;
 
     private function __construct()
     {
-        $this->Lat = 0;
-        $this->Lon = 0;
+        $this->lat = 0;
+        $this->lon = 0;
     }
 
     //! Retourne une instance de Coord
@@ -41,9 +41,18 @@ class Coord extends Entity
             $data = explode(';', $coordString);
         }
         $object = new self();
-        $object->Lon = $data[0] + 0;
-        $object->Lat = $data[1] + 0;
+        $object->lon = $data[0] + 0;
+        $object->lat = $data[1] + 0;
 
+        return $object;
+    }
+    
+    public static function createFromFloats($lon, $lat)
+    {
+        $object = new self();
+        $object->lon = $lon;
+        $object->lat = $lat;
+        
         return $object;
     }
     
@@ -53,7 +62,7 @@ class Coord extends Entity
      */
     public function getString($separator=':')
     {
-        return $this->Lon . $separator . $this->Lat;        
+        return $this->lon . $separator . $this->lat;        
     }
     
     /**
@@ -63,10 +72,10 @@ class Coord extends Entity
      */
     public function getDistanceFrom(Coord $other)
     {
-        $lat1 = deg2rad($this->Lat);
-        $lat2 = deg2rad($other->Lat);
-        $lon1 = deg2rad($this->Lon);
-        $lon2 = deg2rad($other->Lon);
+        $lat1 = deg2rad($this->lat);
+        $lat2 = deg2rad($other->lat);
+        $lon1 = deg2rad($this->lon);
+        $lon2 = deg2rad($other->lon);
         
         $distance = 2 * asin(
             sqrt(
@@ -86,7 +95,7 @@ class Coord extends Entity
      */
     public function getUri()
     {
-        return 'coord:' . $this->Lon . ':' . $this->Lat;
+        return 'coord:' . $this->lon . ':' . $this->lat;
     }
 
     //! Alimente les propriétés de l'objet à partir d'un flux JSON
@@ -95,8 +104,8 @@ class Coord extends Entity
      */
     public function fill($feed)
     {
-        $this->Lon = $feed->lon;
-        $this->Lat = $feed->lat;
+        $this->lon = $feed->lon;
+        $this->lat = $feed->lat;
 
         return $this;
     }
