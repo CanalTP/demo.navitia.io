@@ -20,7 +20,7 @@ class Debug
 
     public static function addServiceRequest($category, $request, $time, $code = 200)
     {
-        $time = $time * 1000;
+        $time *= 1000;
         self::$serviceRequests[] = array(
             'category' => $category,
             'request' => $request,

@@ -6,11 +6,11 @@ use Nv2\Model\Entity\Places\Place;
 
 class Uri
 {
-    public $Value;
+    public $value;
 
     private function __construct($string)
     {
-        $this->Value = $string;
+        $this->value = $string;
     }
     
     public static function create($string)
@@ -20,26 +20,27 @@ class Uri
     
     public function getType()
     {
-        $data = explode(':', $this->Value);
+        $data = explode(':', $this->value);
         switch ($data[0]) {
             case 'address':
-                return Place::OBJECT_TYPE_ADDRESS;
+                $type = Place::OBJECT_TYPE_ADDRESS;
                 break;
             case 'stop_area':
-                return Place::OBJECT_TYPE_STOP_AREA;
+                $type = Place::OBJECT_TYPE_STOP_AREA;
                 break;
             case 'stop_point':
-                return Place::OBJECT_TYPE_STOP_POINT;
+                $type = Place::OBJECT_TYPE_STOP_POINT;
                 break;
             case 'poi':
-                return Place::OBJECT_TYPE_POI;
+                $type = Place::OBJECT_TYPE_POI;
                 break;
             case 'administrative_region':
-                return Place::OBJECT_TYPE_ADMIN;
+                $type = Place::OBJECT_TYPE_ADMIN;
                 break;
             default:
-                return Place::OBJECT_TYPE_UNKNOWN;
+                $type = Place::OBJECT_TYPE_UNKNOWN;
                 break;
         }
+        return $type;
     }
 }

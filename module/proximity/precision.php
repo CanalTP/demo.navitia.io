@@ -1,5 +1,5 @@
 <?php
 
-$ctrl = new Nv2\Controller\Proximity\ProximityPrecisionController($this->Request);
-$ctrl->setTemplate($this->ModuleTemplate);
+$ctrl = new Nv2\Controller\Proximity\ProximityPrecisionController($request);
+$ctrl->setTemplate($template);
 $ctrl->run();

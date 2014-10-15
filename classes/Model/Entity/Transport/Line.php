@@ -13,27 +13,27 @@ use Nv2\Model\Entity\Geo\Coord;
  */
 class Line extends Entity
 {
-    public $Code;
-    public $Color;
-    public $Name;
-    public $Uri;
-    public $PhysicalModeList;
-    public $CommercialMode;
-    public $Network;
-    public $Routes;
+    public $code;
+    public $color;
+    public $name;
+    public $id;
+    public $physicalModeList;
+    public $commercialMode;
+    public $network;
+    public $routes;
 
     /**
      * Initialisation des données de l'objet
      */
     private function __construct()
     {
-        $this->Code = null;
-        $this->Color = null;
-        $this->Name = null;
-        $this->Uri = null;
-        $this->PhysicalModeList = null;
-        $this->CommercialMode = null;
-        $this->Network = null;
+        $this->code = null;
+        $this->color = null;
+        $this->name = null;
+        $this->id = null;
+        $this->physicalModeList = null;
+        $this->commercialMode = null;
+        $this->network = null;
     }
 
     /**

@@ -44,20 +44,15 @@ class Poi extends Entity
                     $list[] = self::create()
                         ->fill($poi);
                 }
-        
-                return $list;
-            } else {
-                return null;
             }
-        } else {
-            return null;
         }
+        return $list;
     }
 
     public function fill($feed)
     {
         $this->name = $feed->name;
-        $this->id = $feed->uri;
+        $this->id = $feed->id;
 
         $this->coord = Coord::create()
             ->fill($feed->coord);

@@ -1,5 +1,5 @@
 <?php
 
-$ctrl = new Nv2\Controller\Schedule\ScheduleSearchController($this->Request);
-$ctrl->setTemplate($this->ModuleTemplate);
+$ctrl = new Nv2\Controller\Schedule\ScheduleSearchController($request);
+$ctrl->setTemplate($template);
 $ctrl->run();

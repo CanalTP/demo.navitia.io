@@ -1,5 +1,5 @@
 <?php
 
-$ctrl = new Nv2\Controller\Schedule\ScheduleLineExecuteController($this->Request);
-$ctrl->setTemplate($this->ModuleTemplate);
+$ctrl = new Nv2\Controller\Schedule\ScheduleLineExecuteController($request);
+$ctrl->setTemplate($template);
 $ctrl->run();

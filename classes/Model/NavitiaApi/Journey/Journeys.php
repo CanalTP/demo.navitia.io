@@ -76,6 +76,8 @@ class Journeys extends NavitiaApi
             $responseType = $journeyListFeed->error->id;
         }
         
+        $response = Journeys::ERROR_NULL;
+        
         switch ($responseType) {
             case 'date_out_of_bounds': $response = self::ERROR_DATE_OUT_OF_BOUNDS; break;
             case 'no_origin_point': $response = self::ERROR_NO_ORIGIN_POINT; break;
@@ -114,6 +116,7 @@ class Journeys extends NavitiaApi
         $errorCode = Journeys::ERROR_NULL;
 
         $feed = NavitiaRequest::create()
+            ->disableRegion()
             ->api('journeys')
             ->param('from', $this->fromId)
             ->param('to', $this->toId)

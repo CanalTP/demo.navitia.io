@@ -237,10 +237,13 @@
     right: 0;
     z-index: 255;
     .avoid {
+        z-index: 257;
         width: 200px;
         position: absolute;
+        top: 0;
+        left: 17px;
         background-color: #666666;
-        padding: 1em;
+        padding: 1em 0;
         @include box-shadow(#666666 0px 0px 5px);
         li {
             border: 0;
@@ -249,12 +252,20 @@
             font-size: 1.2em;
         }
         a {
+            display: block;
+            padding: 0.25em 1em;
             color: #ffffff;
             text-decoration: none;
+            &:hover {
+                background-color: #333333;
+            }
         }
         strong {
             font-family: "UbuntuBold";
         }
+    }
+    a {
+        z-index: 256;
     }
 }
 

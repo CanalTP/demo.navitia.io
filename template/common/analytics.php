@@ -1,5 +1,5 @@
 <?php use Nv2\Lib\Nv2\Core\Module; ?>
-<?php if (Module::$sEnvironment == 'prod') { ?>
+<?php if (Module::$environment == 'prod') { ?>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];

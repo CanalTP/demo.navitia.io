@@ -118,7 +118,12 @@ $(document).ready(function() {
     });
 
     $('.option_link').live('click', function() {
-        $(this).parent().find('.avoid').toggleClass('hide');
+        if ($(this).parent().find('.avoid').hasClass('hide')) {
+            $('.avoid').addClass('hide');
+            $(this).parent().find('.avoid').removeClass('hide');
+        } else {
+            $(this).parent().find('.avoid').addClass('hide');
+        }
     });
     $('.section_options .avoid a').live('click', function() {
         var id = $(this).attr('class').split(';');
@@ -180,6 +185,7 @@ var itemTypeLabels = {
 // FirstLetter depart
 var fletter_from = new AutocompleteEngine(
     '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia');
+           echo 'coverage/';
            echo request_get('RegionName'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/container'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/item'); ?>'
@@ -195,6 +201,7 @@ fletter_from.bind('journey_search_from', 'FLFromDivId');
 // Firstletter arrivée
 var fletter_to = new AutocompleteEngine(
     '<?php echo config_get('webservice', 'Url', 'CrossDomainNavitia');
+           echo 'coverage/';
            echo request_get('RegionName'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/container'); ?>',
     '<?php url_link('autocomplete/get_ajax_html/item'); ?>'
@@ -461,7 +468,7 @@ function fillJourneyLinePoints(data)
                 if (section.type == 'street_network') {
                     for (coord_index in section.geojson.coordinates) {
                         var coord = section.geojson.coordinates[coord_index];
-                        var point_lonlat = new OpenLayers.LonLat(coord.lon, coord.lat).transform(wgsProjection, smeProjection);
+                        var point_lonlat = new OpenLayers.LonLat(coord[0], coord[1]).transform(wgsProjection, smeProjection);
                         journey_points[journey_index][section_index].points.push(new OpenLayers.Geometry.Point(point_lonlat.lon, point_lonlat.lat));
                     }
                 } else if (section.type == 'public_transport') {
@@ -487,14 +494,16 @@ function drawLine()
 {
     line_layer.removeAllFeatures();
     for (section_index in journey_points[current_journey_index]) {
-        var inner_journey_line = new OpenLayers.Geometry.LineString(journey_points[current_journey_index][section_index].points);
-        var outer_journey_line = new OpenLayers.Geometry.LineString(journey_points[current_journey_index][section_index].points);
-        var outer_line_feature = new OpenLayers.Feature.Vector(outer_journey_line, null, outer_line_style);
-        line_layer.addFeatures(outer_line_feature);
-        var inner_line_feature = new OpenLayers.Feature.Vector(inner_journey_line, null, line_styles[journey_points[current_journey_index][section_index].type]);
-        line_layer.addFeatures(inner_line_feature);
-        // TODO : extend on each point
-        //map_bounds.extend(new OpenLayers.LonLat(from_point.x, from_point.y));
+        if (journey_points[current_journey_index][section_index].type != 'crow_fly') {
+            var inner_journey_line = new OpenLayers.Geometry.LineString(journey_points[current_journey_index][section_index].points);
+            var outer_journey_line = new OpenLayers.Geometry.LineString(journey_points[current_journey_index][section_index].points);
+            var outer_line_feature = new OpenLayers.Feature.Vector(outer_journey_line, null, outer_line_style);
+            line_layer.addFeatures(outer_line_feature);
+            var inner_line_feature = new OpenLayers.Feature.Vector(inner_journey_line, null, line_styles[journey_points[current_journey_index][section_index].type]);
+            line_layer.addFeatures(inner_line_feature);
+            // TODO : extend on each point
+            //map_bounds.extend(new OpenLayers.LonLat(from_point.x, from_point.y));
+        }
     }
     //map.zoomToExtent(map_bounds);
 }
@@ -506,10 +515,8 @@ function drawMarkers()
 {
     if (typeof(journey_points[current_journey_index]) != 'undefined') {
         marker_layer.removeAllFeatures();
-        var from_point = journey_points[current_journey_index][0].points[0];
-        var last_section = journey_points[current_journey_index].length - 1;
-        var last_point = journey_points[current_journey_index][last_section].points.length - 1;
-        var to_point = journey_points[current_journey_index][last_section].points[last_point];
+        var from_point = getFirstSectionPoint(journey_points[current_journey_index]);
+        var to_point = getLastSectionPoint(journey_points[current_journey_index]);;
         var from_marker_feature = new OpenLayers.Feature.Vector(from_point, {type: 'from'}, from_marker_style);
         var to_marker_feature = new OpenLayers.Feature.Vector(to_point, {type: 'to'}, to_marker_style);
         marker_layer.addFeatures(from_marker_feature);
@@ -518,6 +525,27 @@ function drawMarkers()
         map_bounds.extend(new OpenLayers.LonLat(to_point.x, to_point.y));
         map.zoomToExtent(map_bounds);
     }
+}
+
+function getFirstSectionPoint(journeySections)
+{
+    if (journeySections[0].type != 'crow_fly') {
+        return journeySections[0].points[0];
+    } else {
+        return journeySections[1].points[0];
+    }
+}
+
+function getLastSectionPoint(journeySections)
+{
+    var last_section = journeySections.length - 1;
+    var section_points = new Array();
+    if (journeySections[last_section].type != 'crow_fly') {
+        section_points = journeySections[last_section].points;
+    } else {
+        section_points = journeySections[last_section - 1].points;
+    }
+    return section_points[section_points.length - 1];
 }
 
 function resetCenter()

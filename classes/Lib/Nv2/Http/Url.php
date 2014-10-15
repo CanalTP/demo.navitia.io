@@ -6,13 +6,13 @@ use Nv2\Lib\Nv2\Core\Module;
 
 class Url
 {
-    public static function format($resource, $region=null)
+    public static function format($resource, $region = null)
     {
         if (!$region) {
-            $region = Module::$sRequest->getRegionName();
+            $region = Module::$request->getRegionName();
         }
         
-        $scriptName = explode('/', $_SERVER['SCRIPT_NAME']);
+        $scriptName = explode('/', filter_input(INPUT_SERVER, 'SCRIPT_NAME', FILTER_SANITIZE_STRING));
         foreach ($scriptName as $element) {
             if (strstr($element, '.php')) {
                 $scriptName = $element;
@@ -20,10 +20,12 @@ class Url
             }
         }
 
+        $returnUrl = '';
         if ($resource == '/') {
-            return ROOT_HREF;
+            $returnUrl = ROOT_HREF;
         } else {
-            return ROOT_HREF . $scriptName . '/' . $region . '/' . $resource;
+            $returnUrl = ROOT_HREF . $scriptName . '/' . $region . '/' . $resource;
         }
+        return $returnUrl;
     }
 }

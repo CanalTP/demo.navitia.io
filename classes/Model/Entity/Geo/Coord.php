@@ -35,7 +35,7 @@ class Coord extends Entity
         $coordString = urldecode($coordString);
         if (strstr($coordString, ':')) {
             $data = explode(':', $coordString);
-        } else if (strstr($coordString, ',')) {
+        } elseif (strstr($coordString, ',')) {
             $data = explode(',', $coordString);
         } else {
             $data = explode(';', $coordString);
@@ -60,9 +60,9 @@ class Coord extends Entity
      * @param string $separator
      * @return string
      */
-    public function getString($separator=':')
+    public function getString($separator = ':')
     {
-        return $this->lon . $separator . $this->lat;        
+        return $this->lon . $separator . $this->lat;
     }
     
     /**
@@ -80,9 +80,9 @@ class Coord extends Entity
         $distance = 2 * asin(
             sqrt(
                 pow(sin(($lat1 - $lat2) / 2), 2)
-              + cos($lat1)
-              * cos($lat2)
-              * pow(sin(($lon1 - $lon2) / 2), 2)
+                + cos($lat1)
+                * cos($lat2)
+                * pow(sin(($lon1 - $lon2) / 2), 2)
             )
         );
         

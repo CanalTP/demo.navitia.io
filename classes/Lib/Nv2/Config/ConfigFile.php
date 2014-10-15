@@ -20,17 +20,19 @@ class ConfigFile
         }
     }
 
-    public function get($group=null, $param=null)
+    public function get($group = null, $param = null)
     {
+        $returnList = array();
         if ($group === null) {
-            return $this->groupList;
+            $returnList = $this->groupList;
         } else {
             if ($param === null) {
-                return $this->groupList[$group];
+                $returnList = $this->groupList[$group];
             } else {
-                return $this->groupList[$group][$param];
+                $returnList = $this->groupList[$group][$param];
             }
         }
+        return $returnList;
     }
 
     public function set($group, $param, $value)

@@ -8,9 +8,9 @@
                         <legend><?php echo translate('home', 'question'); ?></legend>
                         <?php foreach ($region_list as $index => $region) { ?>
                             <div>
-                                <label class="region_line" for="rid_<?php echo $region->Id; ?>">
-                                    <input class="region_choice" type="radio" name="region" value="<?php echo $region->Id; ?>" id="rid_<?php echo $region->Id; ?>" />
-                                    <?php echo translate('region.name', strtolower($region->Id)); ?>
+                                <label class="region_line" for="rid_<?php echo $region->id; ?>">
+                                    <input class="region_choice" type="radio" name="region" value="<?php echo $region->id; ?>" id="rid_<?php echo $region->id; ?>" />
+                                    <?php echo translate('region.name', strtolower($region->id)); ?>
                                 </label>
                             </div>
                         <?php } ?>

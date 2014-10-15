@@ -7,11 +7,11 @@ use Nv2\Model\Entity\Base\Entity;
 
 class Admin extends Entity
 {
-    public $Level;
-    public $ZipCode;
-    public $Uri;
-    public $Coord;
-    public $Name;
+    public $level;
+    public $zipCode;
+    public $id;
+    public $coord;
+    public $name;
     
     private function __construct()
     {
@@ -25,12 +25,12 @@ class Admin extends Entity
     
     public function fill($feed)
     {
-        $this->Level = $feed->level;
-        $this->ZipCode = $feed->zip_code;
-        $this->Uri = $feed->uri;
-        $this->Coord = Coord::create()
+        $this->level = $feed->level;
+        $this->zipCode = $feed->zip_code;
+        $this->id = $feed->id;
+        $this->coord = Coord::create()
             ->fill($feed->coord);
-        $this->Name = $feed->name;
+        $this->name = $feed->name;
         
         return $this;        
     }

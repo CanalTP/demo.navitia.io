@@ -40,7 +40,7 @@ class JourneyExecuteController extends Controller
         }
 
         if (isset($vars['from']['id']) && isset($vars['to']['id'])
-        && $vars['from']['id'] && $vars['to']['id']) {
+        && $vars['from']['id'] && $vars['to']['id']) {            
             // Si URI défini : sélection depuis Firstletter ou Precision
             // --> Résultats
             $this->redirect('journey/results/'

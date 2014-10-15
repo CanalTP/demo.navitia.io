@@ -41,14 +41,16 @@ class Request
     }
 
     public function getParam($index)
-    {        
+    {
+        $returnValue = null;
         if (isset($this->params[$index])) {
-            return $this->params[$index];
-        } else if (isset($_REQUEST[$index])) {
-            return $_REQUEST[$index];
-        } else {
-            return NULL;
+            $returnValue = $this->params[$index];
+        } elseif (isset($_GET[$index])) {
+            $returnValue = $_GET[$index];
+        } elseif (isset($_POST[$index])) {
+            $returnValue = $_POST[$index];
         }
+        return $returnValue;
     }
 
     public function getParams()
@@ -59,28 +61,29 @@ class Request
     public function getFormattedParam($name)
     {
         $param = $this->getParam($name);
+        $returnValue = null;
         if ($param != null) {
             if (is_array($param)) {
                 $str = '';
                 foreach ($param as $p) {
                     $str .= '&' . $name . '[]=' . $p;
-                }                
-                return $str;
+                }
+                $returnValue = $str;
             } else {
-                return $name . '=' . $param;
+                $returnValue = $name . '=' . $param;
             }
         }
-        return null;
+        return $returnValue;
     }
 
     public function getUrl()
     {
-        return $_SERVER['REQUEST_URI'];
+        return filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING);
     }
     
     public function getLocale()
     {
-        return $this->locale;        
+        return $this->locale;
     }
     
     public function getEnvironment()
@@ -91,22 +94,24 @@ class Request
     public function getDebugStatus()
     {
         $debug = $this->getParam('debug');
+        $status = Debug::STATUS_NONE;
         switch ($debug) {
             case '1':
-                return Debug::STATUS_WEB;
+                $status = Debug::STATUS_WEB;
                 break;
             case '2':
-                return Debug::STATUS_RAW;
+                $status = Debug::STATUS_RAW;
                 break;
             default:
-                return Debug::STATUS_NONE;
+                $status = Debug::STATUS_NONE;
                 break;
         }
+        return $status;
     }
     
     public function setLocale($identifier)
     {
-        $this->locale = $identifier;        
+        $this->locale = $identifier;
     }
     
     public function setEnvironment($name)
@@ -114,9 +119,11 @@ class Request
         $this->environment = $name;
     }
 
-    public function redirect($uri, $region=null)
+    public function redirect($uri, $region = null)
     {
-        $this->regionName = $region;
+        if ($region) {
+            $this->regionName = $region;
+        }
         $location = Url::format($uri, $region);
         header('location: '. $location);
         exit();
@@ -124,9 +131,9 @@ class Request
 
     public function initFromUri()
     {
-        $uri = $_SERVER['REQUEST_URI'];
+        $uri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING);
         
-        $scriptName = explode('/', $_SERVER['SCRIPT_NAME']);
+        $scriptName = explode('/', filter_input(INPUT_SERVER, 'SCRIPT_NAME', FILTER_SANITIZE_STRING));
         foreach ($scriptName as $element) {
             if (strstr($element, '.php')) {
                 $scriptName = $element;
@@ -141,7 +148,7 @@ class Request
         }
 
         $uriCount = count($uriData);
-
+        
         if (isset($uriData[1]) && $uriData[1] != '') {
             $this->regionName = $uriData[1];
         }

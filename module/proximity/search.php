@@ -1,5 +1,5 @@
 <?php
 
-$ctrl = new Nv2\Controller\Proximity\ProximitySearchController($this->Request);
-$ctrl->setTemplate($this->ModuleTemplate);
+$ctrl = new Nv2\Controller\Proximity\ProximitySearchController($request);
+$ctrl->setTemplate($template);
 $ctrl->run();

@@ -29,7 +29,7 @@ class Controller
     /**
      * @param string $uri
      */
-    protected function redirect($uri, $region=null)
+    protected function redirect($uri, $region = null)
     {
         $this->request->redirect($uri, $region);
     }

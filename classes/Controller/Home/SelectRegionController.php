@@ -8,7 +8,7 @@ class SelectRegionController extends Controller
 {
     public function run()
     {
-        $params = $this->request->getParams();        
+        $params = $this->request->getParams();  
         $this->redirect('journey/search', $params['region']);
     }
 }

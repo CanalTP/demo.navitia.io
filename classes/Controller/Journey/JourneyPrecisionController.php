@@ -36,7 +36,7 @@ class JourneyPrecisionController extends Controller
 
         $this->template->setVariable('from_point_response', $fromPointResponse);
         $this->template->setVariable('to_point_response', $toPointResponse);
-        $this->template->setVariable('clockwise', $this->request->getParam(2));
+        $this->template->setVariable('datetime_represents', $this->request->getParam(2));
         $this->template->setVariable('datetime', $this->request->getParam(3));
 
         $this->template->fetch('module/journey/precision.php');
@@ -49,9 +49,8 @@ class JourneyPrecisionController extends Controller
      */
     private function getEntryPointResponse($entryPointType, $name)
     {
-        $placeList = $this->getEntryPointList($name);
-        
-        $placeCount = count($placeList);
+        $places = $this->getEntryPointList($name);        
+        $placeCount = count($places);
 
         if ($placeCount == 0) {
             $responseType = self::RESPONSE_UNKNOWN_POINT;
@@ -64,7 +63,7 @@ class JourneyPrecisionController extends Controller
         return array(
             'type' => $responseType,
             'entry' => urldecode($name),
-            'pointList' => $placeList,
+            'places' => $places,
         );
     }
 
@@ -76,12 +75,5 @@ class JourneyPrecisionController extends Controller
     private function getEntryPointList($name)
     {
         return Place::getList($name);
-        /*
-        return Autocomplete::create()
-            ->name($name)
-            ->depth(2)
-            ->limit(15)
-            ->getResultList();
-        */
     }
 }

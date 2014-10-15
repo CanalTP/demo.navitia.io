@@ -49,12 +49,12 @@ function request_get($name, $index=0)
 {
     switch ($name) {
         case 'RegionName':
-            return Module::$sRequest->getRegionName();
+            return Module::$request->getRegionName();
             break;
         default:
             $index = $name;
         case 'param':
-            return Module::$sRequest->getParam($index);
+            return Module::$request->getParam($index);
             break;
     }
 }

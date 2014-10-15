@@ -163,7 +163,7 @@ var AutocompleteEngine = Base.extend
                     itemHtml = this.parseObjectName(itemHtml, result.places[i]);
                     itemHtml = this.parseAdminName(itemHtml, result.places[i]);
                     itemHtml = this.parseAdminZipCode(itemHtml, result.places[i]);
-                    itemHtml = this.parseUri(itemHtml, result.places[i]);
+                    itemHtml = this.parseId(itemHtml, result.places[i]);
                     nameList[0] += itemHtml;
                 }
                 if (i >= 4) {
@@ -172,7 +172,6 @@ var AutocompleteEngine = Base.extend
             }
             if (typeof(this.CallbackFunctions.onResult) === 'function') {
                 var place = result.places[0];
-                place.type = this.getPlaceType(place);
                 this.CallbackFunctions.onResult(place, this.CallbackAttributes);
             }
             this.PlaceList = result.places;
@@ -200,14 +199,14 @@ var AutocompleteEngine = Base.extend
         } else {
             classValue += 'even ';
         }
-        classValue += 'type_' + this.getPlaceType(place).toLowerCase();
+        classValue += 'type_' + place.embedded_type;
 
         return html[0] + classValue.trim() + html[1];
     },
 
     parseObjectTypeName: function(html, place)
     {
-        var type = this.getPlaceType(place);
+        var type = place.embedded_type;
         html = html.split('%TYPE_NAME%');
 
         html = html[0] + this.PlaceTypeLabels[type] + html[1];
@@ -229,7 +228,7 @@ var AutocompleteEngine = Base.extend
     {
         html = html.split('%CITY_NAME%');
 
-        switch (this.getPlaceType(place)) {
+        switch (place.embedded_type) {
             case 'stop_area':
                 html = html[0] + this.getAdminLabel(place.stop_area.administrative_regions) + html[1];
                 break;
@@ -257,7 +256,7 @@ var AutocompleteEngine = Base.extend
         html = html.split('%CITY_CODE%');
         var code = '';
 
-        switch (this.getPlaceType(place)) {
+        switch (place.embedded_type) {
             case 'stop_area':
                 code = this.getAdminZipCode(place.stop_area.administrative_regions);
                 break;
@@ -285,9 +284,9 @@ var AutocompleteEngine = Base.extend
         return html;
     },
 
-    parseUri: function(html, place)
+    parseId: function(html, place)
     {
-        html = html.split('%URI%');
+        html = html.split('%ID%');
         if (typeof(place.id) !== 'undefined') {
             html = html[0] + place.id + html[1];
         } else {
@@ -297,17 +296,9 @@ var AutocompleteEngine = Base.extend
         return html;
     },
 
-    /**
-     * Permet d'identifier le type de point
-     */
-    getPlaceType: function(place)
-    {
-        return place.embedded_type;
-    },
-
     getPlaceCoords: function(place)
     {
-        switch (this.getPlaceType(place)) {
+        switch (place.embedded_type) {
             case 'address':
                 if (typeof(place.address.coord) !== 'undefined') {
                     return place.address.coord.lon + ';' + place.address.coord.lat;
@@ -363,11 +354,10 @@ var AutocompleteEngine = Base.extend
             var index = $(this).parent().attr('id').split('-');
             var place = that.PlaceList[index[1]];
             $('#' + that.FieldIdPrefix + '_name').val($(this).find('.fletter_item_name').text());
-            $('#' + that.FieldIdPrefix + '_uri').val($(this).attr('id'));
+            $('#' + that.FieldIdPrefix + '_id').val($(this).attr('id'));
             $('#' + that.FieldIdPrefix + '_coords').val(that.getPlaceCoords(place));
             $('#' + that.FlContainerId).hide();
             if (place) {
-                place.type = that.getPlaceType(place);
                 if (typeof(that.CallbackFunctions.onClick) === 'function') {
                     that.CallbackFunctions.onClick(place, that.CallbackAttributes);
                 }

@@ -1,12 +1,12 @@
 <?php
 
 $data = array(
-    'us-ny' => array(
+    'lyon' => array(
         'order' => 1,
         'init_coords' => array(
-            'lon' => -73.554897,
-            'lat' => 45.509234,
-            'zoom' => 11,
+            'lon' => 4.8351209,
+            'lat' => 45.7579555,
+            'zoom' => 13,
         ),
     ),
 );

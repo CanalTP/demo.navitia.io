@@ -1,6 +1,6 @@
 <?php
 
-$action_list = array(
+$actionList = array(
     'index' => array(
         'script' => 'index.php',
         'params' => array()),

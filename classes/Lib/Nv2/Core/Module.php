@@ -2,24 +2,21 @@
 
 namespace Nv2\Lib\Nv2\Core;
 
-use Nv2\Lib\Nv2\Http\Request;
 use Nv2\Lib\Nv2\Template\Template;
 
 class Module
 {
-    private $Request;
-    private $ModuleTemplate;
-    private $ActionList;
-    private $DebugMode;
+    private $moduleTemplate;
+    private $actionList;
+    private $debugMode;
     
-    public static $sLocale;
-    public static $sRequest;
-    public static $sEnvironment;
+    public static $locale;
+    public static $request;
+    public static $environment;
 
     private function __construct()
     {
-        $this->Request = new Request();
-        $this->ModuleTemplate = new Template();
+        $this->moduleTemplate = new Template();
     }
 
     public static function instance()
@@ -29,50 +26,53 @@ class Module
     
     public function locale($identifier)
     {
-        self::$sLocale = $identifier;
-        $this->Request->setLocale($identifier);
+        self::$locale = $identifier;
+        self::$request->setLocale($identifier);
         return $this;
     }
     
     public function environment($name)
     {
-        self::$sEnvironment = $name;
-        $this->Request->setEnvironment($name);
+        self::$environment = $name;
+        self::$request->setEnvironment($name);
         return $this;
     }
 
     public function execute()
     {
-        $module_file = ROOT_DIR . '/module/' . $this->Request->getModuleName() . '/module.php';
-        $module_result = '';
+        $request = self::$request;
+        $template = $this->moduleTemplate;
+        
+        $moduleFile = ROOT_DIR . '/module/' . self::$request->getModuleName() . '/module.php';
+        $moduleResult = '';
 
-        if (file_exists($module_file)) {
-            require($module_file);
-            $this->ActionList = $action_list;
+        if (file_exists($moduleFile)) {
+            require($moduleFile);
+            $this->actionList = $actionList;
 
-            $action_script_file = ROOT_DIR . '/module/'
-                                           . $this->Request->getModuleName() . '/'
-                                           . $this->ActionList[$this->Request->getActionName()]['script'];
+            $actionScriptFile = ROOT_DIR . '/module/'
+                                           . self::$request->getModuleName() . '/'
+                                           . $this->actionList[self::$request->getActionName()]['script'];
 
-            if (file_exists($action_script_file)) {
-                require($action_script_file);
-                $module_result = $this->ModuleTemplate->getContent();
+            if (file_exists($actionScriptFile)) {
+                require($actionScriptFile);
+                $moduleResult = $this->moduleTemplate->getContent();
             } else {
-                die('Script file "' . $action_script_file . '" not found!');   
+                die('Script file "' . $actionScriptFile . '" not found!');
             }
         } else {
-            die('Module file "' . $module_file . '" not found!');
+            die('Module file "' . $moduleFile . '" not found!');
         }
 
-        if ($this->ModuleTemplate->getPagelayoutActive() == true) {
-            $layout_file = TEMPLATE_DIR . '/pagelayout.php';
-            if (file_exists($layout_file)) {
-                include($layout_file);
+        if ($this->moduleTemplate->getPagelayoutActive() == true) {
+            $layoutFile = TEMPLATE_DIR . '/pagelayout.php';
+            if (file_exists($layoutFile)) {
+                include($layoutFile);
             } else {
-                die('Template file "' . $layout_file . '" not found!');
+                die('Template file "' . $layoutFile . '" not found!');
             }
         } else {
-            echo $module_result;
+            echo $moduleResult;
         }
 
         return $this;
@@ -80,8 +80,6 @@ class Module
     
     public function getRequest()
     {
-        return $this->Request;
+        return self::$request;
     }
 }
-
-Module::$sRequest = new Request();

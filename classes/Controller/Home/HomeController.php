@@ -27,13 +27,13 @@ class HomeController extends Controller
         $finalList = array();
         if (is_array($regionList)) {
             foreach ($regionList as $region) {
-                if (isset($data[$region->Id])) {
+                if (isset($data[$region->id])) {
                     $hide = false;
-                    if (isset($data[$region->Id]['hide']) && $data[$region->Id]['hide']) {
+                    if (isset($data[$region->id]['hide']) && $data[$region->id]['hide']) {
                         $hide = true;
                     }
                     if (!$hide) {
-                        $finalList[$data[$region->Id]['order']] = $region;
+                        $finalList[$data[$region->id]['order']] = $region;
                     }
                 }
             }

@@ -1,6 +1,6 @@
 <?php
 
-$action_list = array(
+$actionList = array(
     'search' => array(
         'script' => 'search.php',
         'params' => array()),

@@ -7,8 +7,6 @@ use Nv2\Lib\Nv2\Config\Config;
 
 class NavitiaRequest extends ServiceRequest
 {
-    const OPERATOR_DWITHIN = 'DWITHIN';
-
     protected $regionName;
     protected $apiName;
     protected $resource;
@@ -17,9 +15,10 @@ class NavitiaRequest extends ServiceRequest
     protected function __construct()
     {
         parent::__construct();
-        $this->regionName = Module::$sRequest->getRegionName() . '/';
+        $this->regionName = Module::$request->getRegionName() . '/';
         $this->serviceUrl = Config::get('webservice', 'Url', 'Navitia');
         $this->authorizationKey = Config::get('webservice', 'Token');
+        $this->resource = '';
         $this->filterList = null;
     }
 
@@ -36,17 +35,19 @@ class NavitiaRequest extends ServiceRequest
 
     public function api($name)
     {
-        $this->apiName = $name;
+        $this->apiName = $name . '/';
+        return $this;
+    }
+    
+    public function resource($resource)
+    {
+        $this->resource = $resource;
         return $this;
     }
 
-    public function filter($object_name, $object_attribute, $operator, $value, $dwithin_distance=50)
+    public function filter($object_name, $object_attribute, $operator, $value)
     {
-        if ($operator == self::OPERATOR_DWITHIN) {
-            $this->filterList[] = urlencode($object_name . '.' . $object_attribute . ' DWITHIN(' . $value . ',' . $dwithin_distance . ')');
-        } else {
-            $this->filterList[] = $object_name . '.' . $object_attribute . $operator . $value;
-        }
+        $this->filterList[] = $object_name . '.' . $object_attribute . $operator . $value;
         return $this;
     }
 
@@ -61,7 +62,7 @@ class NavitiaRequest extends ServiceRequest
     {
         $this->addParamsFromFilters();
 
-        $url = $this->serviceUrl . $this->apiName;
+        $url = $this->serviceUrl . $this->apiName . $this->regionName . $this->resource;
         $c = 0;
 
         if (count($this->params) > 0) {

@@ -86,9 +86,9 @@ $allowed_sections = array(
             <div class="field_line">
                 <div class="field_text_container">
                     <div class="field_padding">
-                        <label for="journey_search_destination_name">Arrivée</label>
-                        <input type="text" value="<?php echo $roadMapTitle['to']; ?>" name="to[name]" id="journey_search_destination_name" autocomplete="off">
-                        <input type="hidden" value="<?php echo $journeySummary['to_id']; ?>" name="to[id]" id="journey_search_destination_extcode">
+                        <label for="journey_search_to_name">Arrivée</label>
+                        <input type="text" value="<?php echo $roadMapTitle['to']; ?>" name="to[name]" id="journey_search_to_name" autocomplete="off">
+                        <input type="hidden" value="<?php echo $journeySummary['to_id']; ?>" name="to[id]" id="journey_search_to_id">
                     </div>
                     <div class="clear"></div>
                 </div>

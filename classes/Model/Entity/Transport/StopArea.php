@@ -4,6 +4,7 @@ namespace Nv2\Model\Entity\Transport;
 
 use Nv2\Model\Entity\Base\Entity;
 use Nv2\Model\Entity\Geo\Coord;
+use Nv2\Model\Entity\Transport\Admin;
 use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class StopArea extends Entity
@@ -41,7 +42,7 @@ class StopArea extends Entity
     {
         $feed = NavitiaRequest::create()
             ->api('stop_areas')
-            ->filter('stop_point', 'coord', NavitiaRequest::OPERATOR_DWITHIN, $coords->Lon . ',' . $coords->Lat, $distance)
+            ->filter('stop_point', 'coord', NavitiaRequest::OPERATOR_DWITHIN, $coords->lon . ',' . $coords->lat, $distance)
             ->execute();
         $list = array(); 
         if (!$feed['hasError']) {
@@ -79,6 +80,15 @@ class StopArea extends Entity
         $this->name = $stopAreaFeed->name;
         $this->coord = Coord::create()
             ->fill($stopAreaFeed->coord);
+        
+        $this->comment = $stopAreaFeed->comment;
+        
+        if (isset($stopAreaFeed->administrative_regions)) {
+            foreach ($stopAreaFeed->administrative_regions as $admin) {
+                $this->administrativeRegions[] = Admin::create()
+                    ->fill($admin);
+            }
+        }
         
         return $this;
     }

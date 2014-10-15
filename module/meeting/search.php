@@ -1,5 +1,5 @@
 <?php
 
-$ctrl = new Nv2\Controller\Meeting\MeetingSearchController($this->Request);
-$ctrl->setTemplate($this->ModuleTemplate);
+$ctrl = new Nv2\Controller\Meeting\MeetingSearchController($request);
+$ctrl->setTemplate($template);
 $ctrl->run();

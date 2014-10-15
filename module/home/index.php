@@ -1,5 +1,5 @@
 <?php
 
-$ctrl = new Nv2\Controller\Home\HomeController($this->Request);
-$ctrl->setTemplate($this->ModuleTemplate);
+$ctrl = new Nv2\Controller\Home\HomeController($request);
+$ctrl->setTemplate($template);
 $ctrl->run();

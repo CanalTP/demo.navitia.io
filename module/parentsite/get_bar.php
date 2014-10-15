@@ -1,5 +1,5 @@
 <?php
 
-$ctrl = new Nv2\Controller\ParentSite\ParentSiteController($this->Request);
-$ctrl->setTemplate($this->ModuleTemplate);
+$ctrl = new Nv2\Controller\ParentSite\ParentSiteController($request);
+$ctrl->setTemplate($template);
 $ctrl->run();

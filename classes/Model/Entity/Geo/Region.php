@@ -7,17 +7,17 @@ use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class Region extends Entity
 {
-    public $ProductionDates;
-    public $Status;
-    public $Shape;
-    public $RegionId;
+    public $productionDates;
+    public $status;
+    public $shape;
+    public $regionId;
 
     private function __construct()
     {
         $this->initProductionDates();
-        $this->Status = null;
-        $this->Shape = null;
-        $this->RegionId = null;
+        $this->status = null;
+        $this->shape = null;
+        $this->regionId = null;
     }
 
     public static function create()
@@ -59,19 +59,19 @@ class Region extends Entity
         } catch (\Exception $e) {
             $endProductionDate = null;
         }
-        $this->ProductionDates['start'] = $startProductionDate;
-        $this->ProductionDates['end'] = $endProductionDate;
+        $this->productionDates['start'] = $startProductionDate;
+        $this->productionDates['end'] = $endProductionDate;
 
-        $this->Status = $feed->status;
-        $this->Shape = json_decode($feed->shape);
-        $this->Id = $feed->id;
+        $this->status = $feed->status;
+        $this->shape = json_decode($feed->shape);
+        $this->id = $feed->id;
 
         return $this;
     }
 
     private function initProductionDates()
     {
-        $this->ProductionDates = array(
+        $this->productionDates = array(
             'start' => null,
             'end' => null,
         );
