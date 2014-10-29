@@ -1,32 +1,33 @@
-Prototype IHM Navitia 2
+navitia.io demo website
 =======================
 
-Configuration requise
----------------------
+Requirements
+------------
 
-- PHP >= 5.3
-- Extension PHP CURL
+- PHP >= 5.3 (5.4 or greater is recommended)
+- php_curl extension
 
 Installation
 ------------
 
-Copier les sources sur un serveur Web, aucun virtual host ou configuration spécifique requise.
+Simply put the source files on a web server, no specific settings required.
 
 
-Lier l'IHM à Navitia
---------------------
+Plug in navitia.io webservice
+-----------------------------
 
-Dans le fichier "config/webservice.php", changer la valeur de :
+In the 'config/webservice.php' file, change:
 
-* "Navitia" pour qu'elle correspondent à celle du moteur. Exemple : "http://api.navitia.io/v0/".
-* "CrossDomainNavitia" et faire précéder l'adresse du moteur par "/crossdomain_service.php?url=" en n'oubliant pas le slash de début pour éviter des comportements inattendus.
+* 'Navitia' setting: use the webservice URL. Example: 'http://api.navitia.io/v1/'.
+* 'CrossDomainNavitia' setting: use the webservice URL with the proxy script '/crossdomain_service.php?url=' don't forget the beginning slash to avoid unexpected behaviors...
+* 'Token' setting: use a token provided by CanalTP (contact us!).
 
 
-Configurer le listing des régions de l'accueil
-----------------------------------------------
+Set up home region list
+-----------------------
 
-Dans le fichier "data/region_coords", créer autant de sections dont la clé correspond au "region_id" que source de données.
-Exemple :
+In the 'data/region_coords/coords.php' file, create as much link as needed to handle region data sources by using the region_id.
+Example:
 
     $data = array(
         'transilien' => array(
@@ -39,16 +40,16 @@ Exemple :
         ),
     );
 
-Dans l'exemple, "transilien" correspond au region_id de la source de données Navitia.
+In the example above, 'transilien' is the region_id.
 
-A l'heure actuelle (version 0.12), les region_id doivent être ramenés en minuscule (comme dans l'exemple) pour que la traduction soit effectuée correctement.
+Notice: in version 0.13, region_id detection is case sensitive.
 
 
-Configurer les traductions des régions de l'accueil
----------------------------------------------------
+Set up home region name labels
+------------------------------
 
-Dans le fichier "data/translations/fre-FR/region.name.php", créer des correspondances entre les "region_id" de chaque source de données et un libellé à afficher dans la langue souhaitée :
-Exemple :
+In the 'data/translations/{locale}/region.name.php' file, make links between region_id and labels.
+Example:
 
     $translations = array(
         'paris' => 'Paris',
@@ -63,4 +64,4 @@ Exemple :
         'sf' => 'San Francisco (MUNI et BART)',
     );
 
-A l'heure actuelle (version 0.13), les region_id doivent être ramenés en minuscule (comme dans l'exemple) pour que la traduction soit effectuée correctement.
+Notice: in version 0.13, region_id detection is case sensitive.
