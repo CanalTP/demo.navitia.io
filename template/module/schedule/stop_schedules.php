@@ -1,56 +1,60 @@
 <div class="schedule_container departure_board">
     <div class="window_title">Horaires</div>
-
-    <?php if (is_object($departure_board[0])) {  ?>
+    
+    <?php if (count($schedules) > 0) {  ?>
     
         <h1 class="schedule_title">
-            Horaires à l'arrêt <?php echo $departure_board[0]->StopPoint->Name; ?>
+            Horaires à l'arrêt <?php echo $schedules[0]->stopPoint->name; ?>
         </h1>
         
         <div class="schedule_page_container clearfix">
         
             <div class="board_result">
                 <div class="board_summary clearfix">
-                    <?php if (is_object($departure_board[0]->Route)) { ?>
+                    <?php if (is_object($schedules[0]->route)) { ?>
                         <ul>
-                            <?php if (is_object($departure_board[0]->Route->Line)) { ?>
+                            <?php if (is_object($schedules[0]->route->line)) { ?>
+                                <!--    
                                 <li class="network">
-                                    <?php echo $departure_board[0]->Route->Line->Network->Name; ?>
+                                    <?php //echo $schedules[0]->route->line->network->name; ?>
                                 </li>
                                 <li class="mode">
-                                    <img src="<?php //echo img_src('/img/mode/' . strtolower($departure_board[0]->Route->Line->PhysicalModeList[0]->Name) . '.png'); ?>" alt="<?php //echo $departure_board[0]->Route->Line->PhysicalModeList[0]->Name; ?>" />
+                                    <img src="<?php //echo img_src('/img/mode/' . strtolower($schedules[0]->route->line->physicalModeList[0]->name) . '.png'); ?>"
+                                         alt="<?php //echo $schedules[0]->route->line->physicalModeList[0]->name; ?>" />
                                 </li>
+                                -->
                                 <li class="line">
-                                    <a title="Voir les horaires de la ligne <?php echo $departure_board[0]->Route->Line->Code; ?>" href="<?php echo url_link('schedule/line/' . $departure_board[0]->Route->Line->Uri . '/' . $departure_board[0]->Route->Uri . '/' . $board_summary['datetime']); ?>">
-                                        <span class="code"><?php echo $departure_board[0]->Route->Line->Code; ?> :</span>
-                                        <span class="name"><?php echo $departure_board[0]->Route->Line->Name; ?></span>
+                                    <a title="Voir les horaires de la ligne <?php echo $schedules[0]->route->line->code; ?>"
+                                       href="<?php echo url_link('schedule/line/' . $schedules[0]->route->line->id . '/' . $schedules[0]->route->id . '/' . $summary['datetime']); ?>">
+                                        <span class="code"><?php echo $schedules[0]->route->line->code; ?> :</span>
+                                        <span class="name"><?php echo $schedules[0]->route->line->name; ?></span>
                                     </a>
                                 </li>
                             <?php } ?>
-                            <li class="direction">Direction : <?php echo $departure_board[0]->Route->Name; ?></li>
+                            <li class="direction">Direction : <?php echo $schedules[0]->route->name; ?></li>
                         </ul>
                     <?php } ?>
                 </div>
             
-                <h2>Horaires de départ le <?php echo date('d/m/Y', $board_summary['timestamp']); ?></h2>
+                <h2>Horaires de départ le <?php echo date('d/m/Y', $summary['timestamp']); ?></h2>
             
                 <div class="schedule_table_container">
-                    <?php if ($departure_board[0]->BoardItems != null) { ?>
+                    <?php if ($schedules[0]->schedules != null) { ?>
                         <table>
                             <thead>
                                 <tr>
-                                    <?php foreach ($departure_board[0]->BoardItems as $item) { ?>
-                                        <th scope="col"><?php echo str_pad($item->Hour, 2, '0', STR_PAD_LEFT); ?>h</th>
+                                    <?php foreach ($schedules[0]->schedules as $hour => $minutes) { ?>
+                                        <th scope="col"><?php echo $hour; ?>h</th>
                                     <?php } ?>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <?php foreach ($departure_board[0]->BoardItems as $item) { ?>
+                                    <?php foreach ($schedules[0]->schedules as $hour => $minutes) { ?>
                                         <td>
                                             <ul class="minute_list">
-                                                <?php foreach ($item->Minutes as $minute) { ?>
-                                                    <li><?php echo str_pad($minute, 2, '0', STR_PAD_LEFT); ?></li>
+                                                <?php foreach ($minutes as $minute) { ?>
+                                                    <li><?php echo $minute; ?></li>
                                                 <?php } ?>
                                             </ul>
                                         </td>
@@ -102,7 +106,7 @@
                                 <ul>
                                     <?php foreach ($other_stop_list as $stop) { ?>
                                         <li id="stoppointuri|<?php echo $stop->Uri; ?>">
-                                            <a title="Voir les horaires de l'arrêt <?php echo $stop->Name; ?> sur cette ligne" href="<?php echo url_link('schedule/departure_board/' . $board_summary['line_uri'] . '/' . $board_summary['route_uri'] . '/' . $stop->Uri . '/' . $board_summary['datetime']); ?>">
+                                            <a title="Voir les horaires de l'arrêt <?php echo $stop->Name; ?> sur cette ligne" href="<?php echo url_link('schedule/departure_board/' . $board_summary['line_id'] . '/' . $board_summary['route_uri'] . '/' . $stop->Uri . '/' . $board_summary['datetime']); ?>">
                                                 <?php echo $stop->Name; ?>
                                             </a>
                                         </li>
@@ -133,4 +137,4 @@
     <?php } ?>
 </div>
 
-<?php include(TEMPLATE_DIR . '/module/schedule/departure_board.js.php'); ?>
+<?php include(TEMPLATE_DIR . '/module/schedule/stop_schedules.js.php'); ?>

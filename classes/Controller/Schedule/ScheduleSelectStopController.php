@@ -26,12 +26,12 @@ class ScheduleSelectStopController extends Controller
      */
     public function run()
     {
-        $route_uri = $this->request->getParam(0);
+        $routeId = $this->request->getParam(0);
         $type = $this->request->getParam(1);
         
-        $stop_list = JourneyPatternPoint::getList($route_uri);
+        $stops = JourneyPatternPoint::getFromRoute($routeId);
         
-        $this->template->setVariable('stop_list', $stop_list);
+        $this->template->setVariable('stops', $stops);
         $this->template->setVariable('type', $type);
         $this->template->fetch('module/schedule/ajax/select_stop.php');
         $this->template->setPagelayoutActive(false);

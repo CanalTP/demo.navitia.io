@@ -44,7 +44,7 @@ $classList = array(
     'Nv2\\Controller\\Schedule\\ScheduleSelectLineController'        => CLASS_DIR . '/Controller/Schedule/ScheduleSelectLineController.php',
     'Nv2\\Controller\\Schedule\\ScheduleSelectDirectionController'   => CLASS_DIR . '/Controller/Schedule/ScheduleSelectDirectionController.php',
     'Nv2\\Controller\\Schedule\\ScheduleSelectStopController'        => CLASS_DIR . '/Controller/Schedule/ScheduleSelectStopController.php',
-    'Nv2\\Controller\\Schedule\\ScheduleDepartureBoardController'    => CLASS_DIR . '/Controller/Schedule/ScheduleDepartureBoardController.php',
+    'Nv2\\Controller\\Schedule\\ScheduleStopScheduleController'      => CLASS_DIR . '/Controller/Schedule/ScheduleStopScheduleController.php',
     'Nv2\\Controller\\Schedule\\ScheduleProximityBoardController'    => CLASS_DIR . '/Controller/Schedule/ScheduleProximityBoardController.php',
     'Nv2\\Controller\\Schedule\\ScheduleRouteScheduleController'     => CLASS_DIR . '/Controller/Schedule/ScheduleRouteScheduleController.php',
     
@@ -59,7 +59,7 @@ $classList = array(
     'Nv2\\Model\\NavitiaApi\\Journey\\Journeys'                      => CLASS_DIR . '/Model/NavitiaApi/Journey/Journeys.php',
     'Nv2\\Model\\NavitiaApi\\Journey\\StreetNetwork'                 => CLASS_DIR . '/Model/NavitiaApi/Journey/StreetNetwork.php',
     'Nv2\\Model\\NavitiaApi\\Proximity\\ProximityList'               => CLASS_DIR . '/Model/NavitiaApi/Proximity/ProximityList.php',
-    'Nv2\\Model\\NavitiaApi\\Schedule\\DepartureBoards'              => CLASS_DIR . '/Model/NavitiaApi/Schedule/DepartureBoards.php',
+    'Nv2\\Model\\NavitiaApi\\Schedule\\StopSchedules'                => CLASS_DIR . '/Model/NavitiaApi/Schedule/StopSchedules.php',
     'Nv2\\Model\\NavitiaApi\\Schedule\\RouteSchedules'               => CLASS_DIR . '/Model/NavitiaApi/Schedule/RouteSchedules.php',
     
     // Entités de base

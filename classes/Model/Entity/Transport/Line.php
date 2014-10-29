@@ -44,41 +44,38 @@ class Line extends Entity
     {
         return new self();
     }
-
-    /**
-     * Retourne une liste d'objets Line correspondant aux paramètres
-     * @param string $networkUri
-     * @param string $stopPointUri
-     * @return multitype:\Nv2\Model\Entity\Transport\Line |NULL
-     */
-    public static function getList($networkUri='', $stopPointUri='')
+    
+    public static function getAll()
     {
-        $query = NavitiaRequest::create()->api('lines');
-        if ($networkUri) {
-            $query->filter('network', 'uri', '=', $networkUri);
-        }
-        if ($stopPointUri) {
-            $query->filter('stop_point', 'uri', '=', $stopPointUri);
-        }
-        $feed = $query->execute();
+        return self::getList(NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('lines')
+        );
+    }
+    
+    public static function getListFromNetwork($networkId)
+    {
+        return self::getList(NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('lines')
+            ->with('network', $networkId)
+        );
+    }
 
+    private static function getList(NavitiaRequest $request)
+    {
+        $feed = $request->execute();
+        $result = array();
         if (!$feed['hasError']) {
             $feed = json_decode($feed['content']);
-            $list = array();
-
-            if ($feed != null) {
+            if ($feed != null && isset($feed->lines)) {
                 foreach ($feed->lines as $line) {
-                    $list[] = self::create()
+                    $result[] = Line::create()
                         ->fill($line);
                 }
-
-                return $list;
-            } else {
-                return null;
             }
-        } else {
-            return null;
         }
+        return $result;
     }
     
     public static function getProximityList(Coord $coords, $distance)
@@ -115,11 +112,11 @@ class Line extends Entity
     public function fill($feed)
     {
         if (isset($feed->code)) {
-            $this->Code = $feed->code;
+            $this->code = $feed->code;
         }
         //$this->Color = $feed->color;
-        $this->Name = $feed->name;
-        $this->Uri = $feed->uri;
+        $this->name = $feed->name;
+        $this->id = $feed->id;
 
         if (isset($feed->routes)) {
             foreach ($feed->routes as $route) {

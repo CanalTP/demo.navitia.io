@@ -22,7 +22,7 @@
                 <div class="field_text_container">
                     <div class="field_padding">
                         <label>Ligne</label>
-                        <select name="line_uri" id="rs_line_selection">
+                        <select name="line_id" id="rs_line_selection">
                             <option value=""></option>
                             <?php foreach ($line_list as $line) { ?>
                                 <option value="<?php echo $line->Uri; ?>">

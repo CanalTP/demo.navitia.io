@@ -9,17 +9,13 @@ use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class JourneyPatternPoint extends Entity
 {
-    public $JourneyPattern;
-    public $StopPoint;
-    public $Uri;
-    public $Order;
+    public $stopPoint;
+    public $id;
     
     private function __construct()
     {
-        $this->JourneyPattern = null;
-        $this->StopPoint = null;
-        $this->Uri = null;
-        $this->Order = null;        
+        $this->stopPoint = null;
+        $this->id = null;
     }
     
     public static function create()
@@ -27,47 +23,39 @@ class JourneyPatternPoint extends Entity
         return new self();        
     }
     
-    public static function getList($routeUri)
+    public static function getFromRoute($routeId)
     {
-        $query = NavitiaRequest::create()->api('journey_pattern_points');
-        $query->filter('route', 'uri', '=', $routeUri);
-        $query->param('depth', 2);
-        $feed = $query->execute();
-        
+        return self::getList(NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('journey_pattern_points')
+            ->with('routes', $routeId)
+        );
+    }
+    
+    private static function getList(NavitiaRequest $request)
+    {
+        $feed = $request->execute();
+        $result = array();
         if (!$feed['hasError']) {
             $feed = json_decode($feed['content']);
-            $list = array();
-        
             if ($feed != null && isset($feed->journey_pattern_points)) {
                 foreach ($feed->journey_pattern_points as $journeyPatternPoint) {
-                    $list[] = self::create()
+                    $result[] = JourneyPatternPoint::create()
                         ->fill($journeyPatternPoint);
                 }
-        
-                return $list;
-            } else {
-                return null;
             }
-        } else {
-            return null;
-        }       
+        }
+        return $result;
     }
     
     public function fill($feed)
     {
-        if (isset($feed->journey_pattern)) {
-            $this->JourneyPattern = JourneyPattern::create()
-                ->fill($feed->journey_pattern);
-        }
         if (isset($feed->stop_point)) {
-            $this->StopPoint = StopPoint::create()
+            $this->stopPoint = StopPoint::create()
                 ->fill($feed->stop_point);
         }
-        if (isset($feed->uri)) {
-            $this->Uri = $feed->uri;
-        }
-        if (isset($feed->order)) {
-            $this->Order = $feed->order;
+        if (isset($feed->id)) {
+            $this->id = $feed->id;
         }
         
         return $this;        

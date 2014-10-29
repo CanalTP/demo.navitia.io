@@ -9,7 +9,7 @@
                         <select name="network_uri" id="db_network_selection">
                             <option value=""></option>
                             <?php foreach ($network_list as $network) { ?>
-                                <option value="<?php echo $network->Uri; ?>"><?php echo $network->Name; ?></option>
+                                <option value="<?php echo $network->id; ?>"><?php echo $network->name; ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -22,12 +22,12 @@
                 <div class="field_text_container">
                     <div class="field_padding">
                         <label>Ligne</label>
-                        <select name="line_uri" id="db_line_selection">
+                        <select name="line_id" id="db_line_selection">
                             <option value=""></option>
                             <?php foreach ($line_list as $line) { ?>
-                                <option value="<?php echo $line->Uri; ?>">
-                                    <?php echo $line->Code; ?> :
-                                    <?php echo $line->Name; ?>
+                                <option value="<?php echo $line->id; ?>">
+                                    <?php echo $line->code; ?> :
+                                    <?php echo $line->name; ?>
                                 </option>
                             <?php } ?>
                         </select>

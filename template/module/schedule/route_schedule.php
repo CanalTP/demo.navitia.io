@@ -58,7 +58,7 @@
                             <?php foreach ($route_schedule[0]->TableRowList as $r => $row) { ?>
                                 <tr>
                                     <th scope="row">
-                                        <a href="<?php echo url_link('schedule/departure_board/' . $board_summary['line_uri'] . '/' . $board_summary['route_uri'] . '/' . $row->StopPoint->Uri . '/' . $board_summary['datetime']); ?>">
+                                        <a href="<?php echo url_link('schedule/departure_board/' . $board_summary['line_id'] . '/' . $board_summary['route_uri'] . '/' . $row->StopPoint->Uri . '/' . $board_summary['datetime']); ?>">
                                             <?php echo $row->StopPoint->Name; ?>
                                         </a>
                                     </th>
@@ -98,7 +98,7 @@
                                 <ul>
                                     <?php foreach ($other_line_route_list as $route) { ?>
                                         <li>
-                                            <a title="Voir les horaires en direction de <?php echo $route->Name; ?>" href="<?php url_link('schedule/line/' . $board_summary['line_uri'] . '/' . $route->Uri . '/' . $board_summary['datetime']); ?>">
+                                            <a title="Voir les horaires en direction de <?php echo $route->Name; ?>" href="<?php url_link('schedule/line/' . $board_summary['line_id'] . '/' . $route->Uri . '/' . $board_summary['datetime']); ?>">
                                                 <span class="direction">Direction : <?php echo $route->Name; ?></span>
                                             </a>
                                         </li>

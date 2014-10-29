@@ -26,13 +26,13 @@ class ScheduleSelectDirectionController extends Controller
      */
     public function run()
     {
-        $line_uri = urldecode($this->request->getParam(0));
+        $lineId = urldecode($this->request->getParam(0));
         $type = $this->request->getParam(1);
         
-        $route_list = Route::getList($line_uri);
+        $routes = Route::getFromLine($lineId);
         
-        $this->template->setVariable('route_list', $route_list);
-        $this->template->setVariable('line_uri', $line_uri);
+        $this->template->setVariable('route_list', $routes);
+        $this->template->setVariable('line_id', $lineId);
         $this->template->setVariable('type', $type);
         $this->template->fetch('module/schedule/ajax/select_direction.php');
         $this->template->setPagelayoutActive(false);

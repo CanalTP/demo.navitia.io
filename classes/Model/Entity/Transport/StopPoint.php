@@ -34,37 +34,34 @@ class StopPoint extends Entity
 
     public static function getFromLine($lineId)
     {
-        return $this->getList(
-            NavitiaRequest::create()
-                ->api('coverage')
-                ->resource('stop_points')
-                ->with('line', $lineId)
+        return self::getList(NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('stop_points')
+            ->with('line', $lineId)
         );
     }
     
     public static function getFromRoute($routeId)
     {
-        return $this->getList(
-            NavitiaRequest::create()
-                ->api('coverage')
-                ->resource('stop_points')
-                ->with('route', $routeId)
+        return self::getList(NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('stop_points')
+            ->with('route', $routeId)
         );
     }
     
     public static function getFromStopArea($stopAreaId)
     {
-        return $this->getList(
-            NavitiaRequest::create()
-                ->api('coverage')
-                ->resource('stop_points')
-                ->with('stop_area', $stopAreaId)
+        return self::getList(NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('stop_points')
+            ->with('stop_area', $stopAreaId)
         ); 
     }
     
     public static function getProximityList(Coord $coords, $distance)
     {
-        return $this->getList(NavitiaRequest::create()
+        return self::getList(NavitiaRequest::create()
             ->api('coords')
             ->resource('places_nearby')
             ->with('coords', $coords->getLonLat())

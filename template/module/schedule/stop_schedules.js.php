@@ -1,8 +1,8 @@
 <?php
 
 $current_stop_point_coords = Nv2\Model\Entity\Geo\Coord::create();
-if (is_object($departure_board[0])) {
-    $current_stop_point_coords = $departure_board[0]->StopPoint->Coord;
+if (count($schedules) > 0) {
+    $current_stop_point_coords = $schedules[0]->stopPoint->coord;
 }
 
 ?>
@@ -51,7 +51,7 @@ var stop_marker_style = {
 };
 
 // Création du marqueur de l'arrêt en cours
-var current_stop_position = new OpenLayers.LonLat(<?php echo $current_stop_point_coords->Lon; ?>, <?php echo $current_stop_point_coords->Lat; ?>).transform(wgsProjection, smeProjection);
+var current_stop_position = new OpenLayers.LonLat(<?php echo $current_stop_point_coords->lon; ?>, <?php echo $current_stop_point_coords->lat; ?>).transform(wgsProjection, smeProjection);
 var current_stop_point = new OpenLayers.Geometry.Point(current_stop_position.lon, current_stop_position.lat);
 var current_stop_feature = new OpenLayers.Feature.Vector(current_stop_point, null, stop_marker_style);
 marker_layer.addFeatures(current_stop_feature);

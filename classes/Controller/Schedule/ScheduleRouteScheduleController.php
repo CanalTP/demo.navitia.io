@@ -79,13 +79,13 @@ class ScheduleRouteScheduleController extends Controller
      * @param unknown $currentRouteUri
      * @return multitype:Ambigous <NULL, multitype:\Nv2\Model\Entity\Transport\Route >
      */
-    private function getOtherLineRouteList($currentLineUri, $currentRouteUri)
+    private function getOtherLineRouteList($currentLineId, $currentRouteId)
     {
-        $routeList = Route::getList($currentLineUri);
+        $routeList = Route::getFromLine($currentLineId);
         $finalRouteList = array();
         if (is_array($routeList)) {
             foreach ($routeList as $route) {
-                if ($route->Uri != $currentRouteUri) {
+                if ($route->id != $currentRouteId) {
                     $finalRouteList[] = $route;
                 }
             }

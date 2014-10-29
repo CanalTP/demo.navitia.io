@@ -7,13 +7,13 @@ use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class Network extends Entity
 {
-    public $Uri;
-    public $Name;
+    public $id;
+    public $name;
 
     private function __construct()
     {
-        $this->Uri = null;
-        $this->Name = null;
+        $this->id = null;
+        $this->name = null;
     }
 
     public static function create()
@@ -23,7 +23,9 @@ class Network extends Entity
     
     public static function getList()
     {
-        $query = NavitiaRequest::create()->api('networks');
+        $query = NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('networks');
         $feed = $query->execute();
         
         if (!$feed['hasError']) {
@@ -47,8 +49,8 @@ class Network extends Entity
 
     public function fill($feed)
     {
-        $this->Uri = $feed->uri;
-        $this->Name = $feed->name;
+        $this->id = $feed->id;
+        $this->name = $feed->name;
 
         return $this;
     }

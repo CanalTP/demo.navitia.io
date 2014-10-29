@@ -7,67 +7,70 @@ use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class Route extends Entity
 {
-    public $Name;
-    public $Uri;
-    public $Line;
+    public $name;
+    public $id;
+    public $line;
 
     private function __construct()
     {
-        $this->Name = null;
-        $this->Uri = null;
-        $this->Line = null;
+        $this->name = null;
+        $this->id = null;
+        $this->line = null;
     }
 
     public static function create()
     {
         return new self();
     }
-
-    public static function getList($lineUri, $stopAreaUri=null)
+    
+    public static function getAll()
     {
-        $feed = NavitiaRequest::create()
-            ->api('routes')
-            ->param('depth', 2); // depth=2 permet d'avoir les modes et réseaux des lignes
-
-        if ($lineUri) {
-            $feed = $feed->filter('line', 'uri', '=', $lineUri);
-        }
-        if ($stopAreaUri) {
-            // A changer par stop_area
-            $feed = $feed->filter('stop_point', 'uri', '=', $stopAreaUri);
-        }
-        $feed = $feed->execute();
-
+        // TODO
+    }
+    
+    public static function getFromLine($lineId)
+    {
+        return self::getList(NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('routes')
+            ->with('lines', $lineId)
+        );
+    }
+    
+    public static function getFromStopArea($stopAreaId)
+    {
+        return self::getList(NavitiaRequest::create()
+            ->api('coverage')
+            ->resource('routes')
+            ->with('stop_areas', $stopAreaId)
+        );
+    }
+    
+    private static function getList(NavitiaRequest $request)
+    {
+        $feed = $request->execute();
+        $result = array();
         if (!$feed['hasError']) {
             $feed = json_decode($feed['content']);
-            $list = array();
-
-            if ($feed != null) {
-                if (isset($feed->routes)) {
-                    foreach ($feed->routes as $route) {
-                        $list[] = self::create()
-                            ->fill($route);
-                    }
+            if ($feed != null && isset($feed->routes)) {
+                foreach ($feed->routes as $route) {
+                    $result[] = Route::create()
+                        ->fill($route);
                 }
-
-                return $list;
-            } else {
-                return null;
             }
-        } else {
-            return null;
         }
+        return $result;
     }
 
     public function fill($feed)
     {
-        $this->Name = $feed->name;
-        $this->Uri = $feed->uri;
+        $this->name = $feed->name;
+        $this->id = $feed->id;
 
         if (isset($feed->line)) {
             $lineObject = Line::create()
                 ->fill($feed->line);
-            $this->Line = $lineObject;
+            $this->line = $lineObject;
         }
 
         return $this;

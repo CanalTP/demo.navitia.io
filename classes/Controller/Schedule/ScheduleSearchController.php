@@ -34,7 +34,7 @@ class ScheduleSearchController extends Controller
         
         if (count($networkList) == 1) {
             // Si un seul réseau : on propose le choix des lignes du réseau
-            $lineList = Line::getList();
+            $lineList = Line::getAll();
             $this->template->setVariable('line_list', $lineList);
         } else {
             // Si plusieurs réseaux : on propose le choix du réseau

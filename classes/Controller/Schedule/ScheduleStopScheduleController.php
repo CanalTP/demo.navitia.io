@@ -3,7 +3,7 @@
 namespace Nv2\Controller\Schedule;
 
 use Nv2\Lib\Nv2\Controller\Controller;
-use Nv2\Model\NavitiaApi\Schedule\DepartureBoards;
+use Nv2\Model\NavitiaApi\Schedule\StopSchedules;
 use Nv2\Model\Entity\Transport\Route;
 use Nv2\Model\Entity\Transport\StopPoint;
 use Nv2\Lib\Nv2\Http\Request;
@@ -11,9 +11,9 @@ use Nv2\Lib\Nv2\Http\Request;
 /**
  * Contrôleur de la grille horaire à l'arrêt
  * @author Thomas Noury <thomas.noury@canaltp.fr>
- * @copyright 2012-2013 Canal TP
+ * @copyright 2012-2014 Canal TP
  */
-class ScheduleDepartureBoardController extends Controller
+class ScheduleStopScheduleController extends Controller
 {
     /**
      * 
@@ -30,10 +30,13 @@ class ScheduleDepartureBoardController extends Controller
     public function run()
     {
         // Récupération de la grille horaire
-        $departureBoard = $this->getDepartureBoard();
+        $schedules = $this->getStopSchedules();
+        
+        //var_dump($schedules);
+        //exit();
     
         // Création des informations résumées
-        $boardSummary = $this->getBoardSummary();
+        $summary = $this->getSummary();
     
         // Récupération des lignes qui passent pas l'arrêt
         $otherLineList = $this->getOtherLineRouteList(
@@ -47,21 +50,21 @@ class ScheduleDepartureBoardController extends Controller
             urldecode($this->request->getParam(2))
         );
     
-        $this->template->setVariable('board_summary', $boardSummary);
-        $this->template->setVariable('departure_board', $departureBoard);
+        $this->template->setVariable('summary', $summary);
+        $this->template->setVariable('schedules', $schedules);
         $this->template->setVariable('other_line_route_list', $otherLineList);
         $this->template->setVariable('other_stop_list', $otherStopList);
-        $this->template->fetch('module/schedule/departure_board.php');
+        $this->template->fetch('module/schedule/stop_schedules.php');
     }
 
     /**
      * @return array
      */
-    private function getDepartureBoard()
+    private function getStopSchedules()
     {
-        return DepartureBoards::create()
-            ->routeUri(urldecode($this->request->getParam(1)))
-            ->stopPointUri(urldecode($this->request->getParam(2)))
+        return StopSchedules::create()
+            ->routeId(urldecode($this->request->getParam(1)))
+            ->stopPointId(urldecode($this->request->getParam(2)))
             ->dateTime(urldecode($this->request->getParam(3)))
             ->getResult();
     }
@@ -70,7 +73,7 @@ class ScheduleDepartureBoardController extends Controller
      * Retourne un tableau associatif contenant les informations résumées de la grille horaire
      * @return array
      */
-    private function getBoardSummary()
+    private function getSummary()
     {
         try {
             $datetime = new \DateTime($this->request->getParam(3));
@@ -79,9 +82,9 @@ class ScheduleDepartureBoardController extends Controller
         }
 
         return array(
-            'line_uri' => urldecode($this->request->getParam(0)),
-            'route_uri' => urldecode($this->request->getParam(1)),
-            'stop_point_uri' => urldecode($this->request->getParam(2)),
+            'line_id' => urldecode($this->request->getParam(0)),
+            'route_id' => urldecode($this->request->getParam(1)),
+            'stop_point_id' => urldecode($this->request->getParam(2)),
             'datetime' => urldecode($this->request->getParam(3)),
             'timestamp' => $datetime->getTimestamp(),
         );
@@ -93,14 +96,14 @@ class ScheduleDepartureBoardController extends Controller
      * @param string $currentLineUri
      * @return array
      */
-    private function getOtherLineRouteList($stopAreaUri, $currentLineUri)
+    private function getOtherLineRouteList($stopAreaId, $currentLineId)
     {
-        $routeList = Route::getList(null, $stopAreaUri);
+        $routeList = Route::getFromStopArea($stopAreaId);
         
         $finalRouteList = array();
         if (is_array($routeList)) {
             foreach ($routeList as $route) {
-                if ($route->Line->Uri != $currentLineUri) {
+                if ($route->line->id != $currentLineId) {
                     $finalRouteList[] = $route;
                 }
             }
@@ -116,14 +119,14 @@ class ScheduleDepartureBoardController extends Controller
      * @param string $currentStopPointUri
      * @return array
      */
-    private function getOtherStopList($lineUri, $routeUri, $currentStopPointUri)
+    private function getOtherStopList($lineId, $routeId, $currentStopPointId)
     {
-        $stopList = StopPoint::getList($lineUri, $routeUri);
+        $stopList = StopPoint::getFromRoute($routeId);
         
         $finalStopList = array();
         if (is_array($stopList)) {
             foreach ($stopList as $stop) {
-                if ($stop->Uri != $currentStopPointUri) {
+                if ($stop->id != $currentStopPointId) {
                     $finalStopList[] = $stop;
                 }
             }

@@ -170,7 +170,7 @@ hoverMarkerControl.activate();
 var clickMarkerControl = new OpenLayers.Control.SelectFeature(
     marker_layer, {
         onSelect: function(feature) {
-            window.location.href = "<?php url_link('schedule/departure_board'); ?>/<?php echo $board_summary['line_uri']; ?>/<?php echo $board_summary['route_uri']; ?>/"
+            window.location.href = "<?php url_link('schedule/departure_board'); ?>/<?php echo $board_summary['line_id']; ?>/<?php echo $board_summary['route_uri']; ?>/"
                 + feature.attributes.uri + "/<?php echo $board_summary['datetime']; ?>";
         }
     }

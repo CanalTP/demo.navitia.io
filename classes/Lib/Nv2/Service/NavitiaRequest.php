@@ -10,6 +10,7 @@ class NavitiaRequest extends ServiceRequest
     protected $regionName;
     protected $apiName;
     protected $resource;
+    protected $withClause;
     protected $filterList;
 
     protected function __construct()
@@ -19,6 +20,7 @@ class NavitiaRequest extends ServiceRequest
         $this->serviceUrl = Config::get('webservice', 'Url', 'Navitia');
         $this->authorizationKey = Config::get('webservice', 'Token');
         $this->resource = '';
+        $this->withClause = array();
         $this->filterList = null;
     }
 
@@ -44,6 +46,15 @@ class NavitiaRequest extends ServiceRequest
         $this->resource = $resource;
         return $this;
     }
+    
+    public function with($resources, $id)
+    {
+        $this->withClause = array(
+            'resources' => $resources,
+            'id' => $id
+        );
+        return $this;
+    }
 
     public function filter($object_name, $object_attribute, $operator, $value)
     {
@@ -54,15 +65,18 @@ class NavitiaRequest extends ServiceRequest
     public function execute()
     {
         $url = $this->getUrl();
-
         return $this->retrieveFeedContent($url);
     }
 
     public function getUrl()
     {
         $this->addParamsFromFilters();
-
-        $url = $this->serviceUrl . $this->apiName . $this->regionName . $this->resource;
+        
+        $url = $this->serviceUrl .
+            $this->apiName .
+            $this->regionName .
+            $this->getFormattedWithClause() .
+            $this->resource;
         $c = 0;
 
         if (count($this->params) > 0) {
@@ -86,5 +100,14 @@ class NavitiaRequest extends ServiceRequest
             $filterString = implode(urlencode(' AND '), $this->filterList);
             parent::param('filter', $filterString);
         }
+    }
+    
+    private function getFormattedWithClause()
+    {
+        $result = '';
+        if (count($this->withClause) > 0) {
+            $result = $this->withClause['resources'] . '/' . $this->withClause['id'] . '/';
+        }
+        return $result;
     }
 }

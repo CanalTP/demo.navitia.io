@@ -36,19 +36,19 @@ class ScheduleLineExecuteController extends Controller
      */
     private function dispatchSearchResult($vars)
     {
-        if (isset($vars['line_uri']) && $vars['line_uri']) {
-            if (isset($vars['route_uri']) && $vars['route_uri']) {
+        if (isset($vars['line_id']) && $vars['line_id']) {
+            if (isset($vars['route_id']) && $vars['route_id']) {
                 // Affichage de la grille horaire
                 $datetime = new \DateTime();
                 $datetime->setTime(4, 0, 0);
                 $this->redirect('schedule/line/'
-                    . urlencode($vars['line_uri']) . '/'
-                    . urlencode($vars['route_uri']) . '/'
+                    . urlencode($vars['line_id']) . '/'
+                    . urlencode($vars['route_id']) . '/'
                     . urlencode($datetime->format(Config::get('format', 'Date', 'Iso8861Full'))));
             } else {
                 // Choix du sens
                 $this->redirect('schedule/select_direction/'
-                    . urlencode($vars['line_uri']));
+                    . urlencode($vars['line_id']));
             }
         } else {
             // Choix de la ligne

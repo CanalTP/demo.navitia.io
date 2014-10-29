@@ -10,15 +10,19 @@ use Nv2\Model\Entity\Geo\Coord;
 
 class Board extends Entity
 {
-    public $StopPoint;
-    public $Route;
-    public $BoardItems;
+    public $stopPoint;
+    public $route;
+    public $schedules;
+    public $additionalInformations;
+    public $displayInformations;
 
     private function __construct()
     {
-        $this->StopPoint = null;
-        $this->Route = null;
-        $this->BoardItems = null;
+        $this->stopPoint = null;
+        $this->route = null;
+        $this->schedules = null;
+        $this->additionalInformations = null;
+        $this->displayInformations = null;
     }
 
     public static function create()
@@ -29,18 +33,16 @@ class Board extends Entity
     public function fill($boardFeed)
     {
         if (isset($boardFeed->route)) {
-            $this->Route = Route::create()
+            $this->route = Route::create()
                 ->fill($boardFeed->route);
         }
 
-        $this->StopPoint = StopPoint::create()
+        $this->stopPoint = StopPoint::create()
             ->fill($boardFeed->stop_point);
 
-        if (isset($boardFeed->board_items)) {
-            foreach ($boardFeed->board_items as $item) {
-                $itemObject = BoardItem::create()
-                    ->fill($item);
-                $this->addBoardItem($itemObject);
+        if (isset($boardFeed->date_times)) {
+            foreach ($boardFeed->date_times as $dateTime) {
+                $this->addDateTime($dateTime);
             }
         }
 
@@ -49,12 +51,13 @@ class Board extends Entity
     
     public function updateProximityData(Coord $coords)
     {
-        $distance = $this->StopPoint->Coord->getDistanceFrom($coords);
-        $this->StopPoint->Distance = $distance;
+        $distance = $this->stopPoint->coord->getDistanceFrom($coords);
+        $this->stopPoint->distance = $distance;
     }
 
-    public function addBoardItem(BoardItem $item)
+    public function addDateTime(\stdClass $dateTime)
     {
-        $this->BoardItems[] = $item;
+        $schedule = new \DateTime($dateTime->date_time);
+        $this->schedules[$schedule->format('H')][] = $schedule->format('i');
     }
 }

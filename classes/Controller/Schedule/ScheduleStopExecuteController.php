@@ -47,28 +47,28 @@ class ScheduleStopExecuteController extends Controller
      * Effectue une redirection vers la grille horaire à l'arrêt
      */
     private function dispatchStopSearchResult($vars)
-    {
-        if (isset($vars['line_uri']) && $vars['line_uri']) {
-            if (isset($vars['route_uri']) && $vars['route_uri']) {
-                if (isset($vars['stop_point_uri']) && $vars['stop_point_uri']) {
+    {        
+        if (isset($vars['line_id']) && $vars['line_id']) {
+            if (isset($vars['route_id']) && $vars['route_id']) {
+                if (isset($vars['stop_point_id']) && $vars['stop_point_id']) {
                     // Affichage de la grille horaire
                     $datetime = new \DateTime();
                     $datetime->setTime(4, 0, 0);
                     $this->redirect('schedule/departure_board/'
-                        . urlencode($vars['line_uri']) . '/'
-                        . urlencode($vars['route_uri']) . '/'
-                        . urlencode($vars['stop_point_uri']) . '/'
+                        . urlencode($vars['line_id']) . '/'
+                        . urlencode($vars['route_id']) . '/'
+                        . urlencode($vars['stop_point_id']) . '/'
                         . urlencode($datetime->format(Config::get('format', 'Date', 'Iso8861Full'))));
                 } else {
                     // Choix de l'arrêt
                     $this->redirect('schedule/select_stop/'
-                        . urlencode($vars['line_uri']) . '/'
-                        . urlencode($vars['route_uri']));
+                        . urlencode($vars['line_id']) . '/'
+                        . urlencode($vars['route_id']));
                 }
             } else {
                 // Choix du sens
                 $this->redirect('schedule/select_direction/'
-                    . urlencode($vars['line_uri']));
+                    . urlencode($vars['line_id']));
             }
         } else {
             // Choix de la ligne
@@ -82,19 +82,19 @@ class ScheduleStopExecuteController extends Controller
      */
     private function dispatchLineSearchResult($vars)
     {
-        if (isset($vars['line_uri']) && $vars['line_uri']) {
-            if (isset($vars['route_uri']) && $vars['route_uri']) {
+        if (isset($vars['line_id']) && $vars['line_id']) {
+            if (isset($vars['route_id']) && $vars['route_id']) {
                 // Affichage de la grille horaire
                 $datetime = new \DateTime();
                 $datetime->setTime(4, 0, 0);
                 $this->redirect('schedule/line/'
-                    . urlencode($vars['line_uri']) . '/'
-                    . urlencode($vars['route_uri']) . '/'
+                    . urlencode($vars['line_id']) . '/'
+                    . urlencode($vars['route_id']) . '/'
                     . urlencode($datetime->format(Config::get('format', 'Date', 'Iso8861Full'))));
             } else {
                 // Choix du sens
                 $this->redirect('schedule/select_direction/'
-                    . urlencode($vars['line_uri']));
+                    . urlencode($vars['line_id']));
             }
         } else {
             // Choix de la ligne

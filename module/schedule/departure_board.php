@@ -1,5 +1,5 @@
 <?php
 
-$ctrl = new Nv2\Controller\Schedule\ScheduleDepartureBoardController($request);
+$ctrl = new Nv2\Controller\Schedule\ScheduleStopScheduleController($request);
 $ctrl->setTemplate($template);
 $ctrl->run();
