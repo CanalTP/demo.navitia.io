@@ -9,6 +9,7 @@ use Nv2\Model\Entity\Places\Place;
 use Nv2\Model\Entity\Data\Uri;
 use Nv2\Model\Entity\Geo\Address;
 use Nv2\Lib\Nv2\Config\Config;
+use Nv2\Lib\Nv2\Service\IdConverter;
 
 /**
  * 
@@ -58,10 +59,12 @@ class JourneyResultsController extends Controller
      */
     private function getJourneyResult()
     {
+        $idConverter = new IdConverter();
+
         return Journeys::create()
             ->setPointsIds(
-                urldecode($this->request->getParam(1)),
-                urldecode($this->request->getParam(3)))
+                $idConverter->decodeSlashes(urldecode($this->request->getParam(1))),
+                $idConverter->decodeSlashes(urldecode($this->request->getParam(3))))
             ->setDatetimeRepresents($this->request->getParam(4))
             ->setDateTime($this->request->getParam(5))
             ->setForbiddenUris($this->request->getParam('avoidUri'))

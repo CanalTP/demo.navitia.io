@@ -10,6 +10,7 @@ $classList = array(
     'Nv2\\Lib\\Nv2\\Debug\\Debug'                                    => CLASS_DIR . '/Lib/Nv2/Debug/Debug.php',
     'Nv2\\Lib\\Nv2\\Http\\Request'                                   => CLASS_DIR . '/Lib/Nv2/Http/Request.php',
     'Nv2\\Lib\\Nv2\\Http\\Url'                                       => CLASS_DIR . '/Lib/Nv2/Http/Url.php',
+    'Nv2\\Lib\\Nv2\\Service\\IdConverter'                            => CLASS_DIR . '/Lib/Nv2/Service/IdConverter.php',
     'Nv2\\Lib\\Nv2\\Service\\ServiceRequest'                         => CLASS_DIR . '/Lib/Nv2/Service/ServiceRequest.php',
     'Nv2\\Lib\\Nv2\\Service\\ParallelServiceRequest'                 => CLASS_DIR . '/Lib/Nv2/Service/ParallelServiceRequest.php',
     'Nv2\\Lib\\Nv2\\Service\\NavitiaRequest'                         => CLASS_DIR . '/Lib/Nv2/Service/NavitiaRequest.php',

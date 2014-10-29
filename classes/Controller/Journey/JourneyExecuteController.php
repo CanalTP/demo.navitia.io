@@ -4,6 +4,7 @@ namespace Nv2\Controller\Journey;
 
 use Nv2\Lib\Nv2\Controller\Controller;
 use Nv2\Lib\Nv2\Config\Config;
+use Nv2\Lib\Nv2\Service\IdConverter;
 
 class JourneyExecuteController extends Controller
 {
@@ -19,6 +20,8 @@ class JourneyExecuteController extends Controller
 
     private function dispatchSearchResult($vars)
     {
+        $idConverter = new IdConverter();
+
         if (isset($vars['option']['date']) && isset($vars['option']['time'])) {
             $datetime = $this->getDateTime($vars['option']['date'], $vars['option']['time'], $vars['option']['time_type']);
             $formattedDatetime = $datetime;
@@ -31,12 +34,12 @@ class JourneyExecuteController extends Controller
         if (isset($vars['from']['data'])) {
             $data = explode(';', $vars['from']['data']);
             $vars['from']['name'] = $data[0];
-            $vars['from']['id'] = $data[1];
+            $vars['from']['id'] = $idConverter->encodeSlashes($data[1]);
         }
         if (isset($vars['to']['data'])) {
             $data = explode(';', $vars['to']['data']);
             $vars['to']['name'] = $data[0];
-            $vars['to']['id'] = $data[1];
+            $vars['to']['id'] = $idConverter->encodeSlashes($data[1]);
         }
 
         if (isset($vars['from']['id']) && isset($vars['to']['id'])
