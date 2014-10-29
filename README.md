@@ -63,4 +63,4 @@ Exemple :
         'sf' => 'San Francisco (MUNI et BART)',
     );
 
-A l'heure actuelle (version 0.12), les region_id doivent être ramenés en minuscule (comme dans l'exemple) pour que la traduction soit effectuée correctement.
+A l'heure actuelle (version 0.13), les region_id doivent être ramenés en minuscule (comme dans l'exemple) pour que la traduction soit effectuée correctement.
