@@ -472,9 +472,9 @@ function fillJourneyLinePoints(data)
                         journey_points[journey_index][section_index].points.push(new OpenLayers.Geometry.Point(point_lonlat.lon, point_lonlat.lat));
                     }
                 } else if (section.type == 'public_transport') {
-                    for (stop_time_index in section.stop_date_times) {
-                        var stop_time = section.stop_date_times[stop_time_index];
-                        var point_lonlat = new OpenLayers.LonLat(stop_time.stop_point.coord.lon, stop_time.stop_point.coord.lat).transform(wgsProjection, smeProjection);
+                    for (coord_index in section.geojson.coordinates) {
+                        var coord = section.geojson.coordinates[coord_index]
+                        var point_lonlat = new OpenLayers.LonLat(coord[0], coord[1]).transform(wgsProjection, smeProjection);
                         journey_points[journey_index][section_index].points.push(new OpenLayers.Geometry.Point(point_lonlat.lon, point_lonlat.lat));
                     }
                 }
