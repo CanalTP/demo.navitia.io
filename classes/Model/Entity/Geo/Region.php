@@ -29,6 +29,7 @@ class Region extends Entity
     {
         $feed = NavitiaRequest::create()
             ->api('coverage')
+            ->disableRegion()
             ->execute();
 
         $list = array();
