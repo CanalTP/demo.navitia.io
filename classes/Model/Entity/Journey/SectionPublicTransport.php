@@ -16,6 +16,7 @@ class SectionPublicTransport extends Section
     public $displayInformations;
     public $additionalInformations;
     public $stopDateTimes;
+    public $geojson;
 
     private function __construct()
     {
@@ -65,6 +66,8 @@ class SectionPublicTransport extends Section
                 $this->addStopDateTime($stopTimeObject);
             }
         }
+        $this->geojson = GeoJson::create()
+            ->fill($sectionFeed->geojson);
     }
 
     public function addStopDateTime(StopDateTime $stopTime)
