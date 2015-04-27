@@ -72,11 +72,15 @@ class NavitiaRequest extends ServiceRequest
     {
         $this->addParamsFromFilters();
         
-        $url = $this->serviceUrl .
-            $this->apiName .
-            $this->regionName .
-            $this->getFormattedWithClause() .
-            $this->resource;
+        $url = $this->serviceUrl;
+        if ($this->apiName != '/') {
+            $url .= $this->apiName;
+        }
+        if ($this->regionName != '/') {
+            $url .= $this->regionName;
+        }
+        $url .= $this->getFormattedWithClause();
+        $url .= $this->resource;
         $c = 0;
 
         if (count($this->params) > 0) {
