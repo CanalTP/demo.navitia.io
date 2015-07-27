@@ -40,13 +40,13 @@ class NavitiaRequest extends ServiceRequest
         $this->apiName = $name . '/';
         return $this;
     }
-    
+
     public function resource($resource)
     {
         $this->resource = $resource;
         return $this;
     }
-    
+
     public function with($resources, $id)
     {
         $this->withClause = array(
@@ -71,7 +71,7 @@ class NavitiaRequest extends ServiceRequest
     public function getUrl()
     {
         $this->addParamsFromFilters();
-        
+
         $url = $this->serviceUrl;
         if ($this->apiName != '/') {
             $url .= $this->apiName;
@@ -105,7 +105,7 @@ class NavitiaRequest extends ServiceRequest
             parent::param('filter', $filterString);
         }
     }
-    
+
     private function getFormattedWithClause()
     {
         $result = '';
