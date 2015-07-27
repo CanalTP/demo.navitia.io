@@ -17,25 +17,25 @@ $classList = array(
     'Nv2\\Lib\\Nv2\\Template\\Template'                              => CLASS_DIR . '/Lib/Nv2/Template/Template.php',
     'Nv2\\Lib\\Nv2\\Text\\Translator'                                => CLASS_DIR . '/Lib/Nv2/Text/Translator.php',
     'Nv2\\Lib\\Nv2\\Text\\TranslationFile'                           => CLASS_DIR . '/Lib/Nv2/Text/TranslationFile.php',
-    
+
     // Controleurs transverses
     'Nv2\\Controller\\Autocomplete\\AutocompleteAjaxHtmlController'  => CLASS_DIR . '/Controller/Autocomplete/AutocompleteAjaxHtmlController.php',
     'Nv2\\Controller\\Home\\HomeController'                          => CLASS_DIR . '/Controller/Home/HomeController.php',
     'Nv2\\Controller\\Home\\SelectRegionController'                  => CLASS_DIR . '/Controller/Home/SelectRegionController.php',
     'Nv2\\Controller\\ParentSite\\ParentSiteController'              => CLASS_DIR . '/Controller/ParentSite/ParentSiteController.php',
-    
+
     // Controleurs itinéraires
     'Nv2\\Controller\\Journey\\JourneyExecuteController'             => CLASS_DIR . '/Controller/Journey/JourneyExecuteController.php',
     'Nv2\\Controller\\Journey\\JourneyPrecisionController'           => CLASS_DIR . '/Controller/Journey/JourneyPrecisionController.php',
     'Nv2\\Controller\\Journey\\JourneyResultsController'             => CLASS_DIR . '/Controller/Journey/JourneyResultsController.php',
     'Nv2\\Controller\\Journey\\JourneySearchController'              => CLASS_DIR . '/Controller/Journey/JourneySearchController.php',
-    
+
     // Controleurs proximité
     'Nv2\\Controller\\Proximity\\ProximitySearchController'          => CLASS_DIR . '/Controller/Proximity/ProximitySearchController.php',
     'Nv2\\Controller\\Proximity\\ProximityExecuteController'         => CLASS_DIR . '/Controller/Proximity/ProximityExecuteController.php',
     'Nv2\\Controller\\Proximity\\ProximityPrecisionController'       => CLASS_DIR . '/Controller/Proximity/ProximityPrecisionController.php',
     'Nv2\\Controller\\Proximity\\ProximityResultsController'         => CLASS_DIR . '/Controller/Proximity/ProximityResultsController.php',
-    
+
     // Controleurs horaires
     'Nv2\\Controller\\Schedule\\ScheduleStopExecuteController'       => CLASS_DIR . '/Controller/Schedule/ScheduleStopExecuteController.php',
     'Nv2\\Controller\\Schedule\\ScheduleCoordExecuteController'      => CLASS_DIR . '/Controller/Schedule/ScheduleCoordExecuteController.php',
@@ -48,13 +48,13 @@ $classList = array(
     'Nv2\\Controller\\Schedule\\ScheduleStopScheduleController'      => CLASS_DIR . '/Controller/Schedule/ScheduleStopScheduleController.php',
     'Nv2\\Controller\\Schedule\\ScheduleProximityBoardController'    => CLASS_DIR . '/Controller/Schedule/ScheduleProximityBoardController.php',
     'Nv2\\Controller\\Schedule\\ScheduleRouteScheduleController'     => CLASS_DIR . '/Controller/Schedule/ScheduleRouteScheduleController.php',
-    
+
     // Controleurs meeting
     'Nv2\\Controller\\Meeting\\MeetingExecuteController'             => CLASS_DIR . '/Controller/Meeting/MeetingExecuteController.php',
     'Nv2\\Controller\\Meeting\\MeetingPrecisionController'           => CLASS_DIR . '/Controller/Meeting/MeetingPrecisionController.php',
     'Nv2\\Controller\\Meeting\\MeetingResultsController'             => CLASS_DIR . '/Controller/Meeting/MeetingResultsController.php',
     'Nv2\\Controller\\Meeting\\MeetingSearchController'              => CLASS_DIR . '/Controller/Meeting/MeetingSearchController.php',
-    
+
     // API Navitia (instances nécessaires pour utiliser les fonctionnalités)
     'Nv2\\Model\\NavitiaApi\\Base\\NavitiaApi'                       => CLASS_DIR . '/Model/NavitiaApi/Base/NavitiaApi.php',
     'Nv2\\Model\\NavitiaApi\\Journey\\Journeys'                      => CLASS_DIR . '/Model/NavitiaApi/Journey/Journeys.php',
@@ -62,10 +62,10 @@ $classList = array(
     'Nv2\\Model\\NavitiaApi\\Proximity\\ProximityList'               => CLASS_DIR . '/Model/NavitiaApi/Proximity/ProximityList.php',
     'Nv2\\Model\\NavitiaApi\\Schedule\\StopSchedules'                => CLASS_DIR . '/Model/NavitiaApi/Schedule/StopSchedules.php',
     'Nv2\\Model\\NavitiaApi\\Schedule\\RouteSchedules'               => CLASS_DIR . '/Model/NavitiaApi/Schedule/RouteSchedules.php',
-    
+
     // Entités de base
     'Nv2\\Model\\Entity\\Base\\Entity'                               => CLASS_DIR . '/Model/Entity/Base/Entity.php',
-    
+
     // Entités liées aux API Navitia
     'Nv2\\Model\\Entity\\Places\\Place'                              => CLASS_DIR . '/Model/Entity/Places/Place.php',
     'Nv2\\Model\\Entity\\Journey\\Journey'                           => CLASS_DIR . '/Model/Entity/Journey/Journey.php',
@@ -81,10 +81,11 @@ $classList = array(
     'Nv2\\Model\\Entity\\Schedule\\DepartureBoards\\BoardItem'       => CLASS_DIR . '/Model/Entity/Schedule/DepartureBoards/BoardItem.php',
     'Nv2\\Model\\Entity\\Schedule\\RouteSchedules\\Result'           => CLASS_DIR . '/Model/Entity/Schedule/RouteSchedules/Result.php',
     'Nv2\\Model\\Entity\\Schedule\\RouteSchedules\\TableRow'         => CLASS_DIR . '/Model/Entity/Schedule/RouteSchedules/TableRow.php',
-    
+
     'Nv2\\Model\\Entity\\Data\\Uri'                                  => CLASS_DIR . '/Model/Entity/Data/Uri.php',
     'Nv2\\Model\\Entity\\Data\\Link'                                 => CLASS_DIR . '/Model/Entity/Data/Link.php',
-    
+    'Nv2\\Model\\Entity\\Data\\Comment'                              => CLASS_DIR . '/Model/Entity/Data/Comment.php',
+
     // Entités TC (possibilité d'utiliser getList() {static})
     'Nv2\\Model\\Entity\\Transport\\EntryPoint'                      => CLASS_DIR . '/Model/Entity/Transport/EntryPoint.php',
     'Nv2\\Model\\Entity\\Transport\\Company'                         => CLASS_DIR . '/Model/Entity/Transport/Company.php',
@@ -103,7 +104,7 @@ $classList = array(
     'Nv2\\Model\\Entity\\Transport\\Admin'                           => CLASS_DIR . '/Model/Entity/Transport/Admin.php',
     'Nv2\\Model\\Entity\\Transport\\Fare'                            => CLASS_DIR . '/Model/Entity/Transport/Fare.php',
     'Nv2\\Model\\Entity\\Transport\\FareTotal'                       => CLASS_DIR . '/Model/Entity/Transport/FareTotal.php',
-    
+
     // Entités géographiques (possibilité d'utiliser getList() {static})
     'Nv2\\Model\\Entity\\Geo\\Coord'                                 => CLASS_DIR . '/Model/Entity/Geo/Coord.php',
     'Nv2\\Model\\Entity\\Geo\\Region'                                => CLASS_DIR . '/Model/Entity/Geo/Region.php',
