@@ -4,6 +4,7 @@ namespace Nv2\Model\Entity\Transport;
 
 use Nv2\Model\Entity\Base\Entity;
 use Nv2\Model\Entity\Geo\Coord;
+use Nv2\Model\Entity\Data\Comment;
 use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class StopPoint extends Entity
@@ -14,7 +15,7 @@ class StopPoint extends Entity
     public $stopArea;
     public $address;
     public $administrativeRegions;
-    public $comment;
+    public $comments;
 
     private function __construct()
     {
@@ -24,7 +25,7 @@ class StopPoint extends Entity
         $this->stopArea = null;
         $this->address = null;
         $this->administrativeRegions = null;
-        $this->comment = null;
+        $this->comments = array();
     }
 
     public static function create()
@@ -40,7 +41,7 @@ class StopPoint extends Entity
             ->with('line', $lineId)
         );
     }
-    
+
     public static function getFromRoute($routeId)
     {
         return self::getList(NavitiaRequest::create()
@@ -49,16 +50,16 @@ class StopPoint extends Entity
             ->with('route', $routeId)
         );
     }
-    
+
     public static function getFromStopArea($stopAreaId)
     {
         return self::getList(NavitiaRequest::create()
             ->api('coverage')
             ->resource('stop_points')
             ->with('stop_area', $stopAreaId)
-        ); 
+        );
     }
-    
+
     public static function getProximityList(Coord $coords, $distance)
     {
         return self::getList(NavitiaRequest::create()
@@ -69,7 +70,7 @@ class StopPoint extends Entity
             ->filter('type[]', 'stop_point')
         );
     }
-    
+
     private static function getList(NavitiaRequest $request)
     {
         $feed = $request->execute();
@@ -85,7 +86,7 @@ class StopPoint extends Entity
         }
         return $result;
     }
-    
+
     public function fill($stopPointFeed)
     {
         $this->id = $stopPointFeed->id;
@@ -95,12 +96,19 @@ class StopPoint extends Entity
             $this->coord = Coord::create()
                 ->fill($stopPointFeed->coord);
         }
-        
+
         if (isset($stopPointFeed->stop_area)) {
             $this->stopArea = StopArea::create()
                 ->fill($stopPointFeed->stop_area);
         }
-        
+
+        if (isset($stopPointFeed->comments)) {
+            foreach ($stopPointFeed->comments as $comment) {
+                $this->comments[] = Comment::create()
+                    ->fill($comment);
+            }
+        }
+
         //$this->fillAdminName($stopPointFeed);
         //$this->fillAdminZipCode($stopPointFeed);
 
