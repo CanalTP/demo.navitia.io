@@ -34,7 +34,7 @@ class StopArea extends Entity
         return self::getList(NavitiaRequest::create()
             ->api('coverage')
             ->resource('stop_areas')
-            ->with('line', $lineId)
+            ->with('lines', $lineId)
         );
     }
     

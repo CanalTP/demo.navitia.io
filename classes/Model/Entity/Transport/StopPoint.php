@@ -37,28 +37,28 @@ class StopPoint extends Entity
         return self::getList(NavitiaRequest::create()
             ->api('coverage')
             ->resource('stop_points')
-            ->with('line', $lineId)
+            ->with('lines', $lineId)
         );
     }
-    
+
     public static function getFromRoute($routeId)
     {
         return self::getList(NavitiaRequest::create()
             ->api('coverage')
             ->resource('stop_points')
-            ->with('route', $routeId)
+            ->with('routes', $routeId)
         );
     }
-    
+
     public static function getFromStopArea($stopAreaId)
     {
         return self::getList(NavitiaRequest::create()
             ->api('coverage')
             ->resource('stop_points')
-            ->with('stop_area', $stopAreaId)
-        ); 
+            ->with('stop_areas', $stopAreaId)
+        );
     }
-    
+
     public static function getProximityList(Coord $coords, $distance)
     {
         return self::getList(NavitiaRequest::create()
@@ -69,7 +69,7 @@ class StopPoint extends Entity
             ->filter('type[]', 'stop_point')
         );
     }
-    
+
     private static function getList(NavitiaRequest $request)
     {
         $feed = $request->execute();
@@ -85,7 +85,7 @@ class StopPoint extends Entity
         }
         return $result;
     }
-    
+
     public function fill($stopPointFeed)
     {
         $this->id = $stopPointFeed->id;
@@ -95,12 +95,12 @@ class StopPoint extends Entity
             $this->coord = Coord::create()
                 ->fill($stopPointFeed->coord);
         }
-        
+
         if (isset($stopPointFeed->stop_area)) {
             $this->stopArea = StopArea::create()
                 ->fill($stopPointFeed->stop_area);
         }
-        
+
         //$this->fillAdminName($stopPointFeed);
         //$this->fillAdminZipCode($stopPointFeed);
 
