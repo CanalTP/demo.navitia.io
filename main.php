@@ -3,8 +3,8 @@
 use Nv2\Lib\Nv2\Http\Request;
 use Nv2\Lib\Nv2\Core\Module;
 
-error_reporting(E_ALL);
-ini_set('display_errors', 'on');
+//error_reporting(E_ALL);
+ini_set('display_errors', 'off');
 
 define('ROOT_DIR', getcwd());
 define('CLASS_DIR', ROOT_DIR . '/classes');
