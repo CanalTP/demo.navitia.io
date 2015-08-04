@@ -4,6 +4,7 @@ namespace Nv2\Model\Entity\Transport;
 
 use Nv2\Model\Entity\Base\Entity;
 use Nv2\Model\Entity\Geo\Coord;
+use Nv2\Model\Entity\Data\Comment;
 use Nv2\Lib\Nv2\Service\NavitiaRequest;
 
 class StopPoint extends Entity
@@ -14,7 +15,7 @@ class StopPoint extends Entity
     public $stopArea;
     public $address;
     public $administrativeRegions;
-    public $comment;
+    public $comments;
 
     private function __construct()
     {
@@ -24,7 +25,7 @@ class StopPoint extends Entity
         $this->stopArea = null;
         $this->address = null;
         $this->administrativeRegions = null;
-        $this->comment = null;
+        $this->comments = array();
     }
 
     public static function create()
@@ -99,6 +100,13 @@ class StopPoint extends Entity
         if (isset($stopPointFeed->stop_area)) {
             $this->stopArea = StopArea::create()
                 ->fill($stopPointFeed->stop_area);
+        }
+
+        if (isset($stopPointFeed->comments)) {
+            foreach ($stopPointFeed->comments as $comment) {
+                $this->comments[] = Comment::create()
+                    ->fill($comment);
+            }
         }
 
         //$this->fillAdminName($stopPointFeed);
