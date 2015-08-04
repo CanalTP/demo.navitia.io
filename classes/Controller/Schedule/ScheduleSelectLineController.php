@@ -8,7 +8,7 @@ use Nv2\Model\Entity\Transport\Line;
 
 /**
  * @author Thomas Noury <thomas.noury@canaltp.fr>
- * @copyright 2012-2013 Canal TP 
+ * @copyright 2012-2013 Canal TP
  */
 class ScheduleSelectLineController extends Controller
 {
@@ -20,7 +20,7 @@ class ScheduleSelectLineController extends Controller
     {
         parent::__construct($request);
     }
-    
+
     /**
      * Execution du contrôleur
      */
@@ -28,8 +28,8 @@ class ScheduleSelectLineController extends Controller
     {
         $network_uri = urldecode($this->request->getParam(0));
         $type = $this->request->getParam(1);
-        
-        $line_list = Line::getList($network_uri);
+
+        $line_list = Line::getListFromNetwork($network_uri);
         
         $this->template->setVariable('line_list', $line_list);
         $this->template->setVariable('type', $type);

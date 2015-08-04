@@ -44,7 +44,7 @@ class Line extends Entity
     {
         return new self();
     }
-    
+
     public static function getAll()
     {
         return self::getList(NavitiaRequest::create()
@@ -52,13 +52,13 @@ class Line extends Entity
             ->resource('lines')
         );
     }
-    
+
     public static function getListFromNetwork($networkId)
     {
         return self::getList(NavitiaRequest::create()
             ->api('coverage')
             ->resource('lines')
-            ->with('network', $networkId)
+            ->with('networks', $networkId)
         );
     }
 
@@ -77,14 +77,14 @@ class Line extends Entity
         }
         return $result;
     }
-    
+
     public static function getProximityList(Coord $coords, $distance)
     {
         $feed = NavitiaRequest::create()
             ->api('lines')
             ->filter('stop_point', 'coord', NavitiaRequest::OPERATOR_DWITHIN, $coords->Lon . ',' . $coords->Lat, $distance)
             ->execute();
-            
+
         if (!$feed['hasError']) {
             $feed = json_decode($feed['content']);
             $list = array();
@@ -125,7 +125,7 @@ class Line extends Entity
                 $this->addRoute($routeObject);
             }
         }
-        
+
         if (isset($feed->physical_mode)) {
             foreach ($feed->physical_mode as $mode) {
                 $modeObject = PhysicalMode::create()
@@ -155,7 +155,7 @@ class Line extends Entity
     {
         $this->PhysicalModeList[] = $mode;
     }
-    
+
     private function addRoute(Route $route)
     {
         $this->Routes[] = $route;
