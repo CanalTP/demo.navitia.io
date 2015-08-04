@@ -9,4 +9,12 @@ $data = array(
             'zoom' => 13,
         ),
     ),
+    'fr-ne' => array(
+        'order' => 2,
+        'init_coords' => array(
+            'lon' => 4.0550886,
+            'lat' => 49.2535511,
+            'zoom' => 8,
+        ),
+    ),
 );
